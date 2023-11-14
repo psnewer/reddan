@@ -1,0 +1,49 @@
+{
+    "soccer_1": [
+        {
+            "condition": "notInPlay",
+            "checktion":["notPlaceOne"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "hasCompleted",
+            "action": "break"
+        },
+        {
+            "condition": "notPlaceOne",
+            "checktion":["notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notPlaceTwo",
+            "checktion":["notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "isWeakAdvance",
+            "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "timeElapseTo",
+            "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        }
+    ],
+    "tennis_1": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "winSet",
+            "checktion":["notMatchOne","deltaIn"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "winSet",
+            "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        }
+    ]
+}

@@ -74,26 +74,6 @@ describe('Login to www.orbitxch.com', function() {
   //               matchItem['oth_selectionId'] = dataSelectionId;
   //             });
   //         });
-  //         // cy.contains('span', 'Show all').then($showAll => {
-  //         //   if ($showAll) {
-  //         //     cy.wrap($showAll).click();
-  //         //   }
-  //         // }).then(() => {
-  //         //     let runnerEscaped = matchItem['runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  //         //     cy.contains('span', new RegExp(`^${runnerEscaped}$`)).closest('div[data-market-id]')
-  //         //       .find('[data-selection-id]').first()
-  //         //       .invoke('attr', 'data-selection-id')
-  //         //       .then(dataSelectionId => {
-  //         //         matchItem['selectionId'] = dataSelectionId;
-  //         //       });
-  //         //     let oth_runnerEscaped = matchItem['oth_runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  //         //     cy.contains('span', new RegExp(`^${oth_runnerEscaped}$`)).closest('div[data-market-id]')
-  //         //       .find('[data-selection-id]').first()
-  //         //       .invoke('attr', 'data-selection-id')
-  //         //       .then(dataSelectionId => {
-  //         //         matchItem['oth_selectionId'] = dataSelectionId;
-  //         //       });
-  //         //   });
   //     })
   //     });
   //     arry.push(matchItem);
@@ -113,7 +93,7 @@ describe('Execution after login', function() {
     });
   });
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1; i++) {
 it(`Navigate match events and place bets`, () => {
 
 const executor = new StrategyExecutor('./data/strategy.json');
@@ -134,16 +114,17 @@ function setupInterception() {
     cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
       betIds.forEach(bet => {
         try{
-              bet.currentBets = res.response.body;
-              cy.getEventData(bet).then(params => {
-                cy.log(params)
-                cy.executeStrategy(executor,bet.strategy.name, params)
-                  .then(undefined, (error) => {
-                                              console.error(error);
-                    });
-               }).then(undefined, (error) => {
-                    console.error(error);
-                  });
+              // bet.currentBets = res.response.body;
+              // cy.getEventData(bet).then(params => {
+              //   cy.log(params)
+              //   cy.executeStrategy(executor,bet.strategy.name, params)
+              //     .then(undefined, (error) => {
+              //                                 console.error(error);
+              //       });
+              //  }).then(undefined, (error) => {
+              //       console.error(error);
+              //     });
+              cy.cancelBet(bet['data-market-id'],128169226)
         }catch {
                 (error) => {
                   console.error(error);
@@ -156,31 +137,7 @@ function setupInterception() {
 }
 
 setupInterception();
-// let IN_PROCESSING = false;
-// //获取currentBets
-// cy.intercept({
-//   hostname : 'www.orbitxch.com',
-//   pathname : "/customer/api/currentBets"
-// }).as("currentBets")
 
-
-// cy.wait('@currentBets',{timeout:60000}).then( res => {
-//   if (!IN_PROCESSING) {
-//     IN_PROCESSING = true;
-//   cy.task('readJsonFile').then(betIds => {
-//     betIds.forEach(bet => {
-//       bet.currentBets = res.response.body;
-//       cy.getEventData(bet).then(params => {
-//         executor.execute(bet.strategy.name, params);
-//       });
-//     }); 
-//   }).then(() => {
-//     cy.wait(60000).then(() => {
-//       IN_PROCESSING = false;
-//     })   
-//   }) 
-// }
-// });
 });
   }
 })

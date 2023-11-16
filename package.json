@@ -1,0 +1,15 @@
+{
+  "name": "mycypress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:run": "cypress run --record --key 36086c8c-5ad0-40da-93bc-b794d9a60d6d --spec cypress/e2e/orbit/orbit.cy.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.5.0"
+  }
+}

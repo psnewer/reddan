@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cy:run": "cypress run --record --key 36086c8c-5ad0-40da-93bc-b794d9a60d6d --spec cypress/e2e/orbit/orbit.cy.js"
+    "cy:run": "cypress run --record --key e3607790-35c1-4720-bb19-538ad255bf2d --spec cypress/e2e/orbit/orbit.cy.js"
   },
   "author": "",
   "license": "ISC",

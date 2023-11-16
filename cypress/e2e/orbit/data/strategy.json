@@ -36,7 +36,7 @@
             "action": "break"
         },
         {
-            "condition": "winSet",
+            "condition": "loseSet",
             "checktion":["notMatchOne","deltaIn"],
             "action": "placeBet"
         },

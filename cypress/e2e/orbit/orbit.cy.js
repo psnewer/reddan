@@ -1,6 +1,7 @@
 // cypress/integration/login_test.js
 import {matches} from "./data/matches.json.js";
 import StrategyExecutor from './strategy.js';
+import {getHandicap, getOth} from './utils.js';
 
 describe('Login to www.orbitxch.com', function() {
 
@@ -26,23 +27,10 @@ describe('Login to www.orbitxch.com', function() {
   //         matchItem['data-event-id'] = eventId;
   //       });
   //     cy.get('@targetMatch',{timeout: 30000}).closest('div.biab_market-title-cell').click()
-
-  //     function getOth(home, away, runner) {
-  //       let oth_runner =  runner;
-  //       if (oth_runner.includes(home)) {
-  //         oth_runner = match.runner.replace(home,away)
-  //       }else if(oth_runner.includes(away)){
-  //         oth_runner = match.runner.replace(away,home)
-  //       }
-  //       if (oth_runner.includes('+')) {
-  //         oth_runner = oth_runner.replace('+','-')
-  //       }else if (oth_runner.includes('-')) {
-  //         oth_runner = oth_runner.replace('-','+')
-  //       }
-  //       return oth_runner;
-  //     }
     
   //     matchItem['oth_runner'] = getOth(match.home, match.away, match.runner);
+  //     matchItem['handicap'] = Number(getHandicap(match.runner,match.home,match.away))
+  //     matchItem['oth_handicap'] = Number(getHandicap(match.oth_runner,match.home,match.away))
 
   //   // 点击 match.market
   //     cy.contains(match.market,{timeout: 40000}).closest('[data-sport-id]')
@@ -93,7 +81,7 @@ describe('Execution after login', function() {
     });
   });
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 2; i++) {
 it(`Navigate match events and place bets`, () => {
 
 const executor = new StrategyExecutor('./data/strategy.json');
@@ -114,17 +102,16 @@ function setupInterception() {
     cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
       betIds.forEach(bet => {
         try{
-              // bet.currentBets = res.response.body;
-              // cy.getEventData(bet).then(params => {
-              //   cy.log(params)
-              //   cy.executeStrategy(executor,bet.strategy.name, params)
-              //     .then(undefined, (error) => {
-              //                                 console.error(error);
-              //       });
-              //  }).then(undefined, (error) => {
-              //       console.error(error);
-              //     });
-              cy.cancelBet(bet['data-market-id'],128169226)
+              bet.currentBets = res.response.body;
+              cy.getEventData(bet).then(params => {
+                cy.log(params)
+                cy.executeStrategy(executor,bet.strategy.name, params)
+                  .then(undefined, (error) => {
+                                              console.error(error);
+                    });
+               }).then(undefined, (error) => {
+                    console.error(error);
+                  });
         }catch {
                 (error) => {
                   console.error(error);

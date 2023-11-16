@@ -104,11 +104,11 @@ export default class StrategyExecutor {
         let set = params.bet.strategy.params[condition].set
         if (params.event.score_home.length === set && params.event.score_away.length === set){
             if (params.bet.runner.includes(params.bet.home)){
-                if (Number(params.event.score_away[set - 1]) >= 6)
+                if (Number(params.event.score_away[set - 1]) > Number(params.event.score_home[set - 1]))
                     return true;  
             }
             else if (params.bet.runner.includes(params.bet.away)){
-                if (Number(params.event.score_home[set - 1]) >= 6)
+                if (Number(params.event.score_home[set - 1]) > Number(params.event.score_away[set - 1]))
                     return true;
             }
         }
@@ -119,12 +119,53 @@ export default class StrategyExecutor {
         let set = params.bet.strategy.params[condition].set
         if (params.event.score_home.length === set && params.event.score_away.length === set){
             if (params.bet.runner.includes(params.bet.home)){
-                if (Number(params.event.score_home[set - 1]) >= 6)
+                if (Number(params.event.score_home[set - 1]) > Number(params.event.score_away[set -1]))
                     return true;
             }
             else if (params.bet.runner.includes(params.bet.away)){
-                if (Number(params.event.score_away[set -1]) >= 6)
+                if (Number(params.event.score_away[set -1]) > Number(params.event.score_home[set - 1]))
                     return true;
+            }
+        }
+        return false
+    }
+
+    eitherLose(params,condition){
+        let set = params.bet.strategy.params[condition].set
+        if (params.event.score_home.length === set && params.event.score_away.length === set){
+            if (params.bet.runner.includes(params.bet.home)){
+                if (Number(params.event.score_home[set - 1]) > params.bet.runner.includes(params.bet.away)){
+                    params.bet.strategy.params[condition]['oth'] = true
+                    return true;
+                }     
+            }
+            else if (params.bet.runner.includes(params.bet.away)){
+                if (Number(params.event.score_away[set -1]) > Number(params.event.score_home[set - 1])){
+                    params.bet.strategy.params[condition]['oth'] = true
+                    return true;
+                }
+            }
+        }
+        return false
+    }
+
+    loseWin(params,condition){
+        let loseset = params.bet.strategy.params[condition].loseset
+        let winset = params.bet.strategy.params[condition].winset
+        if (params.event.score_home.length === set && params.event.score_away.length === winset){
+            if (params.bet.runner.includes(params.bet.home)){
+                if (Number(params.event.score_home[winset - 1]) < Number(params.event.score_away[winset - 1]))
+                    if (Number(params.event.score_home[loseset - 1]) > Number(params.event.score_away[loseset - 1])){
+                        params.bet.strategy.params[condition]['oth'] = true
+                        return true;
+                    }     
+            }
+            else if (params.bet.runner.includes(params.bet.away)){
+                if (Number(params.event.score_away[winset - 1]) < Number(params.event.score_home[winset - 1]))
+                    if (Number(params.event.score_away[loseset - 1]) > Number(params.event.score_home[loseset - 1])){
+                        params.bet.strategy.params[condition]['oth'] = true
+                        return true;
+                    }    
             }
         }
         return false
@@ -142,8 +183,9 @@ export default class StrategyExecutor {
         let net_profit = 0.0
         let sizeMatched = 0.0
         let current_odds = 0.0
-        // 首先判断currentBets中是否已经place,如果place则cancel
+        let CANCEL = false
 
+        // 首先判断currentBets中是否已经place,如果place则cancel
         params.bet.currentBets.forEach(placed => {
 
             if (Number(placed.sizeMatched) > 0.0){
@@ -158,96 +200,106 @@ export default class StrategyExecutor {
             if (params.bet.strategy.params[condition].oth)
                 selectionId = params.bet.oth_selectionId
             if (placed.selectionId === Number(selectionId) && placed.side === params.bet.strategy.params[condition].side) {
-                if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
-                    cy.get(`body`).then($body => {
-                        if ($body.find(`div[data-offer-id="${placed.offerId}"]`).length > 0) {
-                          cy.intercept({
-                                hostname : 'www.orbitxch.com',
-                                pathname : "/customer/api/cancelBets"
-                              }).as('cancel')
+                if (placed.marketId === params.bet['data-market-id']){
+                    CANCEL = true
+                    if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                        cy.cancelBet(placed.marketId,placed.offerId)
+                    // cy.get(`body`).then($body => {
+                    //     if ($body.find(`div[data-offer-id="${placed.offerId}"]`).length > 0) {
+                    //       cy.intercept({
+                    //             hostname : 'www.orbitxch.com',
+                    //             pathname : "/customer/api/cancelBets"
+                    //           }).as('cancel')
 
-                          cy.get(`div[data-offer-id="${placed.offerId}"`).find('button')
-                            .contains('Cancel bet')
-                            .click();
+                    //       cy.get(`div[data-offer-id="${placed.offerId}"`).find('button')
+                    //         .contains('Cancel bet')
+                    //         .click();
 
-                            cy.wait('@cancel',{timeout:30000}).then(response => {
-                                cy.wait(10000).then(() => {
-                                    return
-                                })
-                               })
-                        }
-                      });
+                    //         cy.wait('@cancel',{timeout:30000}).then(response => {
+                    //             cy.wait(10000).then(() => {
+                    //                 return
+                    //             })
+                    //            })
+                    //     }
+                    //   });
                 } 
-                return
+            }
             }
         })
 
-        //如果已有超过两个Matched order,则返回
-        if (params.bet.currentBets.filter(item => item.eventId === params.bet['data-event-id']).length < 2){
+        if (CANCEL)
+            return true
 
-        // //访问runner_url,place_bet,intercept request,and modify request,then submit.
+        //如果已有超过两个Matched order,则返回
+        if (params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id']).length < 2){
+
+        //访问runner_url,place_bet,intercept request,and modify request,then submit.
         // cy.visit(params.bet.runner_url,{timeout:20000}).then(()=>{
 
-        //     cy.get('body').then($body => {
-        //         if ($body.find('span:contains("Show all")').length) {
-        //           // 如果找到了包含 'Show all' 的 span，则点击
-        //           cy.contains('span', 'Show all').click();
-        //         } 
-        //       }).then(() => {
+            // cy.get('body').then($body => {
+            //     if ($body.find('span:contains("Show all")').length) {
+            //       // 如果找到了包含 'Show all' 的 span，则点击
+            //       cy.contains('span', 'Show all').click();
+            //     } 
+            //   }).then(() => {
 
-        //     let runner = params.bet.runner.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        //     let selectionId = params.bet.selectionId
-        //     if (params.bet.strategy.params[condition]['oth']) {
-        //         runner = params.bet.oth_runner.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        //         selectionId = params.bet.oth_selectionId
-        //     }
-        //     let side = 'biab_back-0';
-        //     if (params.bet.strategy.params[condition].hasOwnProperty('side')) 
-        //         if (params.bet.strategy.params[condition]['side'] === 'LAY')
-        //             side = 'biab_lay-0';
+            // let runner = params.bet.runner.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            let selectionId = params.bet.selectionId
+            let handicap = params.bet.handicap
+            if (params.bet.strategy.params[condition]['oth']) {
+                // runner = params.bet.oth_runner.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                selectionId = params.bet.oth_selectionId
+                handicap = params.bet.oth_handicap
+            }
+            // let side = 'biab_back-0';
+            // if (params.bet.strategy.params[condition].hasOwnProperty('side')) 
+            //     if (params.bet.strategy.params[condition]['side'] === 'LAY')
+            //         side = 'biab_lay-0';
             
-        //     cy.contains('span', new RegExp(`^${runner}$`),{timeout:20000}).closest('div[data-market-id]')
-        //         .find(`button[data-cell-id="${selectionId}"].${side}`).as('odds').click();
-        //     // cy.get('@odds').find('span.betOdds').invoke('text').then((oddsText) => {
-        //     //         current_odds = oddsText;
-        //     //     });
+            // cy.contains('span', new RegExp(`^${runner}$`),{timeout:20000}).closest('div[data-market-id]')
+            //     .find(`button[data-cell-id="${selectionId}"].${side}`).as('odds').click();
+            // // cy.get('@odds').find('span.betOdds').invoke('text').then((oddsText) => {
+            // //         current_odds = oddsText;
+            // //     });
 
-        //     //找到当前赔率
-        //     if (params.bet.strategy.params[condition].oth){
-        //         if (params.bet.strategy.params[condition].side === 'BACK')
-        //             current_odds = params.event.oth_back_odds;
-        //         else
-        //             current_odds = params.event.oth_lay_odds;
-        //     }else{
-        //         if (params.bet.strategy.params[condition].side === 'BACK')
-        //             current_odds = params.event.back_odds;
-        //         else
-        //             current_odds = params.event.lay_odds;
-        //     }
+            //找到当前赔率
+            if (params.bet.strategy.params[condition].oth){
+                if (params.bet.strategy.params[condition].side === 'BACK')
+                    current_odds = params.event.oth_back_odds;
+                else
+                    current_odds = params.event.oth_lay_odds;
+            }else{
+                if (params.bet.strategy.params[condition].side === 'BACK')
+                    current_odds = params.event.back_odds;
+                else
+                    current_odds = params.event.lay_odds;
+            }
 
-        //     let size = 0;
-        //     if (params.bet.strategy.params[condition].hasOwnProperty('vol'))
-        //         size = params.bet.strategy.params[condition]['vol'];
-        //     else if (params.bet.strategy.params[condition].hasOwnProperty('scale'))
-        //         size = params.bet.strategy.params[condition]['scale'] * (net_profit - sizeMatched/(current_odds - 1.0)) + sizeMatched/(current_odds - 1.0);          
-        //     if (params.bet.strategy.params[condition].hasOwnProperty('price'))
-        //         cy.get('input[data-field-type="PRICE"]').clear().type(params.bet.strategy.params[condition]['price']);
+            let size = 0;
+            let price = current_odds
+            if (params.bet.strategy.params[condition].hasOwnProperty('vol'))
+                size = params.bet.strategy.params[condition]['vol'];
+            else if (params.bet.strategy.params[condition].hasOwnProperty('scale'))
+                size = (params.bet.strategy.params[condition]['scale'] * (net_profit - sizeMatched/(current_odds - 1.0)) + sizeMatched/(current_odds - 1.0)).toFixed(2);          
+            if (params.bet.strategy.params[condition].hasOwnProperty('price'))
+                price = params.bet.strategy.params[condition]['price'];
 
-        //     if (size > 0) {
-        //         cy.intercept({
-        //             hostname : 'www.orbitxch.com',
-        //             pathname : "/customer/api/placeBets"
-        //           }).as('place')
+            if (size > 0) {
+                cy.placeBet(params.bet['data-market-id'],price,size,selectionId,handicap,params.bet.strategy.params[condition].side)
+                // cy.intercept({
+                //     hostname : 'www.orbitxch.com',
+                //     pathname : "/customer/api/placeBets"
+                //   }).as('place')
 
-        //         cy.get('input[data-field-type="SIZE"]').clear().type(size);
-        //         cy.contains('button', 'Place bets').click();
+                // cy.get('input[data-field-type="SIZE"]').clear().type(size);
+                // cy.contains('button', 'Place bets').click();
 
-        //         cy.wait('@place',{timeout:30000}).then(response => {
-        //             cy.wait(10000).then(() => {
-        //                 return
-        //             })
-        //         })
-        //     }
+                // cy.wait('@place',{timeout:30000}).then(response => {
+                //     cy.wait(10000).then(() => {
+                //         return
+                //     })
+                // })
+            }
          
         //   })  
         // })

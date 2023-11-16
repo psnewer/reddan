@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = defineConfig({
-  projectId: '51tsqr',
+  projectId: 'ocxuww',
   e2e: {
     testIsolation : false,
     setupNodeEvents(on, config) {
@@ -24,4 +24,5 @@ module.exports = defineConfig({
       });
     },
   },
+    browser: 'chrome',
 });

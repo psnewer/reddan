@@ -17,4 +17,19 @@ function hasNestedProperty(obj, ...props) {
     }, obj) !== undefined;
   }
 
-  export default {getHandicap, hasNestedProperty}
+function getOth(home, away, runner) {
+    let oth_runner =  runner;
+    if (oth_runner.includes(home)) {
+      oth_runner = runner.replace(home,away)
+    }else if(oth_runner.includes(away)){
+      oth_runner = runner.replace(away,home)
+    }
+    if (oth_runner.includes('+')) {
+      oth_runner = oth_runner.replace('+','-')
+    }else if (oth_runner.includes('-')) {
+      oth_runner = oth_runner.replace('-','+')
+    }
+    return oth_runner;
+  }
+
+  export default {getHandicap, hasNestedProperty, getOth}

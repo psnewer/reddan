@@ -58,13 +58,13 @@ Cypress.Commands.add('getEventData', (bet) => {
                             params.event.inPlay = market.state.inplay
                             market.runners.forEach(runner => {
                                 if (runner.state.status === 'ACTIVE'){
-                                if (Number(runner.selectionId) === Number(bet.selectionId) && Number(runner.handicap) === Number(getHandicap(params.bet.runner,params.bet.home,params.bet.away))){
+                                if (Number(runner.selectionId) === Number(bet.selectionId) && Number(runner.handicap) === params.bet.handicap){
                                     if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
                                         params.event.back_odds = runner.exchange.availableToBack[0].price
                                     if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))
                                         params.event.lay_odds = runner.exchange.availableToLay[0].price
                                     }
-                                else if (Number(runner.selectionId) === Number(bet.oth_selectionId) && (runner.handicap) === Number(getHandicap(params.bet.oth_runner,params.bet.home,params.bet.away))){
+                                else if (Number(runner.selectionId) === Number(bet.oth_selectionId) && (runner.handicap) === params.bet.oth_handicap){
                                     if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
                                         params.event.oth_back_odds = runner.exchange.availableToBack[0].price
                                     if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))

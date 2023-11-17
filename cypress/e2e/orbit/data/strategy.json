@@ -15,11 +15,6 @@
             "action": "placeBet"
         },
         {
-            "condition": "notPlaceTwo",
-            "checktion":["notTimeElapseTo"],
-            "action": "placeBet"
-        },
-        {
             "condition": "isWeakAdvance",
             "checktion":["notMatchTwo"],
             "action": "placeBet"
@@ -27,6 +22,11 @@
         {
             "condition": "timeElapseTo",
             "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notPlaceTwo",
+            "checktion":["notTimeElapseTo"],
             "action": "placeBet"
         }
     ],

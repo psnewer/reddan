@@ -36,8 +36,8 @@ export default class StrategyExecutor {
         return true;
     }
 
-    hasCompleted(params,condition) {
-        if (params.hasOwnProperty('event'))
+    isStop(params,condition) {
+        if (params.hasOwnProperty('event') && Object.keys(params.event).some(key => key.includes('odds')))
             return false;
         else
             return true
@@ -48,44 +48,40 @@ export default class StrategyExecutor {
     }
 
     notPlaceOne(params,condition) {
-        const currentBets = params.bet.currentBets.filter(item => item.eventId === params.bet['data-event-id']);
-        if (currentBets.length > 0)
-            return false;
-        return true;
+        const currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id']);
+        if (currentBets.length === 0)
+            return true;
+        return false;
     }
 
     notPlaceTwo(params,condition) {
-        if (!this.notMatchOne(params,condition)){
-            const currentBets = params.bet.currentBets.filter(item => item.eventId === params.bet['data-event-id']);
-            if (currentBets.length > 1) 
-                return false;
-        }
-        return true;
+        const currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id']);
+        const matched = currentBets.filter(item => Number(item.sizeMatched) > 0.0)
+        if (currentBets.length === 1)
+            if (matched.length === 1)
+                return true
+        return false;
     }
 
     notMatchOne(params,condition) {
-        const currentBets = params.bet.currentBets.filter(item => item.eventId === params.bet['data-event-id']);
-        currentBets.forEach(placed => {
-            if (Number(placed.sizeMatched) > 0.0)
-                return false;
-        })
-        return true;
+        const currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id']);
+        const matched = currentBets.filter(item => Number(item.sizeMatched) > 0.0)
+        if (currentBets.length <= 1)
+            if (matched.length === 0)
+                return true
+        return false;
     }
 
     notMatchTwo(params,condition) {
-        const currentBets = params.bet.currentBets.filter(item => item.eventId === params.bet.selectionId);
-        const currentOthBets = params.bet.currentBets.filter(item => item.eventId === params.bet.oth_selectionId);
-        currentBets.forEach(placed => {
-            if (Number(placed.sizeMatched) > 0.0)
-                currentOthBets.forEach(oth_placed => {
-                    if (Number(oth_placed.sizeMatched) > 0.0)
-                        return false;
-                })
-        })
-        return true;
+        const currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id']);
+        const matched = currentBets.filter(item => Number(item.sizeMatched) > 0.0)
+        if (currentBets.length <= 2)
+            if (matched.length === 1)
+                return true
+        return false;
     }
 
-    isWeakAdvance(params,condition) {
+    isRunnerAdvance(params,condition) {
         if (params.bet.runner.includes(params.bet.home))
             return Number(params.event.score_home) > Number(params.event.score_away);
         else
@@ -93,10 +89,10 @@ export default class StrategyExecutor {
     }
 
     timeElapseTo(params,condition) {
-        return params.event.timeElapsed > params.bet.strategy.params[condition].time_to
+        return params.event.timeElapsed >= params.bet.strategy.params[condition].time_to
     }
 
-    notTimeElapseTo(params,condition) {
+    notTimeElapseTo_Draw(params,condition) {
         if (params.event.score_home === params.event.score_away)
             return !(params.event.timeElapsed > params.bet.strategy.params[condition].cut_time)
         return false
@@ -104,6 +100,7 @@ export default class StrategyExecutor {
 
     loseSet(params,condition) {
         let set = params.bet.strategy.params[condition].set
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
         if (params.event.score_home.length === set && params.event.score_away.length === set){
             if (params.bet.runner.includes(params.bet.home)){
                 if (Number(params.event.score_away[set - 1]) > Number(params.event.score_home[set - 1]))
@@ -119,6 +116,7 @@ export default class StrategyExecutor {
 
     winSet(params,condition) {
         let set = params.bet.strategy.params[condition].set
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
         if (params.event.score_home.length === set && params.event.score_away.length === set){
             if (params.bet.runner.includes(params.bet.home)){
                 if (Number(params.event.score_home[set - 1]) > Number(params.event.score_away[set -1]))
@@ -134,19 +132,19 @@ export default class StrategyExecutor {
 
     eitherLose(params,condition){
         let set = params.bet.strategy.params[condition].set
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
         if (params.event.score_home.length === set && params.event.score_away.length === set){
             if (params.bet.runner.includes(params.bet.home)){
-                if (Number(params.event.score_home[set - 1]) > params.bet.runner.includes(params.bet.away)){
+                if (Number(params.event.score_home[set - 1]) > Number(params.event.score_away[set -1])){
                     params.bet.strategy.params[condition]['oth'] = true
-                    return true;
                 }     
             }
             else if (params.bet.runner.includes(params.bet.away)){
                 if (Number(params.event.score_away[set -1]) > Number(params.event.score_home[set - 1])){
                     params.bet.strategy.params[condition]['oth'] = true
-                    return true;
                 }
             }
+            return true
         }
         return false
     }
@@ -154,21 +152,24 @@ export default class StrategyExecutor {
     loseWin(params,condition){
         let loseset = params.bet.strategy.params[condition].loseset
         let winset = params.bet.strategy.params[condition].winset
-        if (params.event.score_home.length === set && params.event.score_away.length === winset){
-            if (params.bet.runner.includes(params.bet.home)){
-                if (Number(params.event.score_home[winset - 1]) < Number(params.event.score_away[winset - 1]))
-                    if (Number(params.event.score_home[loseset - 1]) > Number(params.event.score_away[loseset - 1])){
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
+        if (params.event.score_home.length === winset && params.event.score_away.length === winset){
+            if (Number(params.event.score_home[winset - 1]) < Number(params.event.score_away[winset - 1])){
+                if (Number(params.event.score_home[loseset - 1]) > Number(params.event.score_away[loseset - 1])){
+                    if (params.bet.runner.includes(params.bet.away)){
                         params.bet.strategy.params[condition]['oth'] = true
-                        return true;
-                    }     
+                    }
+                    return true;
+                }     
             }
-            else if (params.bet.runner.includes(params.bet.away)){
-                if (Number(params.event.score_away[winset - 1]) < Number(params.event.score_home[winset - 1]))
-                    if (Number(params.event.score_away[loseset - 1]) > Number(params.event.score_home[loseset - 1])){
+            else if (Number(params.event.score_away[winset - 1]) < Number(params.event.score_home[winset - 1])){
+                if (Number(params.event.score_away[loseset - 1]) > Number(params.event.score_home[loseset - 1])){
+                    if (params.bet.runner.includes(params.bet.home)){
                         params.bet.strategy.params[condition]['oth'] = true
-                        return true;
-                    }    
-            }
+                    }
+                    return true;
+                }    
+            }  
         }
         return false
     }
@@ -176,12 +177,14 @@ export default class StrategyExecutor {
     deltaIn(params,condition) {
         let set = params.bet.strategy.params[condition].set
         let delta = params.bet.strategy.params[condition].delta
-        return (Math.abs(Number(params.event.score_home[set -1]) - Number(params.event.score_away[set -1])) <= delta)
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
+            return (Math.abs(Number(params.event.score_home[set -1]) - Number(params.event.score_away[set -1])) <= delta)
+        return false
     }
 
     // 动作函数
     placeBet(params, condition) {
-
+        
         let net_profit = 0.0
         let sizeMatched = 0.0
         let current_odds = 0.0
@@ -189,23 +192,22 @@ export default class StrategyExecutor {
         let thresh_back_odds = 0.0
         let thresh_lay_odds = 0.0
         let CANCEL = false
-
         // 首先判断currentBets中是否已经place,如果place则cancel
         params.bet.currentBets.forEach(placed => {
 
             if (Number(placed.sizeMatched) > 0.0){
                 sizeMatched = Number(placed.sizeMatched)
                 if (placed.side === 'BACK'){
-                    net_profit = (placed.price - 1.0) * Number(placed.sizeMatched)
+                    net_profit = (placed.averagePrice - 1.0) * Number(placed.sizeMatched)
                     pre_side = 'BACK'
-                    thresh_back_odds = 1.0 + 1.0/(Number(placed.price) - 1.0)
-                    thresh_lay_odds = Number(placed.price)
+                    thresh_back_odds = 1.0 + 1.0/(Number(placed.averagePrice) - 1.0)
+                    thresh_lay_odds = Number(placed.averagePrice)
                 }
                 else if(placed.side === 'LAY'){
-                    net_profit = (placed.price - 1.0) * Number(placed.sizeMatched) 
+                    net_profit = (placed.averagePrice - 1.0) * Number(placed.sizeMatched) 
                     pre_side = 'LAY'
-                    thresh_back_odds = Number(placed.price)
-                    thresh_lay_odds = 1.0 + 1.0/(Number(placed.price) - 1.0)
+                    thresh_back_odds = Number(placed.averagePrice)
+                    thresh_lay_odds = 1.0 + 1.0/(Number(placed.averagePrice) - 1.0)
                 }
             }
             
@@ -216,6 +218,8 @@ export default class StrategyExecutor {
                 if (placed.marketId === params.bet['data-market-id']){
                     CANCEL = true
                     if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                        cy.log('CANCEL')
+                        return
                         cy.cancelBet(placed.marketId,placed.offerId)
                 } 
             }
@@ -275,7 +279,7 @@ export default class StrategyExecutor {
                     if (pre_side === 'BACK')
                         size = params.bet.strategy.params[condition]['scale'] * (net_profit - sizeMatched/(current_odds - 1.0)) + sizeMatched/(current_odds - 1.0);  
                     else if (pre_side === 'LAY')
-                        size = (params.bet.strategy.params[condition]['scale'] * (net_profit / (current_odds - 1.0) - sizeMatched) + sizeMatched
+                        size = params.bet.strategy.params[condition]['scale'] * (net_profit / (current_odds - 1.0) - sizeMatched) + sizeMatched
                 }
             }  
             if (params.bet.strategy.params[condition].hasOwnProperty('profit')){
@@ -287,7 +291,9 @@ export default class StrategyExecutor {
             else if (params.bet.strategy.params[condition].hasOwnProperty('price'))
                 price = params.bet.strategy.params[condition]['price'];
 
-            if (size > 6.0 && price > 1.0) {
+            if (size >= 6.0 && price > 1.0) {
+                cy.log('PLACE')
+                return
                 cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)
             }
 

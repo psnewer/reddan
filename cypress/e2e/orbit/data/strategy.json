@@ -6,16 +6,16 @@
             "action": "placeBet"
         },
         {
-            "condition": "hasCompleted",
+            "condition": "isStop",
             "action": "break"
         },
         {
-            "condition": "notPlaceOne",
-            "checktion":["notTimeElapseTo"],
+            "condition": "notMatchOne",
+            "checktion":["notTimeElapseTo_Draw"],
             "action": "placeBet"
         },
         {
-            "condition": "isWeakAdvance",
+            "condition": "isRunnerAdvance",
             "checktion":["notMatchTwo"],
             "action": "placeBet"
         },
@@ -26,7 +26,7 @@
         },
         {
             "condition": "notPlaceTwo",
-            "checktion":["notTimeElapseTo"],
+            "checktion":["notTimeElapseTo_Draw"],
             "action": "placeBet"
         }
     ],
@@ -42,6 +42,22 @@
         },
         {
             "condition": "winSet",
+            "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        }
+    ],
+    "tennis_2": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["notMatchOne","deltaIn"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "loseWin",
             "checktion":["notMatchTwo"],
             "action": "placeBet"
         }

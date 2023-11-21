@@ -41,11 +41,11 @@ describe('Login to www.orbitxch.com', function() {
           cy.url().should('include',sportId).then(runner_url => {
           matchItem['runner_url'] = runner_url;
           //获取selectionId
-          cy.get('body').then($body => {
-            if ($body.find('span:contains("Show all")').length) {
-              // 如果找到了包含 'Show all' 的 span，则点击
-              cy.contains('span', 'Show all').click();
-            } 
+          cy.contains('span', "Show all").then($span => {
+            if ($span.length) {
+              // 如果找到了包含 "Show all" 的 span，则点击
+              cy.wrap($span).click();
+            }
           }).then(() => {
             let runnerEscaped = matchItem['runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             cy.contains('span', new RegExp(`^${runnerEscaped}$`)).closest('div[data-market-id]')

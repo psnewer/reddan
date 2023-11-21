@@ -212,8 +212,8 @@ export default class StrategyExecutor {
             }
             
             if (placed.marketId === params.bet['data-market-id']){
-                CANCEL = true
                 if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                    CANCEL = true
                     // cy.log('CANCEL')
                     // return
                     cy.cancelBet(placed.marketId,placed.offerId)

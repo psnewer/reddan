@@ -89,9 +89,9 @@ Cypress.Commands.add('getEventData', (bet) => {
           if (event.eventId === Number(params.bet['data-event-id'])){
             // cy.log('333')
               if (bet.sport === "Soccer") {
-                  params.event.score_home = event.score.home.score;
-                  params.event.score_away = event.score.away.score;
-                  params.event.timeElapsed = event.timeElapsed;
+                  params.event.score_home = Number(event.score.home.score);
+                  params.event.score_away = Number(event.score.away.score);
+                  params.event.timeElapsed = Number(event.timeElapsed);
               }
               else if (bet.sport === "Tennis"){
                 // cy.log('444')

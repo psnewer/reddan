@@ -24,5 +24,6 @@ module.exports = defineConfig({
       });
     },
   },
-    browser: 'chrome',
+  video: true,
+  headless: true,
 });

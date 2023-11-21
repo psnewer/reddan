@@ -211,19 +211,15 @@ export default class StrategyExecutor {
                 }
             }
             
-            let selectionId = params.bet.selectionId
-            if (params.bet.strategy.params[condition].oth)
-                selectionId = params.bet.oth_selectionId
-            if (placed.selectionId === Number(selectionId) && placed.side === params.bet.strategy.params[condition].side) {
-                if (placed.marketId === params.bet['data-market-id']){
-                    CANCEL = true
-                    if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
-                        // cy.log('CANCEL')
-                        // return
-                        cy.cancelBet(placed.marketId,placed.offerId)
+            if (placed.marketId === params.bet['data-market-id']){
+                CANCEL = true
+                if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                    // cy.log('CANCEL')
+                    // return
+                    cy.cancelBet(placed.marketId,placed.offerId)
                 } 
             }
-            }
+            
         })
 
         if (CANCEL)

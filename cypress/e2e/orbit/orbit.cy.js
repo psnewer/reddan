@@ -84,23 +84,20 @@ describe('Execution after login', function() {
     });
   });
 
-  for (let i = 0; i < 1000; i++) {
 it(`Navigate match events and place bets`, () => {
 
 const executor = new StrategyExecutor('./data/strategy.json');
 
-// cy.visit('http://www.orbitxch.com',{timeout:20000})
+cy.intercept({
+  hostname : 'www.orbitxch.com',
+  pathname : "/customer/api/currentBets"
+}).as('currentBets')
 
 function setupInterception() {
 
   cy.wait(60000).then(() => {
-  //获取currentBets
-  cy.intercept({
-    hostname : 'www.orbitxch.com',
-    pathname : "/customer/api/currentBets"
-  }).as('currentBets')
 
-  cy.wait('@currentBets',{timeout:60000}).then( res => {
+  cy.waitForCurrentBets('@currentBets', new Date()).then( res => {
         
     cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
       betIds.forEach(bet => {
@@ -109,12 +106,9 @@ function setupInterception() {
               cy.getEventData(bet).then(params => {
                 cy.log(params)
                 cy.executeStrategy(executor,params.bet.strategy.name, params)
-                  .then(undefined, (error) => {
-                                              console.error(error);
-                    });
-               }).then(undefined, (error) => {
-                    console.error(error);
-                  });
+               }).then(() => {
+                      setupInterception()
+               })
         }catch {
                 (error) => {
                   console.error(error);
@@ -129,5 +123,4 @@ function setupInterception() {
 setupInterception();
 
 });
-  }
 })

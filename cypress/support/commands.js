@@ -108,6 +108,20 @@ Cypress.Commands.add('getEventData', (bet) => {
     })
 });
 
+Cypress.Commands.add('waitForCurrentBets', (alias, currentDate) => {
+    const checkResponse = () => {
+      return cy.wait(alias, { timeout: 60000 }).then((interception) => {
+        const responseDate = new Date(interception.response.headers.date);
+  
+        if (responseDate < currentDate) 
+            return checkResponse();
+        else
+            return interception;
+      });
+    };
+    return checkResponse()
+  });
+
 Cypress.Commands.add('executeStrategy', (executor,strategyName, params) => {
     // const executor = new StrategyExecutor();
     return executor.execute(strategyName, params);

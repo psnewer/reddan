@@ -17,7 +17,10 @@ describe('Login to www.orbitxch.com', function() {
       cy.contains(match.sport,{timeout: 30000}).click();
 
     // 点击 match.competition
-      cy.contains(match.competition,{timeout: 20000}).click();
+      cy.contains(match.competition,{timeout: 30000}).click();
+
+      if (match.hasOwnProperty('sub'))
+        cy.contains(match.sub,{timeout: 30000}).click();
 
     // 点击同时含有 team1 和 team2 的组件
       cy.get(`:has(p:contains(${match.home})):has(p:contains(${match.away}))`,{timeout:30000}).as('targetMatch')

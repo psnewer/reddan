@@ -11,7 +11,7 @@
         },
         {
             "condition": "notMatchOne",
-            "checktion":["notTimeElapseTo_Draw"],
+            "checktion":["notTimeElapseTo","isDraw"],
             "action": "placeBet"
         },
         {
@@ -26,7 +26,6 @@
         },
         {
             "condition": "notPlaceTwo",
-            "checktion":["notTimeElapseTo_Draw"],
             "action": "placeBet"
         }
     ],

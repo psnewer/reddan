@@ -92,9 +92,13 @@ export default class StrategyExecutor {
         return params.event.timeElapsed >= params.bet.strategy.params[condition].time_to
     }
 
-    notTimeElapseTo_Draw(params,condition) {
+    notTimeElapseTo(params,condition) {
+        return !(params.event.timeElapsed > params.bet.strategy.params[condition].cut_time)
+    }
+
+    isDraw(params,condition) {
         if (params.event.score_home === params.event.score_away)
-            return !(params.event.timeElapsed > params.bet.strategy.params[condition].cut_time)
+            return true
         return false
     }
 

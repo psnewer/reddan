@@ -265,7 +265,7 @@ export default class StrategyExecutor {
             }
 
             let size = 0;
-            let price = 0.0
+            let price = 1.01
             if (params.bet.strategy.params[condition].hasOwnProperty('vol'))
                 size = params.bet.strategy.params[condition]['vol'];
             else if (params.bet.strategy.params[condition].hasOwnProperty('scale')){
@@ -291,7 +291,7 @@ export default class StrategyExecutor {
             else if (params.bet.strategy.params[condition].hasOwnProperty('price'))
                 price = params.bet.strategy.params[condition]['price'];
 
-            if (size >= 6.0 && price >= 0.0) {
+            if (size >= 6.0 && price >= 1.0) {
                 // cy.log('PLACE')
                 // return
                 cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)

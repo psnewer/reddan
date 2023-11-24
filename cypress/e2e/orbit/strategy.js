@@ -291,7 +291,7 @@ export default class StrategyExecutor {
             }      
             else if (params.bet.strategy.params[condition].hasOwnProperty('price'))
                 price = params.bet.strategy.params[condition]['price'];
-cy.log(size,price)
+                
             if (size >= 6.0 && price >= 1.0) {
                 // cy.log('PLACE')
                 // return

@@ -1,13 +1,13 @@
 {
     "soccer_1": [
         {
+            "condition": "isStop",
+            "action": "break"
+        },
+        {
             "condition": "notInPlay",
             "checktion":["notPlaceOne"],
             "action": "placeBet"
-        },
-        {
-            "condition": "isStop",
-            "action": "break"
         },
         {
             "condition": "notMatchOne",

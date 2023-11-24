@@ -18,6 +18,8 @@ check_crash() {
 # 检查是否存在正在运行的 Cypress 命令
 if ! check_command; then
 	echo "$(timestamp): Cypress 命令未在运行，启动命令..."
+    rm -f iter.log
+    touch iter.log
     npx cypress run --spec cypress/e2e/orbit/iter.cy.js > iter.log 2>&1
 fi
 

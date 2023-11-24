@@ -18,7 +18,7 @@ const executor = new StrategyExecutor('./data/strategy.json');
 
 function setupInterception() {
 
-  cy.wait(1000).then(() => {
+  cy.wait(60000).then(() => {
   //获取currentBets
   cy.intercept({
     hostname : 'www.orbitxch.com',

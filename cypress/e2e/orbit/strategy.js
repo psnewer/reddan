@@ -197,7 +197,7 @@ export default class StrategyExecutor {
         let thresh_lay_odds = 0.0
         let CANCEL = false
         // 首先判断currentBets中是否已经place,如果place则cancel
-        currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id'])
+        let currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id'])
         currentBets.forEach(placed => {
 
             if (Number(placed.sizeMatched) > 0.0){

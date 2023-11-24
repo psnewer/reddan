@@ -197,7 +197,8 @@ export default class StrategyExecutor {
         let thresh_lay_odds = 0.0
         let CANCEL = false
         // 首先判断currentBets中是否已经place,如果place则cancel
-        params.bet.currentBets.forEach(placed => {
+        currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id'])
+        currentBets.forEach(placed => {
 
             if (Number(placed.sizeMatched) > 0.0){
                 sizeMatched = Number(placed.sizeMatched)
@@ -230,7 +231,7 @@ export default class StrategyExecutor {
             return true
 
         //如果已有超过两个Matched order,则返回
-        if (params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id']).length < 2){
+        if (currentBets.length < 2){
 
             let selectionId = params.bet.selectionId
             let handicap = params.bet.handicap
@@ -290,7 +291,7 @@ export default class StrategyExecutor {
             }      
             else if (params.bet.strategy.params[condition].hasOwnProperty('price'))
                 price = params.bet.strategy.params[condition]['price'];
-
+cy.log(size,price)
             if (size >= 6.0 && price >= 1.0) {
                 // cy.log('PLACE')
                 // return

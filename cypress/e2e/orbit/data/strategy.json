@@ -21,7 +21,7 @@
         },
         {
             "condition": "timeElapseTo",
-            "checktion":["notMatchTwo"],
+            "checktion":["notMatchTwo","isDraw"],
             "action": "placeBet"
         },
         {

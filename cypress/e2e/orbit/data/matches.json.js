@@ -10,12 +10,6 @@ export const matches = [
             'vol': 6,
             'cut_time' :5
         },
-        'notPlaceTwo': {
-            'oth': true,
-            'side': 'BACK',
-            'profit': 0.3,
-            'scale': 1.0
-        },
         'isRunnerAdvance': {
             'oth': true,
             'side': 'BACK',
@@ -25,6 +19,12 @@ export const matches = [
             'oth': true,
             'time_to': 45,
             'side': 'BACK',
+            'scale': 1.0
+        },
+        'notPlaceTwo': {
+            'oth': true,
+            'side': 'BACK',
+            'profit': 0.3,
             'scale': 1.0
         }
     }}},
@@ -39,12 +39,6 @@ export const matches = [
             'vol': 6,
             'cut_time' :5
         },
-        'notPlaceTwo': {
-            'oth': true,
-            'side': 'BACK',
-            'profit': 0.3,
-            'scale': 1.0
-        },
         'isRunnerAdvance': {
             'side': 'LAY',
             'scale': 1.0
@@ -53,6 +47,12 @@ export const matches = [
             'oth': true,
             'time_to': 45,
             'side': 'BACK',
+            'scale': 1.0
+        },
+        'notPlaceTwo': {
+            'oth': true,
+            'side': 'BACK',
+            'profit': 0.3,
             'scale': 1.0
         }
     }}}

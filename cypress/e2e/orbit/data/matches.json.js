@@ -1,9 +1,9 @@
 export const matches = [
-    {"sport":"Soccer", "sub":"Belgium", "competition": "Belgian First Division A", "home":"Sint Truiden", "away":"Antwerp", "market":"Asian Handicap", "runner":"Sint Truiden +0.5", "strategy":{"name":"soccer_1","params": {
+    {"sport":"Soccer", "competition": "English Premier League", "home":"Man City", "away":"Liverpool", "market":"Asian Handicap", "runner":"Liverpool +0.5", "strategy":{"name":"soccer_1","params": {
         'notInPlay': {
             'side': 'BACK',
             'vol': 6,
-            'price': 2.1
+            'price': 2.3
         },
         'notMatchOne': {
             'side': 'BACK',
@@ -24,15 +24,15 @@ export const matches = [
         'notPlaceTwo': {
             'oth': true,
             'side': 'BACK',
-            'profit': 0.3,
+            'profit': 0.5,
             'scale': 1.0
         }
     }}},
-    {"sport":"Soccer", "sub":"Japan", "competition": "Japanese J League", "home":"Kawasaki", "away":"Kashima", "market":"Asian Handicap", "runner":"Kashima +0.5", "strategy":{"name":"soccer_1","params": {
+    {"sport":"Soccer", "competition": "German Bundesliga", "home":"Werder Bremen", "away":"Leverkusen", "market":"Asian Handicap", "runner":"Werder Bremen +0.5", "strategy":{"name":"soccer_1","params": {
         'notInPlay': {
             'side': 'BACK',
             'vol': 6,
-            'price': 1.9
+            'price': 3.05
         },
         'notMatchOne': {
             'side': 'BACK',

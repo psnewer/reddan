@@ -243,22 +243,30 @@ export default class StrategyExecutor {
             //找到当前赔率
             if (params.bet.strategy.params[condition].oth){
                 if (params.bet.strategy.params[condition].side === 'BACK'){
+                    if (!params.event.hasOwnProperty('oth_back_odds'))
+                        return
                     current_odds = params.event.oth_back_odds;
                     if (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds))
                         return
                 }
                 else {
+                    if (!params.event.hasOwnProperty('oth_lay_odds'))
+                        return
                     current_odds = params.event.oth_lay_odds;
                     if (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds))
                         return
                 }
             }else{
                 if (params.bet.strategy.params[condition].side === 'BACK'){
+                    if (!params.event.hasOwnProperty('back_odds'))
+                        return
                     current_odds = params.event.back_odds;
                     if (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds))
                         return
                 }
                 else {
+                    if (!params.event.hasOwnProperty('lay_odds'))
+                        return
                     current_odds = params.event.lay_odds;
                     if (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds))
                         return
@@ -266,7 +274,7 @@ export default class StrategyExecutor {
             }
 
             let size = 0;
-            let price = 1.01
+            let price = current_odds
             if (params.bet.strategy.params[condition].hasOwnProperty('vol'))
                 size = params.bet.strategy.params[condition]['vol'];
             else if (params.bet.strategy.params[condition].hasOwnProperty('scale')){
@@ -292,7 +300,7 @@ export default class StrategyExecutor {
             else if (params.bet.strategy.params[condition].hasOwnProperty('price'))
                 price = params.bet.strategy.params[condition]['price'];
                 
-            if (size >= 6.0 && price >= 1.0) {
+            if (Number(size.toFixed(2)) >= 6.0 && price >= 1.0) {
                 // cy.log('PLACE')
                 // return
                 cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)

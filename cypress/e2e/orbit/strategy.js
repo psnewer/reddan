@@ -89,11 +89,21 @@ export default class StrategyExecutor {
     }
 
     timeElapseTo(params,condition) {
-        return params.event.timeElapsed >= params.bet.strategy.params[condition].time_to
+        if (params.event.hasOwnProperty('timeElapsed'))
+            return params.event.timeElapsed >= params.bet.strategy.params[condition].time_to
+        return false
     }
 
     notTimeElapseTo(params,condition) {
-        return !(params.event.timeElapsed > params.bet.strategy.params[condition].cut_time)
+        if (params.event.hasOwnProperty('timeElapsed'))
+            return (params.event.timeElapsed < params.bet.strategy.params[condition].cut_time)
+        return false
+    }
+
+    ending(params,condition) {
+        if (params.event.hasOwnProperty('timeElapsed'))
+            return params.event.timeElapsed >= params.bet.strategy.params[condition].time_to
+        return false
     }
 
     isDraw(params,condition) {

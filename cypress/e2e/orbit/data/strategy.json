@@ -16,7 +16,7 @@
         },
         {
             "condition": "ending",
-            "checktion":["timeElapseTo","notMatchTwo","deltaGE"],
+            "checktion":["notMatchTwo","deltaGE"],
             "action": "placeBet"
         },
         {

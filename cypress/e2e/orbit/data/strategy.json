@@ -15,6 +15,11 @@
             "action": "placeBet"
         },
         {
+            "condition": "ending",
+            "checktion":["timeElapseTo","notMatchTwo","deltaGE"],
+            "action": "placeBet"
+        },
+        {
             "condition": "isRunnerAdvance",
             "checktion":["notMatchTwo"],
             "action": "placeBet"

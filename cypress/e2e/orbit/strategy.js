@@ -102,6 +102,17 @@ export default class StrategyExecutor {
         return false
     }
 
+    deltaGE(params,condition) {
+        let delta = params.bet.strategy.params[condition].delta
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+            if (params.bet.runner.includes(params.bet.home))
+                return (Number(params.event.score_home) - Number(params.event.score_away) >= delta)
+            else
+                return (Number(params.event.score_away) - Number(params.event.score_home) >= delta)
+        }
+        return false
+    }
+
     loseSet(params,condition) {
         let set = params.bet.strategy.params[condition].set
         if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
@@ -300,7 +311,7 @@ export default class StrategyExecutor {
             else if (params.bet.strategy.params[condition].hasOwnProperty('price'))
                 price = params.bet.strategy.params[condition]['price'];
                 
-            if (Number(size.toFixed(2)) >= 6.0 && price >= 1.0) {
+            if (size.toFixed(2) >= 6.0 && price >= 1.0) {
                 // cy.log('PLACE')
                 // return
                 cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)

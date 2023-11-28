@@ -44,7 +44,7 @@ describe('Login to www.orbitxch.com', function() {
           matchItem['runner_url'] = runner_url;
           //获取selectionId
           cy.get('body').then($body => {
-            if ($body.find('span', 'Show all').length) {
+            if (match.market.includes('Handicap')) {
                 cy.contains('span', 'Show all').click();
             }
         }).then(() => {

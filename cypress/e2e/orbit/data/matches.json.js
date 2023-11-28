@@ -1,61 +1,62 @@
 export const matches = [
-    {"sport":"Soccer", "competition": "English Premier League", "home":"Man City", "away":"Liverpool", "market":"Asian Handicap", "runner":"Liverpool +0.5", "strategy":{"name":"soccer_1","params": {
-        'notInPlay': {
+    {"sport":"Tennis", "competition": "ATP Next Gen Finals 2023", "home":"Arthur Fils", "away":"Luca Nardi", "market":"Match Odds", "runner":"Luca Nardi", "strategy":{"name":"tennis_1","params": {
+        'loseSet': {
+            'set': 1,
             'side': 'BACK',
             'vol': 6,
-            'price': 2.3
+            'delta': 2
         },
-        'notMatchOne': {
-            'side': 'BACK',
-            'vol': 6,
-            'cut_time' :5
-        },
-        'isRunnerAdvance': {
+        'winSet': {
+            'set': 2,
             'oth': true,
             'side': 'BACK',
-            'scale': 1.0
-        },
-        'timeElapseTo': {
-            'oth': true,
-            'time_to': 45,
-            'side': 'BACK',
-            'scale': 1.0
-        },
-        'notPlaceTwo': {
-            'oth': true,
-            'side': 'BACK',
-            'profit': 0.5,
             'scale': 1.0
         }
     }}},
-    {"sport":"Soccer", "competition": "German Bundesliga", "home":"Werder Bremen", "away":"Leverkusen", "market":"Asian Handicap", "runner":"Werder Bremen +0.5", "strategy":{"name":"soccer_1","params": {
-        'notInPlay': {
+    {"sport":"Tennis", "competition": "ATP Next Gen Finals 2023", "home":"Dominic Stricker", "away":"Flavio Cobolli", "market":"Match Odds", "runner":"Flavio Cobolli", "strategy":{"name":"tennis_2","params": {
+        "eitherLose": {
+            "set": 1,
+            "side": "BACK",
+            "vol": 6,
+            "delta": 2
+        },
+        "loseWin": {
+            "loseset": 1,
+            "winset": 2,
+            "side": "BACK",
+            "scale": 1.0,
+            "oth": true
+        }
+    }}},
+    {"sport":"Tennis", "competition": "ATP Next Gen Finals 2023", "home":"Luca Van Assche", "away":"Abdullah Shelbayh", "market":"Match Odds", "runner":"Abdullah Shelbayh", "strategy":{"name":"tennis_1","params": {
+        'loseSet': {
+            'set': 1,
             'side': 'BACK',
             'vol': 6,
-            'price': 3.05
+            'delta': 2
         },
-        'notMatchOne': {
-            'side': 'BACK',
-            'vol': 6,
-            'cut_time' :5
-        },
-        'isRunnerAdvance': {
-            'side': 'LAY',
-            'scale': 1.0
-        },
-        'timeElapseTo': {
-            'oth': true,
-            'time_to': 45,
-            'side': 'BACK',
-            'scale': 1.0
-        },
-        'notPlaceTwo': {
+        'winSet': {
+            'set': 2,
             'oth': true,
             'side': 'BACK',
-            'profit': 0.3,
             'scale': 1.0
         }
-    }}}
+    }}},
+    {"sport":"Tennis", "competition": "ATP Next Gen Finals 2023", "home":"Alex Michelsen", "away":"Hamad Medjedovic", "market":"Match Odds", "runner":"Hamad Medjedovic", "strategy":{"name":"tennis_2","params": {
+        "eitherLose": {
+            "set": 1,
+            "side": "BACK",
+            "vol": 6,
+            "delta": 2
+        },
+        "loseWin": {
+            "loseset": 1,
+            "winset": 2,
+            "side": "BACK",
+            "scale": 1.0,
+            "oth": true
+        }
+    }}},
 ]
 
 

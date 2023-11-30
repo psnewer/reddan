@@ -32,4 +32,14 @@ function getOth(home, away, runner) {
     return oth_runner;
   }
 
-  export default {getHandicap, hasNestedProperty, getOth}
+function countElementsGE(a, b) {
+    let count = 0;
+    for (let i = 0; i < a.length; i++) {
+        if (Number(a[i]) > Number(b[i])) {
+            count++;
+        }
+    }
+    return 2 * count - a.length;
+  }
+
+  export default {getHandicap, hasNestedProperty, getOth, countElementsGE}

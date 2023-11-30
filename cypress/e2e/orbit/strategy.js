@@ -1,4 +1,5 @@
 const fs = require('fs');
+import {countElementsGE} from './utils.js';
 
 export default class StrategyExecutor {
     constructor(strategyFile) {
@@ -124,86 +125,101 @@ export default class StrategyExecutor {
     }
 
     loseSet(params,condition) {
-        let set = params.bet.strategy.params[condition].set
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
-        if (params.event.score_home.length === set && params.event.score_away.length === set){
-            if (params.bet.runner.includes(params.bet.home)){
-                if (Number(params.event.score_away[set - 1]) > Number(params.event.score_home[set - 1]))
-                    return true;  
-            }
-            else if (params.bet.runner.includes(params.bet.away)){
-                if (Number(params.event.score_home[set - 1]) > Number(params.event.score_away[set - 1]))
-                    return true;
+        let set = params.event.score_home.length
+        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+            set = params.bet.strategy.params[condition].set
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+            if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
+                const home_squence = params.event.score_home.slice(0, set)
+                const away_squence = params.event.score_away.slice(0, set)
+                if (params.bet.runner.includes(params.bet.home)) {
+                    if (countElementsGE(away_squence, home_squence) > 0)
+                        return true;  
+                }
+                else if (params.bet.runner.includes(params.bet.away)) {
+                    if (countElementsGE(home_squence, away_squence) > 0)
+                        return true;
+                }
             }
         }
         return false
     }
 
     winSet(params,condition) {
-        let set = params.bet.strategy.params[condition].set
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
-        if (params.event.score_home.length === set && params.event.score_away.length === set){
-            if (params.bet.runner.includes(params.bet.home)){
-                if (Number(params.event.score_home[set - 1]) > Number(params.event.score_away[set -1]))
-                    return true;
-            }
-            else if (params.bet.runner.includes(params.bet.away)){
-                if (Number(params.event.score_away[set -1]) > Number(params.event.score_home[set - 1]))
-                    return true;
+        let set = params.event.score_home.length
+        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+            set = params.bet.strategy.params[condition].set
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+            if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
+                const home_squence = params.event.score_home.slice(0, set)
+                const away_squence = params.event.score_away.slice(0, set)
+                if (params.bet.runner.includes(params.bet.home)) {
+                    if (countElementsGE(home_squence, away_squence) >= 0)
+                        return true;  
+                }
+                else if (params.bet.runner.includes(params.bet.away)) {
+                    if (countElementsGE(away_squence, home_squence) >= 0)
+                        return true;
+                }
             }
         }
         return false
     }
 
     eitherLose(params,condition){
-        let set = params.bet.strategy.params[condition].set
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
-        if (params.event.score_home.length === set && params.event.score_away.length === set){
-            if (params.bet.runner.includes(params.bet.home)){
-                if (Number(params.event.score_home[set - 1]) > Number(params.event.score_away[set -1])){
-                    params.bet.strategy.params[condition]['oth'] = true
-                }     
-            }
-            else if (params.bet.runner.includes(params.bet.away)){
-                if (Number(params.event.score_away[set -1]) > Number(params.event.score_home[set - 1])){
-                    params.bet.strategy.params[condition]['oth'] = true
+        let set = params.event.score_home.length
+        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+            set = params.bet.strategy.params[condition].set
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+            if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
+                const home_squence = params.event.score_home.slice(0, set)
+                const away_squence = params.event.score_away.slice(0, set)
+                if (countElementsGE(home_squence, away_squence) > 0) {
+                    if (params.bet.runner.includes(params.bet.home))
+                        params.bet.strategy.params[condition]['oth'] = true 
+                    return true
                 }
+                else if (countElementsGE(away_squence, home_squence) > 0) {
+                    if (params.bet.runner.includes(params.bet.away))
+                        params.bet.strategy.params[condition]['oth'] = true
+                    return true
+                }    
             }
-            return true
         }
         return false
     }
 
     loseWin(params,condition){
-        let loseset = params.bet.strategy.params[condition].loseset
-        let winset = params.bet.strategy.params[condition].winset
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
-        if (params.event.score_home.length === winset && params.event.score_away.length === winset){
-            if (Number(params.event.score_home[winset - 1]) < Number(params.event.score_away[winset - 1])){
-                if (Number(params.event.score_home[loseset - 1]) > Number(params.event.score_away[loseset - 1])){
-                    if (params.bet.runner.includes(params.bet.away)){
+        let set = params.event.score_home.length
+        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+            set = params.bet.strategy.params[condition].set
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+            if (set >= 2 && params.event.score_home.length >= set && params.event.score_away.length >= set) {
+                const home_squence = params.event.score_home.slice(0, set)
+                const away_squence = params.event.score_away.slice(0, set)
+                const home_squence_pre = params.event.score_home.slice(0, set-1)
+                const away_squence_pre = params.event.score_away.slice(0, set-1)
+                if (countElementsGE(away_squence, home_squence) >= 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0){
+                    if (params.bet.runner.includes(params.bet.home)) 
+                        params.bet.strategy.params[condition]['oth'] = true 
+                    return true
+                }
+                else if (countElementsGE(home_squence, away_squence) >= 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0) {
+                    if (params.bet.runner.includes(params.bet.away))
                         params.bet.strategy.params[condition]['oth'] = true
-                    }
-                    return true;
-                }     
+                    return true
+                }  
             }
-            else if (Number(params.event.score_away[winset - 1]) < Number(params.event.score_home[winset - 1])){
-                if (Number(params.event.score_away[loseset - 1]) > Number(params.event.score_home[loseset - 1])){
-                    if (params.bet.runner.includes(params.bet.home)){
-                        params.bet.strategy.params[condition]['oth'] = true
-                    }
-                    return true;
-                }    
-            }  
         }
         return false
     }
 
     deltaIn(params,condition) {
-        let set = params.bet.strategy.params[condition].set
+        let set = params.event.score_home.length
         let delta = params.bet.strategy.params[condition].delta
         if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
-            return (Math.abs(Number(params.event.score_home[set -1]) - Number(params.event.score_away[set -1])) <= delta)
+            if (set) 
+                return (Math.abs(Number(params.event.score_home[set -1]) - Number(params.event.score_away[set -1])) <= delta)
         return false
     }
 
@@ -242,7 +258,12 @@ export default class StrategyExecutor {
                     CANCEL = true
                     // cy.log('CANCEL')
                     // return
-                    cy.cancelBet(placed.marketId,placed.offerId)
+                    cy.getEnv('placing').then(placing => {
+                        if (!placing) {
+                            cy.setEnv('placing',true)
+                            cy.cancelBet(placed.marketId,placed.offerId)
+                        }
+                    })
                 } 
             }
             
@@ -324,7 +345,12 @@ export default class StrategyExecutor {
             if (size.toFixed(2) >= 6.0 && price >= 1.0) {
                 // cy.log('PLACE')
                 // return
-                cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)
+                cy.getEnv('placing').then(placing => {
+                    if (!placing) {
+                        cy.setEnv('placing',true)
+                        cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)
+                    }
+                })
             }
 
     }

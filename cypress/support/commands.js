@@ -113,6 +113,16 @@ Cypress.Commands.add('executeStrategy', (executor,strategyName, params) => {
     return executor.execute(strategyName, params);
   });
 
+// cypress/support/commands.js
+Cypress.Commands.add('setEnv', (name, value) => {
+    Cypress.env(name, value);
+  });
+  
+Cypress.Commands.add('getEnv', (name) => {
+    return Cypress.env(name);
+  });
+  
+
 Cypress.Commands.add('placeBet', (marketId,price,size,selectionId,handicap,side) => {    
             // 定义请求的 URL 和 payload
 let payload = {

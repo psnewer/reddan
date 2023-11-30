@@ -14,8 +14,6 @@ it(`Navigate match events and place bets`, () => {
 
 const executor = new StrategyExecutor('./data/strategy.json');
 
-// cy.visit('http://www.orbitxch.com',{timeout:20000})
-
 function setupInterception() {
 
   cy.wait(60000).then(() => {
@@ -24,6 +22,8 @@ function setupInterception() {
     hostname : 'www.orbitxch.com',
     pathname : "/customer/api/currentBets"
   }).as('currentBets')
+
+  cy.setEnv('placing',false)
 
   cy.wait('@currentBets',{timeout:60000}).then( res => {
         

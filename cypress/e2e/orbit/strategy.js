@@ -200,12 +200,12 @@ export default class StrategyExecutor {
                 const home_squence_pre = params.event.score_home.slice(0, set-1)
                 const away_squence_pre = params.event.score_away.slice(0, set-1)
                 if (countElementsGE(away_squence, home_squence) >= 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0){
-                    if (params.bet.runner.includes(params.bet.home)) 
+                    if (params.bet.runner.includes(params.bet.away)) 
                         params.bet.strategy.params[condition]['oth'] = true 
                     return true
                 }
                 else if (countElementsGE(home_squence, away_squence) >= 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0) {
-                    if (params.bet.runner.includes(params.bet.away))
+                    if (params.bet.runner.includes(params.bet.home))
                         params.bet.strategy.params[condition]['oth'] = true
                     return true
                 }  

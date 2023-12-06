@@ -97,7 +97,7 @@ export default class StrategyExecutor {
 
     notTimeElapseTo(params,condition) {
         if (params.event.hasOwnProperty('timeElapsed'))
-            return (params.event.timeElapsed < params.bet.strategy.params[condition].cut_time)
+            return (params.event.timeElapsed < params.bet.strategy.params[condition].time_to)
         return false
     }
 
@@ -125,93 +125,154 @@ export default class StrategyExecutor {
     }
 
     loseSet(params,condition) {
-        let set = params.event.score_home.length
-        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-            set = params.bet.strategy.params[condition].set
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
-            if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
-                const home_squence = params.event.score_home.slice(0, set)
-                const away_squence = params.event.score_away.slice(0, set)
-                if (params.bet.runner.includes(params.bet.home)) {
-                    if (countElementsGE(away_squence, home_squence) > 0)
-                        return true;  
-                }
-                else if (params.bet.runner.includes(params.bet.away)) {
-                    if (countElementsGE(home_squence, away_squence) > 0)
-                        return true;
+        if (params.bet.sport === "Tennis") {
+            let set = params.event.score_home.length
+            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                set = params.bet.strategy.params[condition].set
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
+                    const home_squence = params.event.score_home.slice(0, set)
+                    const away_squence = params.event.score_away.slice(0, set)
+                    if (params.bet.runner.includes(params.bet.home)) {
+                        if (countElementsGE(away_squence, home_squence) > 0)
+                            return true;  
+                    }
+                    else if (params.bet.runner.includes(params.bet.away)) {
+                        if (countElementsGE(home_squence, away_squence) > 0)
+                            return true;
+                    }
                 }
             }
+            return false
         }
-        return false
+        else if (params.bet.sport === "Soccer") {
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (params.event.score_home > 0 || params.event.score_away > 0){
+                    if (params.bet.runner.includes(params.bet.home)) {
+                        if (params.event.score_away > params.event.score_home)
+                            return true;  
+                    }
+                    else if (params.bet.runner.includes(params.bet.away)) {
+                        if (params.event.score_home > params.event.score_away)
+                            return true;
+                    }
+                }
+            }
+            return false
+        }
     }
 
     winSet(params,condition) {
-        let set = params.event.score_home.length
-        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-            set = params.bet.strategy.params[condition].set
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
-            if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
-                const home_squence = params.event.score_home.slice(0, set)
-                const away_squence = params.event.score_away.slice(0, set)
-                if (params.bet.runner.includes(params.bet.home)) {
-                    if (countElementsGE(home_squence, away_squence) >= 0)
-                        return true;  
-                }
-                else if (params.bet.runner.includes(params.bet.away)) {
-                    if (countElementsGE(away_squence, home_squence) >= 0)
-                        return true;
+        if (params.bet.sport === "Tennis") {
+            let set = params.event.score_home.length
+            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                set = params.bet.strategy.params[condition].set
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
+                    const home_squence = params.event.score_home.slice(0, set)
+                    const away_squence = params.event.score_away.slice(0, set)
+                    if (params.bet.runner.includes(params.bet.home)) {
+                        if (countElementsGE(home_squence, away_squence) >= 0)
+                            return true;  
+                    }
+                    else if (params.bet.runner.includes(params.bet.away)) {
+                        if (countElementsGE(away_squence, home_squence) >= 0)
+                            return true;
+                    }
                 }
             }
+            return false
         }
-        return false
+        else if (params.bet.sport === "Soccer") {
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (params.event.score_home > 0 && params.event.score_away > 0){
+                    if (params.bet.runner.includes(params.bet.home)) {
+                        if (params.event.score_home >= params.event.score_away)
+                            return true;  
+                    }
+                    else if (params.bet.runner.includes(params.bet.away)) {
+                        if (params.event.score_away >= params.event.score_home)
+                            return true;
+                    }
+                }
+            }
+            return false
+        }
     }
 
     eitherLose(params,condition){
-        let set = params.event.score_home.length
-        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-            set = params.bet.strategy.params[condition].set
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
-            if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
-                const home_squence = params.event.score_home.slice(0, set)
-                const away_squence = params.event.score_away.slice(0, set)
-                if (countElementsGE(home_squence, away_squence) > 0) {
-                    if (params.bet.runner.includes(params.bet.home))
-                        params.bet.strategy.params[condition]['oth'] = true 
-                    return true
+        if (params.bet.sport === "Tennis") {
+            let set = params.event.score_home.length
+            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                set = params.bet.strategy.params[condition].set
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set){
+                    const home_squence = params.event.score_home.slice(0, set)
+                    const away_squence = params.event.score_away.slice(0, set)
+                    if (countElementsGE(home_squence, away_squence) > 0) {
+                        if (params.bet.runner.includes(params.bet.home))
+                            params.bet.strategy.params[condition]['oth'] = true 
+                        return true
+                    }
+                    else if (countElementsGE(away_squence, home_squence) > 0) {
+                        if (params.bet.runner.includes(params.bet.away))
+                            params.bet.strategy.params[condition]['oth'] = true
+                        return true
+                    }    
                 }
-                else if (countElementsGE(away_squence, home_squence) > 0) {
-                    if (params.bet.runner.includes(params.bet.away))
-                        params.bet.strategy.params[condition]['oth'] = true
-                    return true
-                }    
             }
+            return false
         }
-        return false
+        else if (params.bet.sport === "Soccer") {
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (Number(params.event.score_home) > 0 || Number(params.event.score_away) > 0) {
+                    if (params.event.score_home > params.event.score_away) {
+                        if (params.bet.runner.includes(params.bet.home))
+                            params.bet.strategy.params[condition]['oth'] = true 
+                        return true
+                    }
+                    else if (params.event.score_away > params.event.score_home) {
+                        if (params.bet.runner.includes(params.bet.away))
+                            params.bet.strategy.params[condition]['oth'] = true
+                        return true
+                    }    
+                }
+            }
+            return false
+        }
     }
 
     loseWin(params,condition){
-        let set = params.event.score_home.length
-        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-            set = params.bet.strategy.params[condition].set
-        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
-            if (set >= 2 && params.event.score_home.length >= set && params.event.score_away.length >= set) {
-                const home_squence = params.event.score_home.slice(0, set)
-                const away_squence = params.event.score_away.slice(0, set)
-                const home_squence_pre = params.event.score_home.slice(0, set-1)
-                const away_squence_pre = params.event.score_away.slice(0, set-1)
-                if (countElementsGE(away_squence, home_squence) >= 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0){
-                    if (params.bet.runner.includes(params.bet.away)) 
-                        params.bet.strategy.params[condition]['oth'] = true 
-                    return true
+        if (params.bet.sport === "Tennis") {
+            let set = params.event.score_home.length
+            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                set = params.bet.strategy.params[condition].set
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (set >= 2 && params.event.score_home.length >= set && params.event.score_away.length >= set) {
+                    const home_squence = params.event.score_home.slice(0, set)
+                    const away_squence = params.event.score_away.slice(0, set)
+                    const home_squence_pre = params.event.score_home.slice(0, set-1)
+                    const away_squence_pre = params.event.score_away.slice(0, set-1)
+                    if (countElementsGE(away_squence, home_squence) >= 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0){
+                        return true
+                    }
+                    else if (countElementsGE(home_squence, away_squence) >= 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0) {
+                        return true
+                    }  
                 }
-                else if (countElementsGE(home_squence, away_squence) >= 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0) {
-                    if (params.bet.runner.includes(params.bet.home))
-                        params.bet.strategy.params[condition]['oth'] = true
-                    return true
-                }  
             }
+            return false
         }
-        return false
+        else if (params.bet.sport === "Soccer") {
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                if (params.event.score_home > 0 && params.event.score_away > 0) {
+                    if (params.event.score_home == params.event.score_away){
+                        return true
+                    }
+                }
+            }
+            return false           
+        }
     }
 
     deltaIn(params,condition) {
@@ -274,6 +335,20 @@ export default class StrategyExecutor {
 
         //如果已有超过两个Matched order,则返回
         if (currentBets.length < 2){
+
+            //根据matched bet设置oth
+            if(currentBets.length == 1) {
+                if (currentBets[0].selectionId == params.bet.selectionId) {
+                    if (pre_side == params.bet.strategy.params[condition].side) {
+                        params.bet.strategy.params[condition]['oth'] = true
+                    }
+                }
+                else {
+                    if (pre_side != params.bet.strategy.params[condition].side) {
+                        params.bet.strategy.params[condition]['oth'] = true
+                    }
+                }
+            }
 
             let selectionId = params.bet.selectionId
             let handicap = params.bet.handicap

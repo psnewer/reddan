@@ -10,49 +10,49 @@ describe('Execution after login', function() {
   });
 
   for (let i = 0; i < 200; i++) {
-it(`Navigate match events and place bets`, () => {
+    it(`Navigate match events and place bets`, () => {
 
-const executor = new StrategyExecutor('./data/strategy.json');
+      const executor = new StrategyExecutor('./data/strategy.json');
 
-function setupInterception() {
+      function setupInterception() {
 
-  cy.wait(60000).then(() => {
-  //获取currentBets
-  cy.intercept({
-    hostname : 'www.orbitxch.com',
-    pathname : "/customer/api/currentBets"
-  }).as('currentBets')
+        cy.wait(60000).then(() => {
+        //获取currentBets
+        cy.intercept({
+          hostname : 'www.orbitxch.com',
+          pathname : "/customer/api/currentBets"
+        }).as('currentBets')
 
-  cy.setEnv('placing',false)
+        cy.setEnv('placing',false)
 
-  cy.wait('@currentBets',{timeout:60000}).then( res => {
+        cy.wait('@currentBets',{timeout:60000}).then( res => {
         
-    cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
-      betIds.forEach(bet => {
-        try{
-              bet.currentBets = res.response.body;
-              cy.getEventData(bet).then(params => {
-                cy.log(params)
-                cy.executeStrategy(executor,params.bet.strategy.name, params)
-                  .then(undefined, (error) => {
-                                              console.error(error);
+        cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
+          betIds.forEach(bet => {
+            try{
+                bet.currentBets = res.response.body;
+                cy.getEventData(bet).then(params => {
+                  cy.log(params)
+                  cy.executeStrategy(executor,params.bet.strategy.name, params)
+                    .then(undefined, (error) => {
+                                                console.error(error);
+                      });
+                }).then(undefined, (error) => {
+                      console.error(error);
                     });
-               }).then(undefined, (error) => {
+            }catch {
+                  (error) => {
                     console.error(error);
-                  });
-        }catch {
-                (error) => {
-                  console.error(error);
-                }
-          }
-      }); 
-    })
-  });
-})
-}
+                  }
+            }
+          }); 
+        })
+        });
+        })
+      }
 
-setupInterception();
+      setupInterception();
 
-});
+    });
   }
 })

@@ -1,6 +1,38 @@
 {
     "soccer_1": [
         {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["loseSet","notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["winSet","notTimeElapseTo"],
+            "action": "placeBet"
+        }
+    ],
+    "soccer_2": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["eitherLose","notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["loseWin","notTimeElapseTo"],
+            "action": "placeBet"
+        }
+    ],
+    "soccer_3": [
+        {
             "condition": "isStop",
             "action": "break"
         },

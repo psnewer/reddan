@@ -1,31 +1,15 @@
 export const matches = [
-    {"sport":"Soccer", "competition": "International", "home":"Wuhan Three Towns", "away":"Pohang Steelers", "market":"Asian Handicap", "runner":"Pohang Steelers +0.5", "strategy":{"name":"soccer_3","params": {
-        'notInPlay': {
-            'side': 'BACK',
-            'vol': 10,
-            'price': 1.5
+    {"sport":"Soccer", "competition": "German Bundesliga", "home":"Hoffenheim", "away":"Bochum", "market":"Asian Handicap", "runner":"Hoffenheim 0", "strategy":{"name":"soccer_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            'time_to': 60,
         },
-        'notMatchOne': {
-            'side': 'BACK',
-            'vol': 10,
-            'time_to' :5
-        },
-        'ending': {
-            'time_to': 80,
-            'delta': 0,
-            'side': 'LAY',
-            'scale': 1.0
-        },
-        'isRunnerAdvance': {
-            'side': 'LAY',
-            'scale': 1.0
-        },
-        'timeElapseTo': {
-            'time_to': 45,
-            'side': 'LAY',
-            'scale': 1.0
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
         }
-    }}}
+    }}},
 ]
 
 

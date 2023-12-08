@@ -55,7 +55,6 @@ Cypress.Commands.add('getEventData', (bet) => {
                     eventNode.marketNodes.forEach(market => {
                         if (market.isMarketDataVirtual)
                         if (Number(market.marketId) === Number(params.bet['data-market-id'])) {
-                            params.event.inPlay = market.state.inplay
                             market.runners.forEach(runner => {
                                 if (runner.state.status === 'ACTIVE'){
                                 if (Number(runner.selectionId) === Number(bet.selectionId) && Number(runner.handicap) === params.bet.handicap){

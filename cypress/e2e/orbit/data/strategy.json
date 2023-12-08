@@ -11,7 +11,7 @@
         },
         {
             "condition": "notMatchTwo",
-            "checktion":["winSet","notTimeElapseTo"],
+            "checktion":["winSet"],
             "action": "placeBet"
         }
     ],
@@ -27,7 +27,7 @@
         },
         {
             "condition": "notMatchTwo",
-            "checktion":["loseWin","notTimeElapseTo"],
+            "checktion":["loseWin"],
             "action": "placeBet"
         }
     ],
@@ -53,7 +53,7 @@
         },
         {
             "condition": "isRunnerAdvance",
-            "checktion":["notMatchTwo"],
+            "checktion":["notMatchTwo","notTimeElapseTo"],
             "action": "placeBet"
         },
         {

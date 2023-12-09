@@ -38,11 +38,15 @@ export default class StrategyExecutor {
     }
 
     isStop(params,condition) {
-        if (params.hasOwnProperty('event') && Object.keys(params.event).some(key => key.includes('odds')))
-            return false;
-        else
-            return true
+        if (params.hasOwnProperty('event'))
+            if (Object.keys(params.event).some(key => key.includes('odds')))
+                return false;
+        return true
     }
+
+    notStop(params,condition) {
+        return !isStop(params,condition)
+    }    
 
     break(params, condition) {
         return true

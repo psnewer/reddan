@@ -33,12 +33,8 @@
     ],
     "soccer_3": [
         {
-            "condition": "isStop",
-            "action": "break"
-        },
-        {
             "condition": "notInPlay",
-            "checktion":["notPlaceOne"],
+            "checktion":["notStop","notPlaceOne"],
             "action": "placeBet"
         },
         {

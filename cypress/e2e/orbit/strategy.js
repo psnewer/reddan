@@ -45,7 +45,7 @@ export default class StrategyExecutor {
     }
 
     notStop(params,condition) {
-        return !isStop(params,condition)
+        return !this.isStop(params,condition)
     }    
 
     break(params, condition) {

@@ -291,7 +291,6 @@ export default class StrategyExecutor {
 
     // 动作函数
     placeBet(params, condition) {
-        
         let net_profit = 0.0
         let sizeMatched = 0.0
         let current_odds = 0.0
@@ -362,33 +361,38 @@ export default class StrategyExecutor {
                 handicap = params.bet.oth_handicap
             }
 
+            //如果策略为either，纠正handicap，并纠正odds
+            if (params.bet.strategy.params[condition].hasOwnProperty('handicap')) {
+                if (Number(params.bet.strategy.params[condition].handicap) != Number(handicap)) {
+                    handicap = params.bet.strategy.params[condition].handicap   
+                    params.event.back_odds = params.event.back_odds_either
+                    params.event.lay_odds = params.event.lay_odds_either
+                    params.event.oth_back_odds = params.event.oth_back_odds_either
+                    params.event.oth_lay_odds = params.event.oth_lay_odds_either
+                }
+            }
+
             //找到当前赔率
+            if (!params.event.oth_back_odds || !params.event.oth_lay_odds || !params.event.back_odds || !params.event.lay_odds)
+                return 
             if (params.bet.strategy.params[condition].oth){
                 if (params.bet.strategy.params[condition].side === 'BACK'){
-                    if (!params.event.hasOwnProperty('oth_back_odds'))
-                        return
                     current_odds = params.event.oth_back_odds;
                     if (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds))
                         return
                 }
                 else {
-                    if (!params.event.hasOwnProperty('oth_lay_odds'))
-                        return
                     current_odds = params.event.oth_lay_odds;
                     if (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds))
                         return
                 }
             }else{
                 if (params.bet.strategy.params[condition].side === 'BACK'){
-                    if (!params.event.hasOwnProperty('back_odds'))
-                        return
                     current_odds = params.event.back_odds;
                     if (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds))
                         return
                 }
                 else {
-                    if (!params.event.hasOwnProperty('lay_odds'))
-                        return
                     current_odds = params.event.lay_odds;
                     if (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds))
                         return

@@ -57,19 +57,35 @@ Cypress.Commands.add('getEventData', (bet) => {
                         if (Number(market.marketId) === Number(params.bet['data-market-id'])) {
                             market.runners.forEach(runner => {
                                 if (runner.state.status === 'ACTIVE'){
-                                if (Number(runner.selectionId) === Number(bet.selectionId) && Number(runner.handicap) === params.bet.handicap){
-                                    if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
-                                        params.event.back_odds = runner.exchange.availableToBack[0].price
-                                    if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))
-                                        params.event.lay_odds = runner.exchange.availableToLay[0].price
+                                if (Number(runner.selectionId) == Number(bet.selectionId)){
+                                    if (Number(runner.handicap) == Number(params.bet.handicap)){
+                                        if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
+                                            params.event.back_odds = runner.exchange.availableToBack[0].price
+                                        if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))
+                                            params.event.lay_odds = runner.exchange.availableToLay[0].price
                                     }
-                                else if (Number(runner.selectionId) === Number(bet.oth_selectionId) && (runner.handicap) === params.bet.oth_handicap){
-                                    if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
-                                        params.event.oth_back_odds = runner.exchange.availableToBack[0].price
-                                    if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))
-                                        params.event.oth_lay_odds = runner.exchange.availableToLay[0].price
+                                    else if (Number(runner.handicap) == Number(params.bet.oth_handicap) && params.bet.strategy.name == "soccer_2"){
+                                        if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
+                                            params.event.back_odds_either = runner.exchange.availableToBack[0].price
+                                        if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))
+                                            params.event.lay_odds_either = runner.exchange.availableToLay[0].price
                                     }
                                 }
+                                else if (Number(runner.selectionId) == Number(bet.oth_selectionId) ){
+                                    if (Number(runner.handicap) == Number(params.bet.oth_handicap)){
+                                        if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
+                                            params.event.oth_back_odds = runner.exchange.availableToBack[0].price
+                                        if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))
+                                            params.event.oth_lay_odds = runner.exchange.availableToLay[0].price
+                                    }
+                                    else if (Number(runner.handicap) == Number(params.bet.handicap) && params.bet.strategy.name == "soccer_2"){
+                                        if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
+                                            params.event.oth_back_odds_either = runner.exchange.availableToBack[0].price
+                                        if (hasNestedProperty(runner,'exchange','availableToLay',0,'price'))
+                                            params.event.oth_lay_odds_either = runner.exchange.availableToLay[0].price  
+                                    }
+                                }
+                            }
                         })
                     }
                     })

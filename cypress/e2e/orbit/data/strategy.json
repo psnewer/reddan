@@ -11,7 +11,7 @@
         },
         {
             "condition": "notMatchTwo",
-            "checktion":["winSet"],
+            "checktion":["winSet","notTimeElapseTo"],
             "action": "placeBet"
         }
     ],
@@ -27,7 +27,7 @@
         },
         {
             "condition": "notMatchTwo",
-            "checktion":["loseWin"],
+            "checktion":["loseWin","notTimeElapseTo"],
             "action": "placeBet"
         }
     ],

@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "cypress": "^13.5.0"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.7"
   }
 }

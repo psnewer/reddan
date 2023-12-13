@@ -2,6 +2,7 @@ const { defineConfig } = require("cypress");
 
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 module.exports = defineConfig({
   projectId: 'ocxuww',
@@ -17,9 +18,33 @@ module.exports = defineConfig({
       });
       on('task', {
         readJsonFile(file) {
-          const filePath = path.join(__dirname, file); // 根据您的文件结构进行调整
-          const rawData = fs.readFileSync(filePath, 'utf8');
-          return JSON.parse(rawData);
+          return readJson(file)
+        }
+      });
+      on('task', {
+        sendEmail({subject, text, html}) {
+          json = readJson('cypress/e2e/orbit/data/profile.json')
+          const transporter = nodemailer.createTransport({
+            service: '163',
+            auth: {
+              user: json['mailadress'],
+              pass: json['mailpass']
+            }
+          });
+          let mailOptions = {
+            from: 'psnewer@163.com',
+            to: '969941416@qq.com',
+            subject: subject,
+            text: text,
+            html: html
+          };
+          return transporter.sendMail(mailOptions)
+            .then(info => {
+                            return info.response;
+                          })
+            .catch(err => {
+                            throw err;
+                          });
         }
       });
     },
@@ -28,3 +53,9 @@ module.exports = defineConfig({
   experimentalMemoryManagement: true,
   numTestsKeptInMemory: 2
 });
+
+function readJson(file) {
+  const filePath = path.join(__dirname, file); // 根据您的文件结构进行调整
+  const rawData = fs.readFileSync(filePath, 'utf8');
+  return JSON.parse(rawData);
+}

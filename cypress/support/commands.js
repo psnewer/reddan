@@ -24,7 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import StrategyExecutor from '../e2e/orbit/strategy.js';
 import {getHandicap, hasNestedProperty} from '../e2e/orbit/utils.js';
 
 Cypress.Commands.add('login', (username, password) => {    

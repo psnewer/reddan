@@ -41,7 +41,6 @@ describe('Login to www.orbitxch.com', function() {
           matchItem['data-market-id'] = sportId;
           cy.contains(match.market).click()
           cy.url().should('include',sportId).then(runner_url => {
-          matchItem['runner_url'] = runner_url;
           //获取selectionId
           cy.get('body').then($body => {
             if (match.market.includes('Handicap')) {

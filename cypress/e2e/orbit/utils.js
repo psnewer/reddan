@@ -42,4 +42,6 @@ function countElementsGE(a, b) {
     return 2 * count - a.length;
   }
 
-  export default {getHandicap, hasNestedProperty, getOth, countElementsGE}
+
+
+export default {getHandicap, hasNestedProperty, getOth, countElementsGE}

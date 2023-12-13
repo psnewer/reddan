@@ -14,9 +14,7 @@ describe('Execution after login', function() {
 
       const executor = new StrategyExecutor('./data/strategy.json');
 
-      function setupInterception() {
-
-        cy.wait(60000).then(() => {
+      cy.wait(60000).then(() => {
         //获取currentBets
         cy.intercept({
           hostname : 'www.orbitxch.com',
@@ -48,11 +46,29 @@ describe('Execution after login', function() {
           }); 
         })
         });
-        })
-      }
-
-      setupInterception();
-
+      })
     });
   }
+
+  afterEach(function() {
+    if (this.currentTest.state === 'failed') {
+      const subject = 'Test Failure';
+      const text = `A test has failed: ${this.currentTest.title}`;
+      const errorDetails = this.currentTest.err.stack; // 获取错误的堆栈信息
+      const html = `
+        <p>A test has failed: <strong>${this.currentTest.title}</strong></p>
+        <p>Error details:</p>
+        <pre>${errorDetails}</pre>
+      `;
+
+      cy.task('sendEmail', {
+        subject: subject,
+        text: text,
+        html: html
+        }).then(response => {
+                              console.log(response);
+                            });
+    }
+  });
+
 })

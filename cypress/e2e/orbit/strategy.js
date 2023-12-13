@@ -295,6 +295,7 @@ export default class StrategyExecutor {
         let sizeMatched = 0.0
         let current_odds = 0.0
         let pre_side = ''
+        let pre_handicap = 0
         let thresh_back_odds = 0.0
         let thresh_lay_odds = 0.0
         let CANCEL = false
@@ -304,6 +305,7 @@ export default class StrategyExecutor {
 
             if (Number(placed.sizeMatched) > 0.0){
                 sizeMatched = Number(placed.sizeMatched)
+                pre_handicap = Number(placed.handicap)
                 if (placed.side === 'BACK'){
                     net_profit = (placed.averagePrice - 1.0) * Number(placed.sizeMatched)
                     pre_side = 'BACK'
@@ -345,11 +347,13 @@ export default class StrategyExecutor {
                 if (currentBets[0].selectionId == params.bet.selectionId) {
                     if (pre_side == params.bet.strategy.params[condition].side) {
                         params.bet.strategy.params[condition]['oth'] = true
+                        params.bet.strategy.params[condition].handicap = -pre_handicap
                     }
                 }
                 else {
                     if (pre_side != params.bet.strategy.params[condition].side) {
                         params.bet.strategy.params[condition]['oth'] = true
+                        params.bet.strategy.params[condition].handicap = -pre_handicap
                     }
                 }
             }

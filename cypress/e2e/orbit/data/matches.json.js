@@ -1,40 +1,41 @@
 export const matches = [
-    {"sport":"Soccer", "competition": "Spanish La Liga", "home":"Granada", "away":"Athletic Bilbao", "market":"Asian Handicap", "runner":"Athletic Bilbao 0", "strategy":{"name":"soccer_1","params": {
+    {"sport":"Soccer", "competition": "UEFA Champions League", "home":"Dortmund", "away":"Paris St-G", "market":"Asian Handicap", "runner":"Paris St-G +0.5", "strategy":{"name":"soccer_2","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
             'time_to': 60,
+            "handicap": 0.5
         },
         "notMatchTwo": {
             "side": "BACK",
-            "scale": 1.0
+            "scale": 1.0,
+            "time_to": 85
         }
     }}},
-    {"sport":"Soccer", "competition": "English Premier League", "home":"Tottenham", "away":"Newcastle", "market":"Asian Handicap", "runner":"Newcastle +0.5", "strategy":{"name":"soccer_3","params": {
-        'notInPlay': {
-            'side': 'BACK',
-            'vol': 10
+    {"sport":"Soccer", "competition": "UEFA Champions League", "home":"Newcastle", "away":"AC Milan", "market":"Asian Handicap", "runner":"AC Milan +0.5", "strategy":{"name":"soccer_2","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            'time_to': 60,
+            "handicap": 0.5
         },
-        'notMatchOne': {
-            'side': 'BACK',
-            'vol': 10,
-            'time_to' :5
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0,
+            "time_to": 85
+        }
+    }}},
+    {"sport":"Soccer", "competition": "UEFA Champions League", "home":"Atletico Madrid", "away":"Lazio", "market":"Asian Handicap", "runner":"Lazio +0.5", "strategy":{"name":"soccer_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            'time_to': 60,
+            "handicap": 0.5
         },
-        'ending': {
-            'time_to': 80,
-            'delta': 0,
-            'side': 'LAY',
-            'scale': 1.0
-        },
-        'isRunnerAdvance': {
-            'side': 'BACK',
-            'time_to': 65,
-            'scale': 1.0
-        },
-        'timeElapseTo': {
-            'side': 'LAY',
-            'time_to': 45,
-            'scale': 1.0
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0,
+            "time_to": 85
         }
     }}},
 ]

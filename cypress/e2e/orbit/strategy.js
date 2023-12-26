@@ -347,15 +347,20 @@ export default class StrategyExecutor {
                 if (currentBets[0].selectionId == params.bet.selectionId) {
                     if (pre_side == params.bet.strategy.params[condition].side) {
                         params.bet.strategy.params[condition]['oth'] = true
-                        params.bet.strategy.params[condition].handicap = -pre_handicap
                     }
                 }
                 else {
                     if (pre_side != params.bet.strategy.params[condition].side) {
                         params.bet.strategy.params[condition]['oth'] = true
-                        params.bet.strategy.params[condition].handicap = -pre_handicap
                     }
                 }
+
+                if (pre_side == params.bet.strategy.params[condition].side) {
+                    params.bet.strategy.params[condition].handicap = -pre_handicap
+                }
+                else if (pre_side != params.bet.strategy.params[condition].side) {
+                    params.bet.strategy.params[condition].handicap = pre_handicap
+                } 
             }
 
             let selectionId = params.bet.selectionId

@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import {getHandicap, hasNestedProperty} from '../e2e/orbit/utils.js';
+import {getHandicap, hasNestedProperty, getEvent} from '../e2e/orbit/utils.js';
 
 Cypress.Commands.add('login', (username, password) => {    
     cy.session([username,password],()=>{
@@ -42,7 +42,6 @@ Cypress.Commands.add('login', (username, password) => {
 
 Cypress.Commands.add('getEventData', (bet) => {    
     //获取market_url、event_url
-    const event_inplay_url = 'https://ips.betfair.com/inplayservice/v1/scores?_ak=nzIFcwyWhrlwYMrh&alt=json&eventIds=32786453&locale=en_GB&productType=EXCHANGE&regionCode=ASIA'.replace(/(eventIds=)[^\&]+/, `$1${bet['data-event-id']}`);
     const event_market_url = 'https://ero.betfair.com/www/sports/exchange/readonly/v1/bymarket?_ak=nzIFcwyWhrlwYMrh&alt=json&currencyCode=GBP&locale=en_GB&marketIds=1.220997250&rollupLimit=10&rollupModel=STAKE&types=MARKET_STATE,RUNNER_STATE,RUNNER_EXCHANGE_PRICES_BEST'.replace(/(marketIds=)[^\&]+/, `$1${bet['data-market-id']}`);
     let params = { bet: bet, event: {} };
 
@@ -54,6 +53,7 @@ Cypress.Commands.add('getEventData', (bet) => {
                     eventNode.marketNodes.forEach(market => {
                         if (market.isMarketDataVirtual)
                         if (Number(market.marketId) === Number(params.bet['data-market-id'])) {
+                            params.event.inplay = market.state.inplay
                             market.runners.forEach(runner => {
                                 if (runner.state.status === 'ACTIVE'){
                                 if (Number(runner.selectionId) == Number(bet.selectionId)){
@@ -92,33 +92,36 @@ Cypress.Commands.add('getEventData', (bet) => {
             })  
         })
     
-        if (Object.keys(params.event).some(key => key.includes('odds'))){
-        return cy.request(event_inplay_url).then(response => {
-        // 确保响应状态码为200
-        // expect(response.status).to.eq(200);
-        // cy.log('111')
-        response.body.forEach(event => {
-            // cy.log('222')
-            // cy.log(event.eventId, Number(params.bet['data-event-id']))
-          if (event.eventId === Number(params.bet['data-event-id'])){
-            // cy.log('333')
-              if (bet.sport === "Soccer") {
-                  params.event.score_home = Number(event.score.home.score);
-                  params.event.score_away = Number(event.score.away.score);
-                  params.event.timeElapsed = Number(event.timeElapsed);
-              }
-              else if (bet.sport === "Tennis"){
-                // cy.log('444')
-                  params.event.score_home = event.score.home.gameSequence;
-                  params.event.score_away = event.score.away.gameSequence;
-              }
-          }
-        })
+        if (Object.keys(params.event).some(key => key.includes('odds')) && params.event.inplay){
+            if (bet.sport === "Soccer") {
+                let event = getEvent(bet.score_soccer, bet)
+                if (event != null) {
+                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2') && event.hasOwnProperty('Eps')) {
+                        if (/^\d+.*'$/.test(event.Eps)) {
+                            params.event.score_home = Number(event.Tr1);
+                            params.event.score_away = Number(event.Tr2);
+                            params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
+                        }
+                    }
+                }
+            }
+            else if (bet.sport === "Tennis") {
+                let event = getEvent(bet.score_tennis, bet)
+                if (event != null) {
+                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2') && event.hasOwnProperty('Tr2')) {
+                        if (/^S\d+$/.test(event.Eps)){
+                            params.event.score_home = []
+                            params.event.score_away = []
+                            for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
+                                params.event.score_home.push(event['Tr1S' + i])
+                                params.event.score_away.push(event['Tr2S' + i])
+                            }
+                        }
+                    }
+                }
+            }              
+        } 
         return params
-      })
-    }else {
-        return params
-    }
     })
 });
 

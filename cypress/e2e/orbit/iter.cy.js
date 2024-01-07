@@ -1,4 +1,5 @@
 import StrategyExecutor from './strategy.js';
+import {formatDate} from './utils.js';
 
 describe('Execution after login', function() {
 
@@ -14,7 +15,7 @@ describe('Execution after login', function() {
 
       const executor = new StrategyExecutor('./data/strategy.json');
 
-      cy.wait(60000).then(() => {
+      cy.wait(30000).then(() => {
         //获取currentBets
         cy.intercept({
           hostname : 'www.orbitxch.com',
@@ -24,30 +25,42 @@ describe('Execution after login', function() {
         cy.setEnv('placing',false)
 
         cy.wait('@currentBets',{timeout:60000}).then( res => {
-        
-        cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
-          betIds.forEach(bet => {
-            try{
-                bet.currentBets = res.response.body;
-                cy.getEventData(bet).then(params => {
-                  cy.log(params)
-                  cy.executeStrategy(executor,params.bet.strategy.name, params)
-                    .then(undefined, (error) => {
-                                                console.error(error);
+
+        //从LiveScore获取全部soccer和tennis比分
+        let currentDate = formatDate(new Date());
+        const event_soccer_url = 'https://prod-public-api.livescore.com/v1/api/app/date/soccer/20240103/countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
+        const event_tennis_url = 'https://prod-public-api.livescore.com/v1/api/app/date/tennis/20240103/countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
+        let score_soccer, score_tennis
+        cy.request('GET', event_soccer_url).then(response => {score_soccer = response.body});
+        cy.request('GET', event_tennis_url).then(response => {score_tennis = response.body});
+        cy.then(() => {
+          cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
+            betIds.forEach(bet => {
+              try{
+                  bet.currentBets = res.response.body;
+                  bet.score_soccer = score_soccer;
+                  bet.score_tennis = score_tennis;
+                  cy.getEventData(bet).then(params => {
+                    cy.log(params)
+                    cy.executeStrategy(executor,params.bet.strategy.name, params)
+                      .then(undefined, (error) => {
+                                                  console.error(error);
+                        });
+                  }).then(undefined, (error) => {
+                        console.error(error);
                       });
-                }).then(undefined, (error) => {
+              }catch {
+                    (error) => {
                       console.error(error);
-                    });
-            }catch {
-                  (error) => {
-                    console.error(error);
-                  }
-            }
-          }); 
+                    }
+              }
+            }); 
+          })
         })
-        });
-      })
-    });
+     
+      });
+    })
+  });
   }
 
   afterEach(function() {

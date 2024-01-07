@@ -15,8 +15,11 @@ describe('Login to www.orbitxch.com', function() {
     // 点击 match.sport
       cy.contains(match.sport,{timeout: 30000}).click();
 
-      if (match.hasOwnProperty('sub'))
-        cy.contains(match.sub,{timeout: 30000}).click();
+      if (match.hasOwnProperty('sub')) {
+        cy.contains("More",{timeout: 30000}).click().then(() => {
+          cy.contains(match.sub,{timeout: 30000}).click();
+        })
+      }
 
     // 点击 match.competition
       cy.contains(match.competition,{timeout: 30000}).click();

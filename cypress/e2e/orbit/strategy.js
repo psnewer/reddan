@@ -343,24 +343,40 @@ export default class StrategyExecutor {
         if (currentBets.length < 2){
 
             //根据matched bet设置oth
-            if(currentBets.length == 1) {
-                if (currentBets[0].selectionId == params.bet.selectionId) {
-                    if (pre_side == params.bet.strategy.params[condition].side) {
-                        params.bet.strategy.params[condition]['oth'] = true
+            if (currentBets.length == 1) {
+                if (params.bet.strategy.params[condition].hasOwnProperty('side')) {
+                    if (currentBets[0].selectionId == params.bet.selectionId) {
+                        if (pre_side == params.bet.strategy.params[condition].side) {
+                            params.bet.strategy.params[condition]['oth'] = true
+                        }
                     }
+                    else {
+                        if (pre_side != params.bet.strategy.params[condition].side) {
+                            params.bet.strategy.params[condition]['oth'] = true
+                        }
+                    }
+
+                    if (pre_side == params.bet.strategy.params[condition].side) {
+                        params.bet.strategy.params[condition].handicap = -pre_handicap
+                    }
+                    else if (pre_side != params.bet.strategy.params[condition].side) {
+                        params.bet.strategy.params[condition].handicap = pre_handicap
+                    } 
                 }
                 else {
-                    if (pre_side != params.bet.strategy.params[condition].side) {
-                        params.bet.strategy.params[condition]['oth'] = true
+                    if (currentBets[0].selectionId == params.bet.selectionId) {
+                        if (pre_side == 'BACK')
+                            params.bet.strategy.params[condition].side = 'LAY'
+                        else
+                            params.bet.strategy.params[condition].side = 'BACK'
+                    }
+                    else {
+                        if (pre_side == 'BACK')
+                            params.bet.strategy.params[condition].side = 'BACK'
+                        else
+                            params.bet.strategy.params[condition].side = 'LAY'
                     }
                 }
-
-                if (pre_side == params.bet.strategy.params[condition].side) {
-                    params.bet.strategy.params[condition].handicap = -pre_handicap
-                }
-                else if (pre_side != params.bet.strategy.params[condition].side) {
-                    params.bet.strategy.params[condition].handicap = pre_handicap
-                } 
             }
 
             let selectionId = params.bet.selectionId

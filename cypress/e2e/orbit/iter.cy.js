@@ -28,8 +28,8 @@ describe('Execution after login', function() {
 
         //从LiveScore获取全部soccer和tennis比分
         let currentDate = formatDate(new Date());
-        const event_soccer_url = 'https://prod-public-api.livescore.com/v1/api/app/date/soccer/20240103/countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
-        const event_tennis_url = 'https://prod-public-api.livescore.com/v1/api/app/date/tennis/20240103/countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
+        const event_soccer_url = 'https://prod-public-api.livescore.com/v1/api/app/date/soccer/20240103/8?countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
+        const event_tennis_url = 'https://prod-public-api.livescore.com/v1/api/app/date/tennis/20240103/8?countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
         let score_soccer, score_tennis
         cy.request('GET', event_soccer_url).then(response => {score_soccer = response.body});
         cy.request('GET', event_tennis_url).then(response => {score_tennis = response.body});

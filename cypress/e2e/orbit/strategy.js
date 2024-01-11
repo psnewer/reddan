@@ -401,23 +401,23 @@ export default class StrategyExecutor {
             if (params.bet.strategy.params[condition].oth){
                 if (params.bet.strategy.params[condition].side === 'BACK'){
                     current_odds = params.event.oth_back_odds;
-                    if (!params.event.oth_back_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds)))
                         return
                 }
                 else {
                     current_odds = params.event.oth_lay_odds;
-                    if (!params.event.oth_lay_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds)))
                         return
                 }
             }else{
                 if (params.bet.strategy.params[condition].side === 'BACK'){
                     current_odds = params.event.back_odds;
-                    if (!params.event.back_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds)))
                         return
                 }
                 else {
                     current_odds = params.event.lay_odds;
-                    if (!params.event.lay_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds)))
                         return
                 }
             }

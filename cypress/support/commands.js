@@ -108,8 +108,8 @@ Cypress.Commands.add('getEventData', (bet) => {
             else if (bet.sport === "Tennis") {
                 let event = getEvent(bet.score_tennis, bet)
                 if (event != null) {
-                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2') && event.hasOwnProperty('Tr2')) {
-                        if (/^S\d+$/.test(event.Eps)){
+                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2') && event.hasOwnProperty('Eps')) {
+                        if (/^S\d+$/.test(event.Eps) && Number(event.Eps.match(/^S(\d+)$/)[1]) > Number(event.Tr1) + Number(event.Tr2)){
                             params.event.score_home = []
                             params.event.score_away = []
                             for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {

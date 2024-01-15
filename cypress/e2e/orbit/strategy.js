@@ -289,6 +289,12 @@ export default class StrategyExecutor {
         return false
     }
 
+    commission(params,condition) {
+        if ((params.event.back_odds - 1.0) * (params.event.oth_back_odds - 1.0) > params.bet.strategy.params[condition].guarantee)
+            return true
+        return false
+    }
+
     // 动作函数
     placeBet(params, condition) {
         let net_profit = 0.0
@@ -323,7 +329,7 @@ export default class StrategyExecutor {
             if (placed.marketId === params.bet['data-market-id']){
                 if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
                     CANCEL = true
-                    // cy.log('CANCEL')
+                    // // cy.log('CANCEL')
                     // return
                     cy.getEnv('placing').then(placing => {
                         if (!placing) {
@@ -397,27 +403,32 @@ export default class StrategyExecutor {
                 }
             }
 
+            let rec = 0.0
+            if (params.bet.strategy.params[condition].hasOwnProperty('rec')) {
+                rec = params.bet.strategy.params[condition].rec
+            }
+
             //找到当前赔率
             if (params.bet.strategy.params[condition].oth){
                 if (params.bet.strategy.params[condition].side === 'BACK'){
                     current_odds = params.event.oth_back_odds;
-                    if (!current_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds + rec < thresh_back_odds)))
                         return
                 }
                 else {
                     current_odds = params.event.oth_lay_odds;
-                    if (!current_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds + rec > thresh_lay_odds)))
                         return
                 }
             }else{
                 if (params.bet.strategy.params[condition].side === 'BACK'){
                     current_odds = params.event.back_odds;
-                    if (!current_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds < thresh_back_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_back_odds === 0.0 || current_odds + rec < thresh_back_odds)))
                         return
                 }
                 else {
                     current_odds = params.event.lay_odds;
-                    if (!current_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds > thresh_lay_odds)))
+                    if (!current_odds || (pre_side != '' && (thresh_lay_odds === 0.0 || current_odds + rec > thresh_lay_odds)))
                         return
                 }
             }

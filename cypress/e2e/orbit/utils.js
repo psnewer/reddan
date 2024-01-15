@@ -25,9 +25,9 @@ function getOth(home, away, runner) {
       oth_runner = runner.replace(away,home)
     }
     if (oth_runner.includes('+')) {
-      oth_runner = oth_runner.replace('+','-')
+      oth_runner = oth_runner.replace(/\+(\d)/g, '-$1')
     }else if (oth_runner.includes('-')) {
-      oth_runner = oth_runner.replace('-','+')
+      oth_runner = oth_runner.replace(/-(\d)/g, '+$1')
     }
     return oth_runner;
   }
@@ -56,7 +56,21 @@ function countElementsGE(a, b) {
     return [year, month, day].join('');
   }
 
-  function getSimilar(base, ...args) {
+  function isSubsequence(str, subseq) {
+    let j = 0; // subseq 的索引
+
+    // 遍历 str 的每个字符
+    for (let i = 0; i < str.length && j < subseq.length; i++) {
+        if (str[i] === subseq[j]) {
+            j++; // 当字符匹配时，移动 subseq 的索引
+        }
+    }
+
+    // 如果 subseq 的所有字符都被找到，返回 true
+    return j === subseq.length;
+}
+
+  function getSimilar(shorten, base, ...args) {
     // 将基准参数根据非字母数字字符拆分成数组
     const baseElements = base.split(/[^a-zA-Z0-9]/).filter(Boolean);
     let shouldReturnZero = false;
@@ -68,7 +82,10 @@ function countElementsGE(a, b) {
         
         // 计算当前参数中有多少元素被基准参数包含
         const includedCount = argElements.reduce((count, elem) => {
-            return count + (baseElements.some(baseElem => baseElem.includes(elem) || elem.includes(baseElem)) ? 1 : 0);
+            if (shorten)
+              return count + (baseElements.some(baseElem => isSubsequence(baseElem, elem) || isSubsequence(elem, baseElem)) ? 1 : 0);
+            else
+              return count + (baseElements.some(baseElem => baseElem.includes(elem) || elem.includes(baseElem)) ? 1 : 0);
         }, 0);
 
         // 如果任何一个参数与基准参数的被包含元素数量为0，则返回0
@@ -87,7 +104,7 @@ function getEvent(score_sport, bet) {
     let competitions = score_sport['Stages']
     let competition = []
     competitions.forEach(compet => {
-        let sim = getSimilar(bet.competition, compet.Cnm.substring(0,2), compet.Snm)
+        let sim = getSimilar(false, bet.competition, compet.Cnm.substring(0,2), compet.Snm)
         if (sim > 0) {
             competition.push(compet)
         }
@@ -99,14 +116,27 @@ function getEvent(score_sport, bet) {
     if (competition.length) {
       for (let compet of competition) {
         for (let e of compet.Events) {
-          let sim_home = getSimilar(bet.home, e.T1[0].Nm)
-          let sim_away = getSimilar(bet.away, e.T2[0].Nm)
+          let sim_home = getSimilar(false, bet.home, e.T1[0].Nm)
+          let sim_away = getSimilar(false, bet.away, e.T2[0].Nm)
           if (sim_home > 0 && sim_away > 0) {
               return e
           }
         }
       }
     }
+
+    if (competition.length) {
+      for (let compet of competition) {
+        for (let e of compet.Events) {
+          let sim_home = getSimilar(true, bet.home, e.T1[0].Nm)
+          let sim_away = getSimilar(true, bet.away, e.T2[0].Nm)
+          if (sim_home > 0 && sim_away > 0) {
+              return e
+          }
+        }
+      }
+    }
+
     return null
   }
 }

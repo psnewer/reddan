@@ -89,5 +89,22 @@
             "checktion":["loseWin"],
             "action": "placeBet"
         }
+    ],
+    "tennis_3": [
+        {
+            "condition": "notInPlay",
+            "checktion":["commission","notPlaceOne"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["commission"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["loseWin"],
+            "action": "placeBet"
+        }
     ]
 }

@@ -1,91 +1,149 @@
 export const matches = [
-    {"sport":"Tennis", "competition": "ATP Auckland 2024", "home":"Taro Daniel", "away":"Max Purcell", "market":"Match Odds", "runner":"Max Purcell", "finish":3, "strategy":{"name":"tennis_1","params": {
+    {"sport":"Soccer", "competition": "Italian Serie A", "home":"Atalanta", "away":"Frosinone", "market":"Asian Handicap", "runner":"Atalanta +0.5", "strategy":{"name":"soccer_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 2
+            'time_to': 60
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0,
+            "time_to": 85
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Holger Rune", "away":"Yoshihito Nishioka", "market":"Match Odds", "runner":"Holger Rune", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 2,
+            "price": 0.62
         },
         "notMatchTwo": {
             "side": "BACK",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "ATP Auckland 2024", "home":"Luca Van Assche", "away":"Cameron Norrie", "market":"Match Odds", "runner":"Cameron Norrie", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Grigor Dimitrov", "away":"Marton Fucsovics", "market":"Match Odds", "runner":"Grigor Dimitrov", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 2
+            "delta": 2,
+            "set": 1,
+            "price": 0.62
         },
         "notMatchTwo": {
             "side": "BACK",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "ATP Adelaide 2024", "home":"Miomir Kecmanovic", "away":"Christopher OConnell", "market":"Match Odds", "runner":"Miomir Kecmanovic", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Albert Ramos-Vinolas", "away":"Casper Ruud", "market":"Match Odds", "runner":"Casper Ruud", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 2
+            "delta": 2,
+            "price": 0.62
         },
         "notMatchTwo": {
             "side": "BACK",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "ATP Adelaide 2024", "home":"Alexander Shevchenko", "away":"Christopher OConnell", "market":"Match Odds", "runner":"Alexander Shevchenko", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Alexander Zverev", "away":"Dominik Koepfer", "market":"Match Odds", "runner":"Alexander Zverev", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 2
+            "delta": 2,
+            "set": 1,
+            "price": 0.62
         },
         "notMatchTwo": {
             "side": "BACK",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Flavio Cobolli", "away":"Jeremy Jin", "market":"Match Odds", "runner":"Flavio Cobolli", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Cameron Norrie", "away":"Juan Pablo Varillas", "market":"Match Odds", "runner":"Cameron Norrie", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 3
+            "delta": 2,
+            "set": 1,
+            "price": 0.62
         },
         "notMatchTwo": {
             "side": "BACK",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Santiago Fa Rodriguez Taverna", "away":"Antoine Escoffier", "market":"Match Odds", "runner":"Antoine Escoffier", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Max Purcell", "away":"Mate Valkusz", "market":"Match Odds", "runner":"Max Purcell", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 3
-        },
-        "notMatchTwo": {
-            "side": "BACK",
-            "scale": 1.0
-        }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Enzo Couacaud", "away":"Kyrian Jacquet", "market":"Match Odds", "runner":"Enzo Couacaud", "strategy":{"name":"tennis_1","params": {
-        "notMatchOne": {
-            "side": "BACK",
-            "vol": 10,
-            "delta": 3
+            "delta": 2,
+            "set": 1
         },
         "notMatchTwo": {
             "side": "LAY",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Laurent Lokoli", "away":"Federico Gaio", "market":"Match Odds", "runner":"Laurent Lokoli", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Mackenzie McDonald", "away":"Juncheng Shang", "market":"Match Odds", "runner":"Mackenzie McDonald", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 3
+            "delta": 2,
+            "set": 1
+        },
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Tommy Paul", "away":"Gregoire Barrere", "market":"Match Odds", "runner":"Tommy Paul", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 2,
+            "set": 1,
+            "price": 0.62
         },
         "notMatchTwo": {
             "side": "BACK",
             "scale": 1.0
         }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Sebastian Ofner", "away":"Thanasi Kokkinakis", "market":"Match Odds", "runner":"Sebastian Ofner", "strategy":{"name":"tennis_3","params": {
+        "notInPlay": {
+            "side": "BACK",
+            "vol": 6,
+            "guarantee": 0.96
+          },
+          "notMatchOne": {
+              "side": "BACK",
+              "vol": 6,
+              "guarantee": 0.96
+          },
+          "notMatchTwo": {
+              "side": "LAY",
+              "scale": 1,
+              "rec": -0.3
+          }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Sebastian Ofner", "away":"Thanasi Kokkinakis", "market":"Match Odds", "runner":"Sebastian Ofner", "strategy":{"name":"tennis_3","params": {
+        "notInPlay": {
+            "side": "BACK",
+            "vol": 6,
+            "guarantee": 0.96
+          },
+          "notMatchOne": {
+              "side": "BACK",
+              "vol": 6,
+              "guarantee": 0.96
+          },
+          "notMatchTwo": {
+              "side": "LAY",
+              "scale": 1,
+              "rec": -0.3
+          }
     }}},
 ]
 

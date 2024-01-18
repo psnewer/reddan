@@ -1,108 +1,74 @@
 export const matches = [
-    {"sport":"Soccer", "competition": "Italian Serie A", "home":"Atalanta", "away":"Frosinone", "market":"Asian Handicap", "runner":"Atalanta +0.5", "strategy":{"name":"soccer_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Lorenzo Sonego", "away":"Carlos Alcaraz", "market":"Match Odds", "runner":"Carlos Alcaraz", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            'time_to': 60
-        },
-        "notMatchTwo": {
-            "side": "BACK",
-            "scale": 1.0,
-            "time_to": 85
-        }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Holger Rune", "away":"Yoshihito Nishioka", "market":"Match Odds", "runner":"Holger Rune", "strategy":{"name":"tennis_1","params": {
-        "notMatchOne": {
-            "side": "BACK",
-            "vol": 10,
-            "delta": 2,
-            "price": 0.62
-        },
-        "notMatchTwo": {
-            "side": "BACK",
-            "scale": 1.0
-        }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Grigor Dimitrov", "away":"Marton Fucsovics", "market":"Match Odds", "runner":"Grigor Dimitrov", "strategy":{"name":"tennis_1","params": {
-        "notMatchOne": {
-            "side": "BACK",
-            "vol": 10,
-            "delta": 2,
+            "delta": 3,
             "set": 1,
             "price": 0.62
-        },
-        "notMatchTwo": {
-            "side": "BACK",
-            "scale": 1.0
-        }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Albert Ramos-Vinolas", "away":"Casper Ruud", "market":"Match Odds", "runner":"Casper Ruud", "strategy":{"name":"tennis_1","params": {
-        "notMatchOne": {
-            "side": "BACK",
-            "vol": 10,
-            "delta": 2,
-            "price": 0.62
-        },
-        "notMatchTwo": {
-            "side": "BACK",
-            "scale": 1.0
-        }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Alexander Zverev", "away":"Dominik Koepfer", "market":"Match Odds", "runner":"Alexander Zverev", "strategy":{"name":"tennis_1","params": {
-        "notMatchOne": {
-            "side": "BACK",
-            "vol": 10,
-            "delta": 2,
-            "set": 1,
-            "price": 0.62
-        },
-        "notMatchTwo": {
-            "side": "BACK",
-            "scale": 1.0
-        }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Cameron Norrie", "away":"Juan Pablo Varillas", "market":"Match Odds", "runner":"Cameron Norrie", "strategy":{"name":"tennis_1","params": {
-        "notMatchOne": {
-            "side": "BACK",
-            "vol": 10,
-            "delta": 2,
-            "set": 1,
-            "price": 0.62
-        },
-        "notMatchTwo": {
-            "side": "BACK",
-            "scale": 1.0
-        }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Max Purcell", "away":"Mate Valkusz", "market":"Match Odds", "runner":"Max Purcell", "strategy":{"name":"tennis_1","params": {
-        "notMatchOne": {
-            "side": "BACK",
-            "vol": 10,
-            "delta": 2,
-            "set": 1
         },
         "notMatchTwo": {
             "side": "LAY",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Mackenzie McDonald", "away":"Juncheng Shang", "market":"Match Odds", "runner":"Mackenzie McDonald", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Emil Ruusuvuori", "away":"Daniil Medvedev", "market":"Match Odds", "runner":"Daniil Medvedev", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 2,
-            "set": 1
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
         },
         "notMatchTwo": {
             "side": "LAY",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Tommy Paul", "away":"Gregoire Barrere", "market":"Match Odds", "runner":"Tommy Paul", "strategy":{"name":"tennis_1","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Alexander Zverev", "away":"Lukas Klein", "market":"Match Odds", "runner":"Alexander Zverev", "strategy":{"name":"tennis_1","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
-            "delta": 2,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Grigor Dimitrov", "away":"Thanasi Kokkinakis", "market":"Match Odds", "runner":"Grigor Dimitrov", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Max Purcell", "away":"Casper Ruud", "market":"Match Odds", "runner":"Casper Ruud", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Holger Rune", "away":"Arthur Cazaux", "market":"Match Odds", "runner":"Holger Rune", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
             "set": 1,
             "price": 0.62
         },
@@ -111,7 +77,137 @@ export const matches = [
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Sebastian Ofner", "away":"Thanasi Kokkinakis", "market":"Match Odds", "runner":"Sebastian Ofner", "strategy":{"name":"tennis_3","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Cameron Norrie", "away":"Giulio Zeppieri", "market":"Match Odds", "runner":"Cameron Norrie", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Felix Auger-Aliassime", "away":"Hugo Grenier", "market":"Match Odds", "runner":"Felix Auger-Aliassime", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Alex Michelsen", "away":"Jiri Lehecka", "market":"Match Odds", "runner":"Jiri Lehecka", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Jakub Mensik", "away":"Hubert Hurkacz", "market":"Match Odds", "runner":"Hubert Hurkacz", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Nuno Borges", "away":"Davidovich Fokina", "market":"Match Odds", "runner":"Davidovich Fokina", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Arthur Fils", "away":"Tallon Griekspoor", "market":"Match Odds", "runner":"Arthur Fils", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Miomir Kecmanovic", "away":"Jan-Lennard Struff", "market":"Match Odds", "runner":"Jan-Lennard Struff", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Ugo Humbert", "away":"Zhizhen Zhang", "market":"Match Odds", "runner":"Ugo Humbert", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Ugo Humbert", "away":"Zhizhen Zhang", "market":"Match Odds", "runner":"Ugo Humbert", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Sumit Nagal", "away":"Juncheng Shang", "market":"Match Odds", "runner":"Juncheng Shang", "strategy":{"name":"tennis_1","params": {
+        "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "delta": 3,
+            "set": 1,
+            "price": 0.62
+        },
+        "notMatchTwo": {
+            "side": "BACK",
+            "scale": 1.0
+        }
+    }}},
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Tommy Paul", "away":"Jack Draper", "market":"Match Odds", "runner":"Jack Draper", "strategy":{"name":"tennis_3","params": {
         "notInPlay": {
             "side": "BACK",
             "vol": 6,
@@ -125,24 +221,7 @@ export const matches = [
           "notMatchTwo": {
               "side": "LAY",
               "scale": 1,
-              "rec": -0.3
-          }
-    }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Sebastian Ofner", "away":"Thanasi Kokkinakis", "market":"Match Odds", "runner":"Sebastian Ofner", "strategy":{"name":"tennis_3","params": {
-        "notInPlay": {
-            "side": "BACK",
-            "vol": 6,
-            "guarantee": 0.96
-          },
-          "notMatchOne": {
-              "side": "BACK",
-              "vol": 6,
-              "guarantee": 0.96
-          },
-          "notMatchTwo": {
-              "side": "LAY",
-              "scale": 1,
-              "rec": -0.3
+              "rec": -0.0
           }
     }}},
 ]

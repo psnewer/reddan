@@ -282,6 +282,8 @@ export default class StrategyExecutor {
 
     deltaIn(params,condition) {
         let set = params.event.score_home.length
+        if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+            set = params.bet.strategy.params[condition].set
         let delta = params.bet.strategy.params[condition].delta
         if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
             if (set) 

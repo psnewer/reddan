@@ -90,6 +90,48 @@
             "action": "placeBet"
         }
     ],
+    "tennis_10": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["loseSet","deltaIn"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "loseSet",
+            "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["winSet"],
+            "action": "placeBet"
+        }
+    ],
+    "tennis_20": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["eitherLose","deltaIn"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "loseSet",
+            "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["loseWin"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_3": [
         {
             "condition": "notInPlay",

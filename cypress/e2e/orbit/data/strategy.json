@@ -111,6 +111,27 @@
             "action": "placeBet"
         }
     ],
+    "tennis_20": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["eitherLose","deltaIn"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "loseSet",
+            "checktion":["notMatchTwo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["loseWin"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_21": [
         {
             "condition": "notInPlay",

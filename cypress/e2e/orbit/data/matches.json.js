@@ -38,7 +38,7 @@ export const matches = [
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Ugo Humbert", "away":"Hubert Hurkacz", "market":"Match Odds", "runner":"Ugo Humbert", "strategy":{"name":"tennis_21","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Ugo Humbert", "away":"Hubert Hurkacz", "market":"Match Odds", "runner":"Hubert Hurkacz", "strategy":{"name":"tennis_21","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
@@ -51,7 +51,6 @@ export const matches = [
             "rec": 0.3
         },
         "notMatchTwo": {
-            "side": "BACK",
             "scale": 1.0
         }
     }}},
@@ -72,7 +71,7 @@ export const matches = [
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Tommy Paul", "away":"Miomir Kecmanovic", "market":"Match Odds", "runner":"Miomir Kecmanovic", "strategy":{"name":"tennis_21","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Tommy Paul", "away":"Miomir Kecmanovic", "market":"Match Odds", "runner":"Tommy Paul", "strategy":{"name":"tennis_21","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
@@ -85,11 +84,10 @@ export const matches = [
             "rec": 0.3
         },
         "notMatchTwo": {
-            "side": "BACK",
             "scale": 1.0
         }
     }}},
-    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Grigor Dimitrov", "away":"Nuno Borges", "market":"Match Odds", "runner":"Nuno Borges", "strategy":{"name":"tennis_21","params": {
+    {"sport":"Tennis", "competition": "Australian Open 2024", "home":"Grigor Dimitrov", "away":"Nuno Borges", "market":"Match Odds", "runner":"Grigor Dimitrov", "strategy":{"name":"tennis_21","params": {
         "notMatchOne": {
             "side": "BACK",
             "vol": 10,
@@ -103,7 +101,6 @@ export const matches = [
             "rec": 0.3
         },
         "notMatchTwo": {
-            "side": "BACK",
             "scale": 1.0
         }
     }}},

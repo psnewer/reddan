@@ -352,8 +352,8 @@ export default class StrategyExecutor {
 
             //根据matched bet设置oth
             if (currentBets.length == 1) {
+                params.bet.strategy.params[condition]['oth'] = false
                 if (params.bet.strategy.params[condition].hasOwnProperty('side')) {
-                    params.bet.strategy.params[condition]['oth'] = false
                     if (currentBets[0].selectionId == params.bet.selectionId) {
                         if (pre_side == params.bet.strategy.params[condition].side) {
                             params.bet.strategy.params[condition]['oth'] = true

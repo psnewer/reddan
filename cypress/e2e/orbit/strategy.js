@@ -550,10 +550,6 @@ export default class StrategyExecutor {
                 cy.getEnv('placing').then(placing => {
                     if (!placing) {
                         cy.setEnv('placing',true)
-                        if (params.bet.strategy.params[condition].side == 'BACK')
-                            price = 1.01
-                        else if (params.bet.strategy.params[condition].side == 'LAY')
-                            price = 70
                         cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)
                     }
                 })

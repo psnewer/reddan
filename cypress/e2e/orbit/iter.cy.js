@@ -10,12 +10,12 @@ describe('Execution after login', function() {
     });
   });
 
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 3000; i++) {
     it(`Navigate match events and place bets`, () => {
 
       const executor = new StrategyExecutor('./data/strategy.json');
 
-      cy.wait(30000).then(() => {
+      cy.wait(2000).then(() => {
         //获取currentBets
         cy.intercept({
           hostname : 'www.orbitxch.com',

@@ -10,7 +10,7 @@ describe('Execution after login', function() {
     });
   });
 
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 500; i++) {
     it(`Navigate match events and place bets`, () => {
 
       const executor = new StrategyExecutor('./data/strategy.json');

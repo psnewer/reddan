@@ -32,7 +32,7 @@ export default class StrategyExecutor {
     // 条件判断函数
     notInPlay(params,condition) {
         if (params.hasOwnProperty('event'))
-            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
+            if ((params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')))
                 return false
         return true;
     }

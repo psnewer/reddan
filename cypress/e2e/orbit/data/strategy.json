@@ -58,6 +58,65 @@
             "action": "placeBet"
         }
     ],
+    "basketball_1": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["loseSet","notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["winSet","notTimeElapseTo"],
+            "action": "placeBet"
+        }
+    ],
+    "basketball_2": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["eitherLose","notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["loseWin","notTimeElapseTo"],
+            "action": "placeBet"
+        }
+    ],
+    "basketball_3": [
+        {
+            "condition": "notInPlay",
+            "checktion":["notStop","notPlaceOne","commission"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["notTimeElapseTo","commission"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "ending",
+            "checktion":["notMatchTwo","deltaGE"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "isRunnerAdvance",
+            "checktion":["notMatchTwo","notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "timeElapseTo",
+            "checktion":["notMatchTwo","winSet"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_1": [
         {
             "condition": "notInPlay",

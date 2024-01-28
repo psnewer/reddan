@@ -119,7 +119,19 @@ Cypress.Commands.add('getEventData', (bet) => {
                         }
                     }
                 }
-            }              
+            }  
+            else if (bet.sport === "Basketball") {
+                let event = getEvent(bet.score_basketball, bet)
+                if (event != null) {
+                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2') && event.hasOwnProperty('Eps')) {
+                        if (/^\dQ$/.test(event.Eps)) {
+                            params.event.score_home = Number(event.Tr1);
+                            params.event.score_away = Number(event.Tr2);
+                            params.event.timeElapsed = Number(event.Eps.match(/^\d/)[0]);
+                        }
+                    }
+                }
+            }            
         } 
         return params
     })

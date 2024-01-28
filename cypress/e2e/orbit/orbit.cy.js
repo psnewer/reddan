@@ -11,7 +11,10 @@ describe('Login to www.orbitxch.com', function() {
     //遍历每场比赛，找到比赛ID，供直接request请求比赛数据使用。
     const arry = [];
     matches.forEach(match => {
-      let matchItem = match;
+      if (match.sport == 'Basketball') 
+        [match.home, match.away] = [match.away, match.home]
+        let matchItem = match;
+      
     // 点击 match.sport
       cy.contains(match.sport,{timeout: 30000}).click();
 

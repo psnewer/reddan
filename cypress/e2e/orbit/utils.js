@@ -141,5 +141,54 @@ function getEvent(score_sport, bet) {
   }
 }
 
+function assertBet(currentBet, selectionId, params, condition) {
+  let res = true
+  if (currentBet) {
+    if (currentBet.selectionId == selectionId && params.bet.strategy.params[condition].side == currentBet.side)
+      res = false
+    else if (currentBet.selectionId != selectionId && params.bet.strategy.params[condition].side != currentBet.side)
+      res = false
 
-export default {getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent}
+    if (!res) {
+      let _params = JSON.stringify(params)
+      let _selectionId = selectionId.toString()
+      cy.task('sendEmail', {
+        subject: 'Bets Confict',
+        html: `
+                <p>${_selectionId}</p>
+                <p>${_params}</p>
+              `
+        }).then(response => {
+                              console.log(response);
+                            });
+    }
+  }
+
+
+  if (params.bet.sport === "Basketball") {
+    if (params.bet.strategy.params[condition].side == 'BACK') {
+      if (!((params.event.oth_back_odds > 1.03 && params.event.oth_back_odds < 70) && (params.event.back_odds > 1.03 && params.event.back_odds < 70)))
+        res = false
+    }
+    else if (params.bet.strategy.params[condition].side == 'LAY') {
+      if (!((params.event.oth_lay_odds > 1.03 && params.event.oth_lay_odds < 70) && (params.event.lay_odds > 1.03 && params.event.lay_odds < 70)))
+        res = false
+    }
+
+    if (!res) {
+      let _params = JSON.stringify(params)
+      cy.task('sendEmail', {
+        subject: 'Odds Confict',
+        html:   `
+                 <p>${_params}</p>
+                `
+        }).then(response => {
+                            console.log(response);
+                          });
+    }
+  }
+
+  return res
+}
+
+export default {getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet}

@@ -30,9 +30,11 @@ describe('Execution after login', function() {
         let currentDate = formatDate(new Date());
         const event_soccer_url = 'https://prod-public-api.livescore.com/v1/api/app/date/soccer/20240103/8?countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
         const event_tennis_url = 'https://prod-public-api.livescore.com/v1/api/app/date/tennis/20240103/8?countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
-        let score_soccer, score_tennis
+        const event_basketball_url = 'https://prod-public-api.livescore.com/v1/api/app/date/basketball/20240103/8?countryCode=CN&locale=en&MD=1'.replace('20240103', currentDate);
+        let score_soccer, score_tennis, score_basketball
         cy.request('GET', event_soccer_url).then(response => {score_soccer = response.body});
         cy.request('GET', event_tennis_url).then(response => {score_tennis = response.body});
+        cy.request('GET', event_basketball_url).then(response => {score_basketball = response.body});
         cy.then(() => {
           cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
             betIds.forEach(bet => {
@@ -40,6 +42,7 @@ describe('Execution after login', function() {
                   bet.currentBets = res.response.body;
                   bet.score_soccer = score_soccer;
                   bet.score_tennis = score_tennis;
+                  bet.score_basketball = score_basketball;
                   cy.getEventData(bet).then(params => {
                     cy.log(params)
                     cy.executeStrategy(executor,params.bet.strategy.name, params)

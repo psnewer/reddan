@@ -407,8 +407,8 @@ export default class StrategyExecutor {
             if (placed.marketId === params.bet['data-market-id']){
                 if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
                     CANCEL = true
-                    cy.log('CANCEL')
-                    return
+                    // cy.log('CANCEL')
+                    // return
                     cy.getEnv('placing').then(placing => {
                         if (!placing) {
                             cy.setEnv('placing',true)
@@ -542,14 +542,18 @@ export default class StrategyExecutor {
                 price = params.bet.strategy.params[condition]['price'];
                 
             if (size.toFixed(2) >= 6.0 && price >= 1.0) {
-                if (!assertBet(currentBets[0], selectionId, params, condition)) {
+                if (!assertBet(currentBets[0], selectionId, params, condition)) 
                     return
-                }
-                cy.log('PLACE',price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)
-                return
+                // cy.log('PLACE')
+                // return
+
                 cy.getEnv('placing').then(placing => {
                     if (!placing) {
                         cy.setEnv('placing',true)
+                        if (params.bet.strategy.params[condition].side == 'BACK')
+                            price = 1.01
+                        else if (params.bet.strategy.params[condition].side == 'LAY')
+                            price = 70
                         cy.placeBet(params.bet['data-market-id'],price.toFixed(2),size.toFixed(2),selectionId,handicap,params.bet.strategy.params[condition].side)
                     }
                 })

@@ -39,7 +39,7 @@
         },
         {
             "condition": "notMatchOne",
-            "checktion":["notTimeElapseTo","isDraw"],
+            "checktion":["isDraw"],
             "action": "placeBet"
         },
         {
@@ -98,7 +98,7 @@
         },
         {
             "condition": "notMatchOne",
-            "checktion":["notTimeElapseTo","commission"],
+            "checktion":["commission"],
             "action": "placeBet"
         },
         {

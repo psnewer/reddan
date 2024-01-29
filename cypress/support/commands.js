@@ -51,11 +51,11 @@ Cypress.Commands.add('getEventData', (bet) => {
             event.eventNodes.forEach(eventNode => {
                 if (eventNode.eventId === Number(params.bet['data-event-id'])) {
                     eventNode.marketNodes.forEach(market => {
-                        // if (market.isMarketDataVirtual)
+                        if (market.isMarketDataVirtual)
                         if (Number(market.marketId) === Number(params.bet['data-market-id'])) {
                             params.event.inplay = market.state.inplay
                             market.runners.forEach(runner => {
-                                // if (runner.state.status === 'ACTIVE'){
+                                if (runner.state.status === 'ACTIVE'){
                                 if (Number(runner.selectionId) == Number(bet.selectionId)){
                                     if (Number(runner.handicap) == Number(params.bet.handicap)){
                                         if (hasNestedProperty(runner,'exchange','availableToBack',0,'price'))
@@ -84,7 +84,7 @@ Cypress.Commands.add('getEventData', (bet) => {
                                             params.event.oth_lay_odds_either = runner.exchange.availableToLay[0].price  
                                     }
                                 }
-                            // }
+                            }
                         })
                     }
                     })
@@ -92,15 +92,17 @@ Cypress.Commands.add('getEventData', (bet) => {
             })  
         })
     
-        if (Object.keys(params.event).some(key => key.includes('odds'))){
+        if (Object.keys(params.event).some(key => key.includes('odds'))) {
             if (bet.sport === "Soccer") {
                 let event = getEvent(bet.score_soccer, bet)
                 if (event != null) {
                     if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
                         params.event.score_home = Number(event.Tr1);
                         params.event.score_away = Number(event.Tr2);
-                        if (event.hasOwnProperty('Eps') && /^\d+.*'$/.test(event.Eps)) {
-                            params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
+                        if (event.hasOwnProperty('Eps')) {
+                            params.event.timeElapsed = event.Eps
+                            if (/^\d+.*'$/.test(event.Eps))
+                                params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
                         }
                     }
                 }
@@ -111,10 +113,15 @@ Cypress.Commands.add('getEventData', (bet) => {
                     if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
                         params.event.score_home = []
                         params.event.score_away = []
-                        if (event.hasOwnProperty('Eps') && /^S\d+$/.test(event.Eps) && Number(event.Eps.match(/^S(\d+)$/)[1]) > Number(event.Tr1) + Number(event.Tr2)){
-                            for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
-                                params.event.score_home.push(event['Tr1S' + i])
-                                params.event.score_away.push(event['Tr2S' + i])
+                        if (event.hasOwnProperty('Eps')){
+                            params.event.timeElapsed = event.Eps
+                            if (/^S\d+$/.test(event.Eps))
+                                params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
+                            if (Number(event.Eps.match(/^S(\d+)$/)[1]) > Number(event.Tr1) + Number(event.Tr2)) {
+                                for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
+                                    params.event.score_home.push(event['Tr1S' + i])
+                                    params.event.score_away.push(event['Tr2S' + i])
+                                }
                             }
                         }
                     }
@@ -126,8 +133,10 @@ Cypress.Commands.add('getEventData', (bet) => {
                     if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
                         params.event.score_home = Number(event.Tr1);
                         params.event.score_away = Number(event.Tr2);
-                        if (event.hasOwnProperty('Eps') || /^\dQ$/.test(event.Eps)) { 
-                            params.event.timeElapsed = Number(event.Eps.match(/^\d/)[0]);
+                        if (event.hasOwnProperty('Eps')) { 
+                            params.event.timeElapsed = event.Eps
+                            if(/^\dQ$/.test(event.Eps))
+                                params.event.timeElapsed = Number(event.Eps.match(/^\d/)[0]);
                         }
                     }
                 }

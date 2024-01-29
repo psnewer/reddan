@@ -102,11 +102,6 @@
             "action": "placeBet"
         },
         {
-            "condition": "ending",
-            "checktion":["notMatchTwo","deltaGE"],
-            "action": "placeBet"
-        },
-        {
             "condition": "isRunnerAdvance",
             "checktion":["notMatchTwo","notTimeElapseTo"],
             "action": "placeBet"

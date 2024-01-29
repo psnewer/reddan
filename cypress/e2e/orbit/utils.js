@@ -165,13 +165,13 @@ function assertBet(currentBet, selectionId, params, condition) {
   }
 
 
-  if (params.bet.sport === "Basketball") {
+  if (params.bet.sport === "Basketball" || condition === 'notInPlay') {
     if (params.bet.strategy.params[condition].side == 'BACK') {
-      if (!((params.event.oth_back_odds > 1.03 && params.event.oth_back_odds < 70) && (params.event.back_odds > 1.03 && params.event.back_odds < 70)))
+      if (!((params.event.oth_back_odds > 1.03 && params.event.oth_back_odds < 50) && (params.event.back_odds > 1.03 && params.event.back_odds < 50)))
         res = false
     }
     else if (params.bet.strategy.params[condition].side == 'LAY') {
-      if (!((params.event.oth_lay_odds > 1.03 && params.event.oth_lay_odds < 70) && (params.event.lay_odds > 1.03 && params.event.lay_odds < 70)))
+      if (!((params.event.oth_lay_odds > 1.03 && params.event.oth_lay_odds < 50) && (params.event.lay_odds > 1.03 && params.event.lay_odds < 50)))
         res = false
     }
 

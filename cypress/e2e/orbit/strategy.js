@@ -233,11 +233,11 @@ export default class StrategyExecutor {
                 if (params.event.score_home > 0 && params.event.score_away > 0){
                     let delta = params.bet.strategy.params[condition].delta
                     if (params.bet.runner.includes(params.bet.home)) {
-                        if (Math.abs(params.event.score_home - params.event.score_away) <= delta)
+                        if (params.event.score_home - params.event.score_away >= delta)
                             return true;  
                     }
                     else if (params.bet.runner.includes(params.bet.away)) {
-                        if (Math.abs(params.event.score_away - params.event.score_home) <= delta)
+                        if (params.event.score_away - params.event.score_home >= delta)
                             return true;
                     }
                 }
@@ -538,8 +538,12 @@ export default class StrategyExecutor {
                 else if (params.bet.strategy.params[condition].side === 'LAY')
                     price = thresh_lay_odds - params.bet.strategy.params[condition].profit
             }      
-            else if (params.bet.strategy.params[condition].hasOwnProperty('price'))
-                price = params.bet.strategy.params[condition]['price'];
+            else if (params.bet.strategy.params[condition].hasOwnProperty('price')) {
+                if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
+                    return
+                else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
+                    return
+            }
                 
             if (size.toFixed(2) >= 6.0 && price >= 1.0) {
                 if (!assertBet(currentBets[0], selectionId, params, condition)) 

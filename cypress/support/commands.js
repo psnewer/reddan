@@ -160,6 +160,60 @@ Cypress.Commands.add('getEnv', (name) => {
     return Cypress.env(name);
   });
   
+Cypress.Commands.add('currentBets', (marketId,price,size,selectionId,handicap,side) => {    
+    let payload = {
+        "headers": {
+            "host": "www.orbitxch.com",
+            "connection": "keep-alive",
+            "sec-ch-ua": "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
+            "x-csrf-token": "1ed7f80a-d692-4cd2-928c-f3e2ff0112bd",
+            "sec-ch-ua-mobile": "?0",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+            "content-type": "application/json",
+            "access-control-allow-origin": "*",
+            "accept": "application/json, text/plain, */*",
+            "access-control-allow-credentials": "true",
+            "x-device": "DESKTOP",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "origin": "https://www.orbitxch.com",
+            "sec-fetch-site": "same-origin",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "zh-CN,zh;q=0.9",
+            "cookie": "CSRF-TOKEN=1ed7f80a-d692-4cd2-928c-f3e2ff0112bd; BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUyT1RrNU9EYzNPVGdzSW1saGRDSTZNVFk1T1RrMU1UYzVPQ3dpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLnhLblhzT0VZWnNKVTdIRzJwWGFSb2tBRGlUaG1QaGUzN2RXLUF1Q0c4Zzh8fHhYN2IzY2g3eHZiem85M0xjMnhxdFNEVEJXcz0=; BIAB_AN=90caa73b-00f9-4bb0-92c6-f8c4533a68c6; _gid=GA1.2.953711950.1699951790; BIAB_LANGUAGE=en; BIAB_TZ=-480; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_LOGIN_POP_UP_SHOWN=true; _gat_gtag_UA_252822765_1=1; BIAB_SHOW_TOOLTIPS=false; _ga=GA1.1.1979628482.1699951790; _ga_R0X6ZP423B=GS1.1.1699954670.2.1.1699954687.0.0.0; AWSALB=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG; AWSALBCORS=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG"
+        },
+        "url": "https://www.orbitxch.com/customer/api/currentBets",
+        "method": "GET",
+        "httpVersion": "1.1",
+        "resourceType": "xhr",
+        "query": {},
+        "responseTimeout": 30000
+    }   
+
+    const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
+
+    const updatedCookies = [];
+
+    cookieNames.forEach(cookieName => {
+        cy.getCookie(cookieName).then(cookie => {
+            if (cookie) {
+                updatedCookies.push(`${cookie.name}=${cookie.value}`);
+                if (cookie.name === 'CSRF-TOKEN') {
+                    payload.headers["x-csrf-token"] = cookie.value;
+                }
+            }
+        });
+    });
+
+    cy.wrap(null).then(() => {
+        const newCookieString = updatedCookies.join('; ');
+        payload.headers.cookie = newCookieString;
+    }).then(()=>{cy.request(payload).then((response) => {
+                                                            return response
+                                                        });
+                })
+});
 
 Cypress.Commands.add('placeBet', (marketId,price,size,selectionId,handicap,side) => {    
             // 定义请求的 URL 和 payload

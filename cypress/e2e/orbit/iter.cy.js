@@ -15,16 +15,11 @@ describe('Execution after login', function() {
 
       const executor = new StrategyExecutor('./data/strategy.json');
 
-      cy.wait(2000).then(() => {
-        //获取currentBets
-        cy.intercept({
-          hostname : 'www.orbitxch.com',
-          pathname : "/customer/api/currentBets"
-        }).as('currentBets')
+      cy.wait(4000).then(() => {
 
         cy.setEnv('placing',false)
 
-        cy.wait('@currentBets',{timeout:60000}).then( res => {
+        cy.currentBets().then( response => {
 
         //从LiveScore获取全部soccer和tennis比分
         let currentDate = formatDate(new Date());
@@ -39,7 +34,7 @@ describe('Execution after login', function() {
           cy.task('readJsonFile','cypress/e2e/orbit/data/bets.json').then(betIds => {
             betIds.forEach(bet => {
               try{
-                  bet.currentBets = res.response.body;
+                  bet.currentBets = response.body;
                   bet.score_soccer = score_soccer;
                   bet.score_tennis = score_tennis;
                   bet.score_basketball = score_basketball;

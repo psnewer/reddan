@@ -58,7 +58,7 @@ const util = require('util');
 
 
 
-    const betIds = JSON.parse(await fs.readFile('./data/bets.json', 'utf8'));
+    const betIds = JSON.parse(await fs.readFile('./cypress/e2e/orbit/data/bets.json', 'utf8'));
 
     if (global.currentBets != '')
 

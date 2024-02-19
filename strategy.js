@@ -412,8 +412,8 @@ class StrategyExecutor {
             if (placed.marketId === params.bet['data-market-id']) {
                 if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
                     CANCEL = true
-                    console.log('CANCEL')
-                    return
+                    // console.log('CANCEL')
+                    // return
                     if (global.placing) {
                         global.placing = true
                         await cancelBet(params.bet.page, placed.marketId, placed.offerId)
@@ -552,8 +552,8 @@ class StrategyExecutor {
                 const result = assertBet(currentBets[0], selectionId, params, condition)
                 if (!result) return;
 
-                console.log('PLACE', params.bet['data-market-id'], price.toFixed(2), size.toFixed(2), selectionId, handicap, params.bet.strategy.params[condition].side)
-                return
+                // console.log('PLACE', params.bet['data-market-id'], price.toFixed(2), size.toFixed(2), selectionId, handicap, params.bet.strategy.params[condition].side)
+                // return
 
                 if (global.placing) {
                     global.placing = true

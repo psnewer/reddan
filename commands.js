@@ -262,6 +262,9 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
 
     try {
         const response = await axios(payload);
+        if (response.status == 200) {
+            await page.waitForTimeout(60000);
+        }
     } catch (error) {
         console.error('Error placing bet:', error);
         throw error;
@@ -320,6 +323,9 @@ async function cancelBet(page, marketId, offerId) {
 
     try {
         const response = await axios(payload);
+        if (response.status == 200) {
+            await page.waitForTimeout(60000);
+        }
     } catch (error) {
         console.error('Error placing bet:', error);
         throw error;

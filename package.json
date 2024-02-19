@@ -13,6 +13,8 @@
     "cypress": "^13.5.0"
   },
   "dependencies": {
-    "nodemailer": "^6.9.7"
+    "axios": "^1.6.7",
+    "nodemailer": "^6.9.9",
+    "playwright": "^1.41.2"
   }
 }

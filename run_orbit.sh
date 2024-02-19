@@ -11,7 +11,7 @@ check_command() {
 }
 
 check_crash() {
-    grep -q "crashed" ./iter.log > /dev/null
+    grep -qi "error" ./iter.log > /dev/null
     return $?
 }
 

@@ -50,102 +50,102 @@ async function getEventData(bet) {
     const response = await fetchData(event_market_url, { timeout: 20000 });
 
 
-        response.eventTypes.forEach(event => {
-            event.eventNodes.forEach(eventNode => {
-                if (eventNode.eventId === Number(params.bet['data-event-id'])) {
-                    eventNode.marketNodes.forEach(market => {
-                        if (market.isMarketDataVirtual)
-                            if (Number(market.marketId) === Number(params.bet['data-market-id'])) {
-                                params.event.inplay = market.state.inplay
-                                market.runners.forEach(runner => {
-                                    if (runner.state.status === 'ACTIVE') {
-                                        if (Number(runner.selectionId) == Number(bet.selectionId)) {
-                                            if (Number(runner.handicap) == Number(params.bet.handicap)) {
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
-                                                    params.event.back_odds = runner.exchange.availableToBack[0].price
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
-                                                    params.event.lay_odds = runner.exchange.availableToLay[0].price
-                                            }
-                                            else if (Number(runner.handicap) == Number(params.bet.oth_handicap) && params.bet.strategy.name == "soccer_2") {
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
-                                                    params.event.back_odds_either = runner.exchange.availableToBack[0].price
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
-                                                    params.event.lay_odds_either = runner.exchange.availableToLay[0].price
-                                            }
+    response.eventTypes.forEach(event => {
+        event.eventNodes.forEach(eventNode => {
+            if (eventNode.eventId === Number(params.bet['data-event-id'])) {
+                eventNode.marketNodes.forEach(market => {
+                    if (market.isMarketDataVirtual)
+                        if (Number(market.marketId) === Number(params.bet['data-market-id'])) {
+                            params.event.inplay = market.state.inplay
+                            market.runners.forEach(runner => {
+                                if (runner.state.status === 'ACTIVE') {
+                                    if (Number(runner.selectionId) == Number(bet.selectionId)) {
+                                        if (Number(runner.handicap) == Number(params.bet.handicap)) {
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
+                                                params.event.back_odds = runner.exchange.availableToBack[0].price
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
+                                                params.event.lay_odds = runner.exchange.availableToLay[0].price
                                         }
-                                        else if (Number(runner.selectionId) == Number(bet.oth_selectionId)) {
-                                            if (Number(runner.handicap) == Number(params.bet.oth_handicap)) {
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
-                                                    params.event.oth_back_odds = runner.exchange.availableToBack[0].price
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
-                                                    params.event.oth_lay_odds = runner.exchange.availableToLay[0].price
-                                            }
-                                            else if (Number(runner.handicap) == Number(params.bet.handicap) && params.bet.strategy.name == "soccer_2") {
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
-                                                    params.event.oth_back_odds_either = runner.exchange.availableToBack[0].price
-                                                if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
-                                                    params.event.oth_lay_odds_either = runner.exchange.availableToLay[0].price
-                                            }
+                                        else if (Number(runner.handicap) == Number(params.bet.oth_handicap) && params.bet.strategy.name == "soccer_2") {
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
+                                                params.event.back_odds_either = runner.exchange.availableToBack[0].price
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
+                                                params.event.lay_odds_either = runner.exchange.availableToLay[0].price
                                         }
                                     }
-                                })
-                            }
-                    })
-                }
-            })
-        })
-
-        if (Object.keys(params.event).some(key => key.includes('odds'))) {
-            if (bet.sport === "Soccer") {
-                let event = getEvent(bet.score_soccer, bet)
-                if (event != null) {
-                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
-                        params.event.score_home = Number(event.Tr1);
-                        params.event.score_away = Number(event.Tr2);
-                        if (event.hasOwnProperty('Eps')) {
-                            params.event.timeElapsed = event.Eps
-                            if (/^\d+.*'$/.test(event.Eps))
-                                params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
-                        }
-                    }
-                }
-            }
-            else if (bet.sport === "Tennis") {
-                let event = getEvent(bet.score_tennis, bet)
-                if (event != null) {
-                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
-                        params.event.score_home = []
-                        params.event.score_away = []
-                        if (event.hasOwnProperty('Eps')) {
-                            params.event.timeElapsed = event.Eps
-                            if (/^S\d+$/.test(event.Eps))
-                                params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
-                            if (Number(event.Eps.match(/^S(\d+)$/)[1]) > Number(event.Tr1) + Number(event.Tr2)) {
-                                for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
-                                    params.event.score_home.push(event['Tr1S' + i])
-                                    params.event.score_away.push(event['Tr2S' + i])
+                                    else if (Number(runner.selectionId) == Number(bet.oth_selectionId)) {
+                                        if (Number(runner.handicap) == Number(params.bet.oth_handicap)) {
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
+                                                params.event.oth_back_odds = runner.exchange.availableToBack[0].price
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
+                                                params.event.oth_lay_odds = runner.exchange.availableToLay[0].price
+                                        }
+                                        else if (Number(runner.handicap) == Number(params.bet.handicap) && params.bet.strategy.name == "soccer_2") {
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
+                                                params.event.oth_back_odds_either = runner.exchange.availableToBack[0].price
+                                            if (hasNestedProperty(runner, 'exchange', 'availableToLay', 0, 'price'))
+                                                params.event.oth_lay_odds_either = runner.exchange.availableToLay[0].price
+                                        }
+                                    }
                                 }
-                            }
+                            })
                         }
+                })
+            }
+        })
+    })
+
+    if (Object.keys(params.event).some(key => key.includes('odds'))) {
+        if (bet.sport === "Soccer") {
+            let event = getEvent(bet.score_soccer, bet)
+            if (event != null) {
+                if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
+                    params.event.score_home = Number(event.Tr1);
+                    params.event.score_away = Number(event.Tr2);
+                    if (event.hasOwnProperty('Eps')) {
+                        params.event.timeElapsed = event.Eps
+                        if (/^\d+.*'$/.test(event.Eps))
+                            params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
                     }
                 }
             }
-            else if (bet.sport === "Basketball") {
-                let event = getEvent(bet.score_basketball, bet)
-                if (event != null) {
-                    if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
-                        params.event.score_home = Number(event.Tr1);
-                        params.event.score_away = Number(event.Tr2);
-                        if (event.hasOwnProperty('Eps')) {
-                            params.event.timeElapsed = event.Eps
-                            if (/^\dQ$/.test(event.Eps))
-                                params.event.timeElapsed = Number(event.Eps.match(/^\d/)[0]);
+        }
+        else if (bet.sport === "Tennis") {
+            let event = getEvent(bet.score_tennis, bet)
+            if (event != null) {
+                if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
+                    params.event.score_home = []
+                    params.event.score_away = []
+                    if (event.hasOwnProperty('Eps')) {
+                        params.event.timeElapsed = event.Eps
+                        if (/^S\d+$/.test(event.Eps))
+                            params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
+                        if (Number(event.Eps.match(/^S(\d+)$/)[1]) > Number(event.Tr1) + Number(event.Tr2)) {
+                            for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
+                                params.event.score_home.push(event['Tr1S' + i])
+                                params.event.score_away.push(event['Tr2S' + i])
+                            }
                         }
                     }
                 }
             }
         }
-    
+        else if (bet.sport === "Basketball") {
+            let event = getEvent(bet.score_basketball, bet)
+            if (event != null) {
+                if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
+                    params.event.score_home = Number(event.Tr1);
+                    params.event.score_away = Number(event.Tr2);
+                    if (event.hasOwnProperty('Eps')) {
+                        params.event.timeElapsed = event.Eps
+                        if (/^\dQ$/.test(event.Eps))
+                            params.event.timeElapsed = Number(event.Eps.match(/^\d/)[0]);
+                    }
+                }
+            }
+        }
+    }
+
     return params
 };
 

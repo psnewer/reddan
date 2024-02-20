@@ -198,7 +198,6 @@ async function assertBet(currentBet, selectionId, params, condition) {
 }
 
 async function fetchData(url) {
-  console.log(url)
   const response = await axios.get(url, { timeout: 20000 });
   return response.data; // 直接返回解析后的 JSON 数据
 }

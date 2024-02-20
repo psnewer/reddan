@@ -92,5 +92,7 @@ const util = require('util');
       }
     }
   }
+
+  await browser.close();
 })();
 

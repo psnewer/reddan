@@ -198,6 +198,7 @@ async function assertBet(currentBet, selectionId, params, condition) {
 }
 
 async function fetchData(url) {
+  console.log(url)
   const response = await axios.get(url, { timeout: 20000 });
   return response.data; // 直接返回解析后的 JSON 数据
 }
@@ -214,7 +215,7 @@ function parseBet(event) {
 
 
 async function sendEmail({ subject, text, html }) {
-  const json = JSON.parse(await fs.readFile('cypress/e2e/orbit/data/profile.json', 'utf8'));
+  const json = JSON.parse(await fs.readFile('./data/profile.json', 'utf8'));
 
   const transporter = nodemailer.createTransport({
     service: '163',

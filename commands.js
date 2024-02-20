@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-const { hasNestedProperty, getEvent } = require('./utils.js');
+const { hasNestedProperty, getEvent, fetchData } = require('./utils.js');
 const axios = require('axios');
 
 // commands.js
@@ -39,6 +39,7 @@ async function login(page) {
     await page.type('input[name=password]', json['password']);
     await page.click('button[type="submit"]'); // 注意：根据实际情况替换为正确的表单提交方法
     await page.click('.biab_btn-continue'); // 根据实际情况调整选择器
+    return true
 }
 
 async function getEventData(bet) {
@@ -46,10 +47,10 @@ async function getEventData(bet) {
 
     const event_market_url = 'https://ero.betfair.com/www/sports/exchange/readonly/v1/bymarket?_ak=nzIFcwyWhrlwYMrh&alt=json&currencyCode=GBP&locale=en_GB&marketIds=1.220997250&rollupLimit=10&rollupModel=STAKE&types=MARKET_STATE,RUNNER_STATE,RUNNER_EXCHANGE_PRICES_BEST'.replace(/(marketIds=)[^\&]+/, `$1${bet['data-market-id']}`);
     let params = { bet: bet, event: {} };
-    const response = await axios.get(event_market_url, { timeout: 20000 });
+    const response = await fetchData(event_market_url, { timeout: 20000 });
 
-    if (response.status == 200) {
-        response.data.eventTypes.forEach(event => {
+
+        response.eventTypes.forEach(event => {
             event.eventNodes.forEach(eventNode => {
                 if (eventNode.eventId === Number(params.bet['data-event-id'])) {
                     eventNode.marketNodes.forEach(market => {
@@ -144,7 +145,7 @@ async function getEventData(bet) {
                 }
             }
         }
-    }
+    
     return params
 };
 

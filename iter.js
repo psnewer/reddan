@@ -60,8 +60,7 @@ const util = require('util');
 
     const betIds = JSON.parse(await fs.readFile('./cypress/e2e/orbit/data/bets.json', 'utf8'));
 
-    if (global.currentBets != '')
-
+    if (global.currentBets !== '') {
       try {
         const [score_soccer, score_tennis, score_basketball] = await Promise.all([
           fetchData(event_soccer_url),
@@ -88,7 +87,7 @@ const util = require('util');
         `;
         await sendEmail({subject: subject,text: text,html: html});
       }
-
+    }
   }
 
 })();

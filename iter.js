@@ -34,11 +34,13 @@ const util = require('util');
         });
 
         websocket.on('close', () => {
+          console.log('websocket close')
           global.currentBets = ''
           process.exit(1)
         });
 
         websocket.on('socketerror', (error) => {
+          console.log('websocket error')
           global.currentBets = ''
           process.exit(1)
         });

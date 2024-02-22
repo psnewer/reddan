@@ -13,7 +13,7 @@ class StrategyExecutor {
         this.strategies = JSON.parse(content);
     }
 
-    execute(strategyName, params) {
+    async execute(strategyName, params) {
         const strategy = this.strategies[strategyName];
         if (!strategy) {
             console.log('Strategy not found.');
@@ -28,7 +28,10 @@ class StrategyExecutor {
                             return
                     }
                 }
-                this[rule.action](params, rule.condition);
+                if (rule.action === 'placeBet') 
+                    await this[rule.action](params, rule.condition);
+                else
+                    this[rule.action](params, rule.condition);
                 break;  // 结束策略执行
             }
         }
@@ -414,7 +417,7 @@ class StrategyExecutor {
                     CANCEL = true
                     // console.log('CANCEL')
                     // return
-                    if (global.placing) {
+                    if (!global.placing) {
                         global.placing = true
                         await cancelBet(params.bet.page, placed.marketId, placed.offerId)
                     }
@@ -555,7 +558,7 @@ class StrategyExecutor {
                 // console.log('PLACE', params.bet['data-market-id'], price.toFixed(2), size.toFixed(2), selectionId, handicap, params.bet.strategy.params[condition].side)
                 // return
 
-                if (global.placing) {
+                if (!global.placing) {
                     global.placing = true
                     await placeBet(params.bet.page, params.bet['data-market-id'], price.toFixed(2), size.toFixed(2), selectionId, handicap, params.bet.strategy.params[condition].side)
                 }

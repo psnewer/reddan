@@ -149,19 +149,11 @@ async function getEventData(bet) {
     return params
 };
 
-// 假设 page 是你已经定义并导航到某个页面的 Playwright Page 对象
-async function getSpecificCookie(page, cookieName) {
-    const cookies = await page.context().cookies();
-    const targetCookie = cookies.find(cookie => cookie.name === cookieName);
-    return targetCookie ? targetCookie.value : null;
-}
-
 async function currentBets(page) {
 
-    const csrfToken = await getSpecificCookie(page, 'CSRF-TOKEN');
-    const cookieString = await page.context().cookies().then(cookies =>
-        cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-    );
+    const cookies = await page.context().cookies();
+    const csrfToken = cookies.find(cookie => cookie.name === 'CSRF-TOKEN').value;
+    const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
 
     let payload = {
         "headers": {
@@ -204,10 +196,10 @@ async function currentBets(page) {
 
 async function placeBet(page, marketId, price, size, selectionId, handicap, side) {
 
-    const csrfToken = await getSpecificCookie(page, 'CSRF-TOKEN');
-    const cookieString = await page.context().cookies().then(cookies =>
-        cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-    );
+    const cookies = await page.context().cookies();
+    const csrfToken = cookies.find(cookie => cookie.name === 'CSRF-TOKEN').value;
+    const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
+
     let payload = {
         "headers": {
             "host": "www.orbitxch.com",
@@ -275,10 +267,9 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
 
 async function cancelBet(page, marketId, offerId) {
 
-    const csrfToken = await getSpecificCookie(page, 'CSRF-TOKEN');
-    const cookieString = await page.context().cookies().then(cookies =>
-        cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-    );
+    const cookies = await page.context().cookies();
+    const csrfToken = cookies.find(cookie => cookie.name === 'CSRF-TOKEN').value;
+    const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
 
     let payload = {
         "headers": {

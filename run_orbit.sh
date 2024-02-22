@@ -20,7 +20,7 @@ if ! check_command; then
 	echo "$(timestamp): Playwright 命令未在运行，启动命令..."
     rm -f iter.log
     touch iter.log
-    node iter.js > iter.log 2>&1
+    node iter.js > iter.log 2>&1 &
 fi
 
 if check_crash; then

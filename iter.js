@@ -10,43 +10,40 @@ const util = require('util');
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  // 假设 login 函数是一个自定义的登录实现，返回 Promise
+  global.currentBets = ''; // 初始化全局变量来存储 WebSocket 响应
+  page.on('websocket', websocket => {
+    // 检查 WebSocket URL 是否包含 "current-bets"
+    if (websocket.url().includes("current-bets")) {
+      console.log(`WebSocket connected: ${websocket.url()}`);
+
+      websocket.on('framereceived', event => {
+        console.log(`Received message: ${event}`);
+        // console.dir(event, { depth: null });
+        // 将接收到的消息存储到全局变量中
+        if (event.payload && event.payload.includes('a'))
+          global.currentBets = parseBet(event)
+      });
+
+      websocket.on('close', () => {
+        console.log('websocket close')
+        global.currentBets = ''
+        process.exit(1)
+      });
+
+      websocket.on('socketerror', (error) => {
+        console.log('websocket error')
+        global.currentBets = ''
+        process.exit(1)
+      });
+
+    }
+  });
+
   const ret = await login(page);
 
-  const executor = new StrategyExecutor('./data/strategy.json');
-  await executor.initialize();
-
-  global.currentBets = ''; // 初始化全局变量来存储 WebSocket 响应
-
   if (ret) {
-
-    page.on('websocket', websocket => {
-      // 检查 WebSocket URL 是否包含 "current-bets"
-      if (websocket.url().includes("current-bets")) {
-        console.log(`WebSocket connected: ${websocket.url()}`);
-
-        websocket.on('framereceived', event => {
-          console.log(`Received message: ${event}`);
-          // console.dir(event, { depth: null });
-          // 将接收到的消息存储到全局变量中
-          if (event.payload && event.payload.includes('a'))
-            global.currentBets = parseBet(event)
-        });
-
-        websocket.on('close', () => {
-          console.log('websocket close')
-          global.currentBets = ''
-          process.exit(1)
-        });
-
-        websocket.on('socketerror', (error) => {
-          console.log('websocket error')
-          global.currentBets = ''
-          process.exit(1)
-        });
-
-      }
-    });
+    const executor = new StrategyExecutor('./data/strategy.json');
+    await executor.initialize();
 
     for (let i = 0; i < 500; i++) {
       await page.waitForTimeout(10000);

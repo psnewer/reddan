@@ -229,7 +229,7 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
         "httpVersion": "1.1",
         "resourceType": "xhr",
         "query": {},
-        "body": {
+        "data": {
             [marketId]: [
                 {
                     "selectionId": Number(selectionId),
@@ -305,7 +305,7 @@ async function cancelBet(page, marketId, offerId) {
         "httpVersion": "1.1",
         "resourceType": "xhr",
         "query": {},
-        "body": {
+        "data": {
             [marketId]: [
                 {
                     "price": 50,

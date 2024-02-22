@@ -150,17 +150,12 @@ async function getEventData(bet) {
 };
 
 async function currentBets(page) {
-
-    const cookies = await page.context().cookies();
-    const csrfToken = cookies.find(cookie => cookie.name === 'CSRF-TOKEN').value;
-    const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-
     let payload = {
         "headers": {
             "host": "www.orbitxch.com",
             "connection": "keep-alive",
             "sec-ch-ua": "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
-            "x-csrf-token": csrfToken,
+            "x-csrf-token": "1ed7f80a-d692-4cd2-928c-f3e2ff0112bd",
             "sec-ch-ua-mobile": "?0",
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
             "content-type": "application/json",
@@ -175,7 +170,7 @@ async function currentBets(page) {
             "sec-fetch-dest": "empty",
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "zh-CN,zh;q=0.9",
-            "cookie": cookieString
+            "cookie": "CSRF-TOKEN=1ed7f80a-d692-4cd2-928c-f3e2ff0112bd; BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUyT1RrNU9EYzNPVGdzSW1saGRDSTZNVFk1T1RrMU1UYzVPQ3dpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLnhLblhzT0VZWnNKVTdIRzJwWGFSb2tBRGlUaG1QaGUzN2RXLUF1Q0c4Zzh8fHhYN2IzY2g3eHZiem85M0xjMnhxdFNEVEJXcz0=; BIAB_AN=90caa73b-00f9-4bb0-92c6-f8c4533a68c6; _gid=GA1.2.953711950.1699951790; BIAB_LANGUAGE=en; BIAB_TZ=-480; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_LOGIN_POP_UP_SHOWN=true; _gat_gtag_UA_252822765_1=1; BIAB_SHOW_TOOLTIPS=false; _ga=GA1.1.1979628482.1699951790; _ga_R0X6ZP423B=GS1.1.1699954670.2.1.1699954687.0.0.0; AWSALB=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG; AWSALBCORS=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG"
         },
         "url": "https://www.orbitxch.com/customer/api/currentBets",
         "method": "GET",
@@ -184,17 +179,6 @@ async function currentBets(page) {
         "query": {},
         "responseTimeout": 30000
     }
-
-    try {
-        const response = await axios(payload);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching current bets:', error);
-        throw error;
-    }
-};
-
-async function placeBet(page, marketId, price, size, selectionId, handicap, side) {
 
     const cookies = await page.context().cookies();
     const updatedCookies = [];
@@ -210,13 +194,20 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
 
     });
     const cookieString = updatedCookies.join('; ')
+    payload.headers.cookie = cookieString;
 
+    const response = await axios(payload);
+    return response.data;
+
+};
+
+async function placeBet(page, marketId, price, size, selectionId, handicap, side) {
     let payload = {
         "headers": {
             "host": "www.orbitxch.com",
             "connection": "keep-alive",
             "sec-ch-ua": "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
-            "x-csrf-token": csrfToken,
+            "x-csrf-token": "1ed7f80a-d692-4cd2-928c-f3e2ff0112bd",
             "sec-ch-ua-mobile": "?0",
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
             "content-type": "application/json",
@@ -231,7 +222,7 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
             "sec-fetch-dest": "empty",
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "zh-CN,zh;q=0.9",
-            "cookie": cookieString
+            "cookie": "CSRF-TOKEN=1ed7f80a-d692-4cd2-928c-f3e2ff0112bd; BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUyT1RrNU9EYzNPVGdzSW1saGRDSTZNVFk1T1RrMU1UYzVPQ3dpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLnhLblhzT0VZWnNKVTdIRzJwWGFSb2tBRGlUaG1QaGUzN2RXLUF1Q0c4Zzh8fHhYN2IzY2g3eHZiem85M0xjMnhxdFNEVEJXcz0=; BIAB_AN=90caa73b-00f9-4bb0-92c6-f8c4533a68c6; _gid=GA1.2.953711950.1699951790; BIAB_LANGUAGE=en; BIAB_TZ=-480; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_LOGIN_POP_UP_SHOWN=true; _gat_gtag_UA_252822765_1=1; BIAB_SHOW_TOOLTIPS=false; _ga=GA1.1.1979628482.1699951790; _ga_R0X6ZP423B=GS1.1.1699954670.2.1.1699954687.0.0.0; AWSALB=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG; AWSALBCORS=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG"
         },
         "url": "https://www.orbitxch.com/customer/api/placeBets",
         "method": "POST",
@@ -264,27 +255,35 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
         "responseTimeout": 30000
     }
 
-    console.log(payload)
-        const response = await axios(payload);
-        if (response.status == 200) {
-            await page.waitForTimeout(60000);
-        }
-    
+    const cookies = await page.context().cookies();
+    const updatedCookies = [];
+    const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
+    cookieNames.forEach(cookieName => {
+        const cookie = cookies.find(cookie => cookie.name === cookieName)
+            if (cookie) {
+                updatedCookies.push(`${cookie.name}=${cookie.value}`);
+                if (cookie.name === 'CSRF-TOKEN') {
+                    payload.headers["x-csrf-token"] = cookie.value;
+                }
+            }
 
+    });
+    const cookieString = updatedCookies.join('; ')
+    payload.headers.cookie = cookieString;
+
+    const response = await axios(payload);
+    if (response.status == 200) {
+        await page.waitForTimeout(60000);
+    }
 };
 
 async function cancelBet(page, marketId, offerId) {
-
-    const cookies = await page.context().cookies();
-    const csrfToken = cookies.find(cookie => cookie.name === 'CSRF-TOKEN').value;
-    const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-
     let payload = {
         "headers": {
             "host": "www.orbitxch.com",
             "connection": "keep-alive",
             "sec-ch-ua": "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
-            "x-csrf-token": csrfToken,
+            "x-csrf-token": "09b23b6d-0005-489c-8963-e0abc3ed82f6",
             "sec-ch-ua-mobile": "?0",
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
             "content-type": "application/json",
@@ -299,7 +298,7 @@ async function cancelBet(page, marketId, offerId) {
             "sec-fetch-dest": "empty",
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "zh-CN,zh;q=0.9",
-            "cookie": cookieString
+            "cookie": "BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUzTURBd05EY3lNekVzSW1saGRDSTZNVGN3TURBeE1USXpNU3dpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLm9TMXM4Xy0xaUd4VFNJekdrTTZHS3lIbVQwM0VIR2MyX2hsRzFoTmRKNzh8fDdrMVg1U1JmQTVUMjJqQmFSdmw3UUVPWUJRST0=; BIAB_AN=caaecd33-9873-4205-a37d-c00fdef1ea80; _gid=GA1.2.2024580322.1700011224; BIAB_LANGUAGE=en; BIAB_TZ=-480; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_LOGIN_POP_UP_SHOWN=true; CSRF-TOKEN=09b23b6d-0005-489c-8963-e0abc3ed82f6; _gat_gtag_UA_252822765_1=1; _ga=GA1.1.538752001.1700011224; BIAB_SHOW_TOOLTIPS=false; _ga_R0X6ZP423B=GS1.1.1700019309.4.1.1700019313.0.0.0; AWSALB=FoLqO3syAoT1g9j5elNOQEKlA5OjzVo/3WVCmwTT952hDeiM4iVzBRyYKdEinWNbKC95RzuJq+AIx6RrZe12W8IF621mHIROS8zUJZFKoYnJYwNvuoR+ZaXTIn1n; AWSALBCORS=FoLqO3syAoT1g9j5elNOQEKlA5OjzVo/3WVCmwTT952hDeiM4iVzBRyYKdEinWNbKC95RzuJq+AIx6RrZe12W8IF621mHIROS8zUJZFKoYnJYwNvuoR+ZaXTIn1n"
         },
         "url": "https://www.orbitxch.com/customer/api/cancelBets",
         "method": "POST",
@@ -321,14 +320,25 @@ async function cancelBet(page, marketId, offerId) {
         "responseTimeout": 30000
     }
 
-    try {
-        const response = await axios(payload);
-        if (response.status == 200) {
-            await page.waitForTimeout(60000);
-        }
-    } catch (error) {
-        console.error('Error placing bet:', error);
-        throw error;
+    const cookies = await page.context().cookies();
+    const updatedCookies = [];
+    const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
+    cookieNames.forEach(cookieName => {
+        const cookie = cookies.find(cookie => cookie.name === cookieName)
+            if (cookie) {
+                updatedCookies.push(`${cookie.name}=${cookie.value}`);
+                if (cookie.name === 'CSRF-TOKEN') {
+                    payload.headers["x-csrf-token"] = cookie.value;
+                }
+            }
+
+    });
+    const cookieString = updatedCookies.join('; ')
+    payload.headers.cookie = cookieString;
+
+    const response = await axios(payload);
+    if (response.status == 200) {
+        await page.waitForTimeout(60000);
     }
 };
 

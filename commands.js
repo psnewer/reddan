@@ -200,7 +200,7 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
     const updatedCookies = [];
     const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
     cookieNames.forEach(cookieName => {
-        const cookie = cookies.find(cookie => cookie.name === 'CSRF-TOKEN')
+        const cookie = cookies.find(cookie => cookie.name === cookieName)
             if (cookie) {
                 updatedCookies.push(`${cookie.name}=${cookie.value}`);
                 if (cookie.name === 'CSRF-TOKEN') {
@@ -264,15 +264,12 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
         "responseTimeout": 30000
     }
 
-    try {
+    console.log(payload)
         const response = await axios(payload);
         if (response.status == 200) {
             await page.waitForTimeout(60000);
         }
-    } catch (error) {
-        console.error('Error placing bet:', error);
-        throw error;
-    }
+    
 
 };
 

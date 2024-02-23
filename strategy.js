@@ -148,10 +148,10 @@ class StrategyExecutor {
 
     loseSet(params, condition) {
         if (params.bet.sport === "Tennis") {
-            let set = params.event.score_home.length
-            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                set = params.bet.strategy.params[condition].set
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                let set = params.event.score_home.length
+                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                    set = params.bet.strategy.params[condition].set
                 if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -202,10 +202,10 @@ class StrategyExecutor {
 
     winSet(params, condition) {
         if (params.bet.sport === "Tennis") {
-            let set = params.event.score_home.length
-            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                set = params.bet.strategy.params[condition].set
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                let set = params.event.score_home.length
+                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                    set = params.bet.strategy.params[condition].set
                 if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -256,10 +256,10 @@ class StrategyExecutor {
 
     eitherLose(params, condition) {
         if (params.bet.sport === "Tennis") {
-            let set = params.event.score_home.length
-            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                set = params.bet.strategy.params[condition].set
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                let set = params.event.score_home.length
+                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                    set = params.bet.strategy.params[condition].set
                 if (set >= 1 && params.event.score_home.length >= set && params.event.score_away.length >= set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -316,10 +316,10 @@ class StrategyExecutor {
 
     loseWin(params, condition) {
         if (params.bet.sport === "Tennis") {
-            let set = params.event.score_home.length
-            if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                set = params.bet.strategy.params[condition].set
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                let set = params.event.score_home.length
+                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                    set = params.bet.strategy.params[condition].set
                 if (set >= 2 && params.event.score_home.length >= set && params.event.score_away.length >= set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)

@@ -118,12 +118,13 @@ async function getEventData(bet) {
                     params.event.score_away = []
                     if (event.hasOwnProperty('Eps')) {
                         params.event.timeElapsed = event.Eps
-                        if (/^S\d+$/.test(event.Eps))
+                        if (/^S\d+$/.test(event.Eps)) {
                             params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
-                        if (Number(event.Eps.match(/^S(\d+)$/)[1]) > Number(event.Tr1) + Number(event.Tr2)) {
-                            for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
-                                params.event.score_home.push(event['Tr1S' + i])
-                                params.event.score_away.push(event['Tr2S' + i])
+                            if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2)) {
+                                for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
+                                    params.event.score_home.push(event['Tr1S' + i])
+                                    params.event.score_away.push(event['Tr2S' + i])
+                                }
                             }
                         }
                     }

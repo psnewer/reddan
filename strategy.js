@@ -491,8 +491,8 @@ class StrategyExecutor {
             let rec = 0.0
             if (params.bet.strategy.params[condition].hasOwnProperty('rec')) {
                 rec = params.bet.strategy.params[condition].rec
-                thresh_back_odds = 1.0 + (thresh_back_odds - 1.0) * (1.0 - rec)
-                thresh_lay_odds = 1.0 + (thresh_lay_odds - 1.0) * (1.0 + rec)
+                thresh_back_odds = thresh_back_odds - rec
+                thresh_lay_odds = thresh_lay_odds + rec
             }
 
             //找到当前赔率
@@ -551,6 +551,8 @@ class StrategyExecutor {
                     return
             }
 
+            if (size.toFixed(2) < 6.0)
+                size = 6.0
             if (size.toFixed(2) >= 6.0 && price >= 1.0) {
                 const result = assertBet(currentBets[0], selectionId, params, condition)
                 if (!result) return;

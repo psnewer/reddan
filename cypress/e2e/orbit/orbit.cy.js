@@ -54,14 +54,14 @@ describe('Login to www.orbitxch.com', function() {
             }
         }).then(() => {
             let runnerEscaped = matchItem['runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            cy.contains('span', new RegExp(`^${runnerEscaped}$`)).closest('div[data-market-id]')
+            cy.contains('span', new RegExp(`^${runnerEscaped}$`)).closest('div.runnerRow')
               .find('[data-selection-id]').first()
               .invoke('attr', 'data-selection-id')
               .then(dataSelectionId => {
                 matchItem['selectionId'] = dataSelectionId;
               });
             let oth_runnerEscaped = matchItem['oth_runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            cy.contains('span', new RegExp(`^${oth_runnerEscaped}$`)).closest('div[data-market-id]')
+            cy.contains('span', new RegExp(`^${oth_runnerEscaped}$`)).closest('div.runnerRow')
               .find('[data-selection-id]').first()
               .invoke('attr', 'data-selection-id')
               .then(dataSelectionId => {

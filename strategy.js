@@ -434,6 +434,9 @@ class StrategyExecutor {
 
             //根据matched bet设置oth
             if (currentBets.length == 1) {
+                if (params.bet.strategy.params[condition].hasOwnProperty('side') && params.bet.strategy.params[condition]['oth'])
+                    if (pre_side != params.bet.strategy.params[condition].side)
+                        delete params.bet.strategy.params[condition].side
                 params.bet.strategy.params[condition]['oth'] = false
                 if (params.bet.strategy.params[condition].hasOwnProperty('side')) {
                     if (currentBets[0].selectionId == params.bet.selectionId) {
@@ -467,6 +470,15 @@ class StrategyExecutor {
                         else
                             params.bet.strategy.params[condition].side = 'LAY'
                     }
+                }
+            }
+            else if (!currentBets.length) {
+                if (!params.bet.strategy.params[condition].hasOwnProperty('side')) {
+                    if (params.bet.strategy.params[condition]['oth'])
+                        params.bet.strategy.params[condition].side = 'LAY'
+                    else
+                        params.bet.strategy.params[condition].side = 'BACK'
+                    params.bet.strategy.params[condition]['oth'] = false
                 }
             }
 

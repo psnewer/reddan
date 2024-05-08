@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-const { countElementsGE, assertBet } = require('./utils.js');
+const { countElementsGE, assertBet, checkBets } = require('./utils.js');
 const { cancelBet, placeBet } = require('./commands.js');
 
 class StrategyExecutor {
@@ -54,6 +54,20 @@ class StrategyExecutor {
 
     notStop(params, condition) {
         return !this.isStop(params, condition)
+    }
+
+    betweensets(params, condition) {
+        if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS'))
+            if (params.event.score_homeS == 0 && params.event.score_awayS == 0)
+                return true
+        return false
+    }
+
+    notBetweensets(params, condition) {
+        if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS'))
+            if (params.event.score_homeS > 0 || params.event.score_awayS > 0)
+                return true
+        return false
     }
 
     break(params, condition) {
@@ -400,12 +414,14 @@ class StrategyExecutor {
                 pre_handicap = Number(placed.handicap)
                 if (placed.side === 'BACK') {
                     net_profit = (placed.averagePrice - 1.0) * Number(placed.sizeMatched)
+                    liability = Number(placed.sizeMatched)
                     pre_side = 'BACK'
                     thresh_back_odds = 1.0 + 1.0 / (Number(placed.averagePrice) - 1.0)
                     thresh_lay_odds = Number(placed.averagePrice)
                 }
                 else if (placed.side === 'LAY') {
-                    net_profit = (placed.averagePrice - 1.0) * Number(placed.sizeMatched)
+                    net_profit = Number(placed.sizeMatched)
+                    liability = (placed.averagePrice - 1.0) * Number(placed.sizeMatched)
                     pre_side = 'LAY'
                     thresh_back_odds = Number(placed.averagePrice)
                     thresh_lay_odds = 1.0 + 1.0 / (Number(placed.averagePrice) - 1.0)
@@ -430,7 +446,7 @@ class StrategyExecutor {
             return true
 
         //如果已有超过两个Matched order,则返回
-        if (currentBets.length < 2) {
+        if (checkBets(params, condition)) {
 
             //根据matched bet设置oth
             if (currentBets.length == 1) {
@@ -538,16 +554,10 @@ class StrategyExecutor {
                 size = params.bet.strategy.params[condition]['vol'];
             else if (params.bet.strategy.params[condition].hasOwnProperty('scale')) {
                 if (params.bet.strategy.params[condition].side === 'LAY') {
-                    if (pre_side === 'BACK')
-                        size = params.bet.strategy.params[condition]['scale'] * (sizeMatched - net_profit / (current_odds - 1.0)) + net_profit / (current_odds - 1.0)
-                    else if (pre_side === 'LAY')
-                        size = params.bet.strategy.params[condition]['scale'] * (sizeMatched / (current_odds - 1.0) - net_profit) + net_profit
+                    size = params.bet.strategy.params[condition]['scale'] * (net_profit / (current_odds - 1.0) - liability) + liability
                 }
                 else {
-                    if (pre_side === 'BACK')
-                        size = params.bet.strategy.params[condition]['scale'] * (net_profit - sizeMatched / (current_odds - 1.0)) + sizeMatched / (current_odds - 1.0);
-                    else if (pre_side === 'LAY')
-                        size = params.bet.strategy.params[condition]['scale'] * (net_profit / (current_odds - 1.0) - sizeMatched) + sizeMatched
+                    size = params.bet.strategy.params[condition]['scale'] * (net_profit - liability / (current_odds - 1.0)) + liability / (current_odds - 1.0);
                 }
             }
             if (params.bet.strategy.params[condition].hasOwnProperty('profit')) {

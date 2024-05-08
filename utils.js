@@ -146,6 +146,43 @@ function getEvent(score_sport, bet) {
   }
 }
 
+function checkBets(params, condition) {
+  let currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id'])
+  currentBets.sort((a, b) => {
+    return a.matchedDate - b.matchedDate;
+  });
+  if (currentBets.length) {
+    let runner_win = 0.0
+    let oth_win = 0.0
+    let vol = currentBets[0].sizeMatched;
+    for (let b of currentBets) {
+      if (b.selectionId == params.bet.selectionId) {
+        if (b.side == 'BACK') {
+          runner_win += b.profitNet
+          oth_win -= b.liability
+        } else {
+          runner_win -= b.liability
+          oth_win += b.profitNet
+        }
+      } else {
+        if (b.side == 'BACK') {
+          oth_win += b.profitNet
+          runner_win -= b.liability
+        } else {
+          oth_win -= b.liability
+          runner_win += b.profitNet
+        }
+      }
+    params.event.runner_win = runner_win
+    params.event.oth_win = oth_win
+    if ( params.event.runner_win + params.event.oth_win < 0.0)
+      return false
+    if (params.evnet.runner_win < -vol || params.evnet.oth_win < -vol)
+      return false
+  }
+  return true
+}
+
 async function assertBet(currentBet, selectionId, params, condition) {
   let res = true
   if (currentBet) {
@@ -242,4 +279,4 @@ async function sendEmail({ subject, text, html }) {
   }
 }
 
-module.exports = { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail };
+module.exports = { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail, checkBets };

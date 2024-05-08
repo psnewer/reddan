@@ -126,6 +126,10 @@ async function getEventData(bet) {
                                     params.event.score_away.push(event['Tr2S' + i])
                                 }
                             }
+                            else {
+                                params.event.score_homeS = event['Tr1S' + i]
+                                params.event.score_awayS = event['Tr2S' + i]
+                            }
                         }
                     }
                 }

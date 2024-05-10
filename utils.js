@@ -146,40 +146,69 @@ function getEvent(score_sport, bet) {
   }
 }
 
-function checkBets(params, condition) {
-  let currentBets = params.bet.currentBets.filter(item => item.marketId === params.bet['data-market-id'])
-  currentBets.sort((a, b) => {
-    return a.matchedDate - b.matchedDate;
-  });
+function checkBets(params) {
+  let currentBets = params.bet.currentBets
+
+  params.event.runner_win = 0.0
+  params.event.oth_win = 0.0
+
+  let vol = 0.0
   if (currentBets.length) {
-    let runner_win = 0.0
-    let oth_win = 0.0
-    let vol = currentBets[0].sizeMatched;
+    let first_bet = currentBets[0]
+    vol = first_bet.sizeMatched
+    let last_bet = currentBets[currentBets.length - 1]
+
+    if (first_bet.selectionId == params.bet.selectionId) {
+        params.firstIsRunner = last_bet.side == 'BACK' ? true : false
+    } 
+    else {
+        params.firstIsRunner = last_bet.side == 'BACK' ? false : true
+    }
+    
+    if (last_bet.selectionId == params.bet.selectionId) {
+      params.event.runner_thresh_odds = last_bet.averagePrice
+      params.event.oth_thresh_odds = 1.0 / (last_bet.averagePrice - 1.0) + 1.0
+      params.event.runner_handicap = Number(b.handicap)
+      params.event.oth_handicap = -Number(b.handicap)
+      params.lastIsRunner = last_bet.side == 'BACK' ? true : false
+    } 
+    else {
+      params.event.oth_thresh_odds = last_bet.averagePrice
+      params.event.runner_thresh_odds = 1.0 / (last_bet.averagePrice - 1.0) + 1.0
+      params.event.oth_handicap = Number(b.handicap)
+      params.event.runner_handicap = -Number(b.handicap)
+      params.lastIsRunner = last_bet.side == 'BACK' ? false : true
+    }
+      
     for (let b of currentBets) {
       if (b.selectionId == params.bet.selectionId) {
         if (b.side == 'BACK') {
-          runner_win += b.profitNet
-          oth_win -= b.liability
+          params.event.runner_win += b.profitNet
+          params.event.oth_win -= b.liability
         } else {
-          runner_win -= b.liability
-          oth_win += b.profitNet
+          params.event.runner_win -= b.liability
+          params.event.oth_win += b.profitNet
         }
       } else {
         if (b.side == 'BACK') {
-          oth_win += b.profitNet
-          runner_win -= b.liability
+          params.event.oth_win += b.profitNet
+          params.event.runner_win -= b.liability
         } else {
-          oth_win -= b.liability
-          runner_win += b.profitNet
+          params.event.oth_win -= b.liability
+          params.event.runner_win += b.profitNet
         }
       }
-    params.event.runner_win = runner_win
-    params.event.oth_win = oth_win
-    if ( params.event.runner_win + params.event.oth_win < 0.0)
-      return false
-    if (params.evnet.runner_win < -vol || params.evnet.oth_win < -vol)
-      return false
+    }
   }
+
+  parseInt(params.event.runner_win) > 0.0 ? params.event.runner_side = 'BACK' : params.event.runner_side = 'LAY'
+  parseInt(params.event.oth_win) > 0.0 ? params.event.oth_side = 'BACK' : params.event.oth_side = 'LAY'
+
+  if (params.event.runner_win + params.event.oth_win < 0.0)
+      return false
+  if (params.evnet.runner_win < -vol || params.evnet.oth_win < -vol)
+      return false
+  
   return true
 }
 

@@ -118,6 +118,11 @@
             "action": "break"
         },
         {
+            "condition": "inSets",
+            "checktion":["breakdrown"],
+            "action": "placeBet"
+        },
+        {
             "condition": "loseSet",
             "checktion":["betweensets","deltaIn"],
             "action": "placeBet"

@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 const fs = require('fs').promises;
 const StrategyExecutor = require('./strategy.js');
-const { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail } = require('./utils.js');
+const { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail, checkBets } = require('./utils.js');
 const { login, getEventData, currentBets, placeBet, cancelBet } = require('./commands.js');
 const util = require('util');
 
@@ -70,12 +70,16 @@ const util = require('util');
           ]);
           for (let bet of betIds) {
             bet.page = page;
-            bet.currentBets = global.currentBets;
+            bet.currentBets = global.currentBets.filter(item => item.marketId === params.bet['data-market-id']);
+            bet.currentBets.sort((a, b) => {
+              return a.matchedDate - b.matchedDate;
+            });
             bet.score_soccer = score_soccer;
             bet.score_tennis = score_tennis;
             // bet.score_basketball = score_basketball;
             const params = await getEventData(bet);
-            await executor.execute(params.bet.strategy.name, params);
+            if (checkBets(params))
+              await executor.execute(params.bet.strategy.name, params);
           }
         } catch (error) {
           const subject = 'Test Failure';

@@ -199,12 +199,17 @@ function checkBets(params) {
     }
   }
 
-  params.event.lastIsRunner ? params.event.runner_side = 'BACK' : params.event.runner_side = 'LAY'
-  !params.event.lastIsRunner ? params.event.oth_side = 'BACK' : params.event.oth_side = 'LAY'
+  if (params.event.hasOwnProperty('lastIsRunner')) {
+    params.event.lastIsRunner ? params.event.runner_side = 'BACK' : params.event.runner_side = 'LAY'
+    !params.event.lastIsRunner ? params.event.oth_side = 'BACK' : params.event.oth_side = 'LAY'
+  } else {
+    params.event.runner_side = 'LAY'
+    params.event.oth_side = 'LAY'
+  }
 
   if (parseInt(params.event.runner_win + params.event.oth_win) < 0.0 && currentBets.length > 1)
       return false
-console.log(true)
+
   return true
 }
 

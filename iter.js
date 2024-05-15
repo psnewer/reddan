@@ -45,6 +45,8 @@ const util = require('util');
     const executor = new StrategyExecutor('./data/strategy.json');
     await executor.initialize();
 
+  //     const betIds = JSON.parse(await fs.readFile('./cypress/e2e/orbit/data/bets.json', 'utf8'));
+
   //   for (let i = 0; i < 500; i++) {
   //     await page.waitForTimeout(10000);
 
@@ -58,9 +60,6 @@ const util = require('util');
   //     // const event_basketball_url = `https://prod-public-api.livescore.com/v1/api/app/date/basketball/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
 
 
-
-  //     const betIds = JSON.parse(await fs.readFile('./cypress/e2e/orbit/data/bets.json', 'utf8'));
-
   //     if (global.currentBets !== '') {
   //       try {
   //         const [score_soccer, score_tennis, score_basketball] = await Promise.all([
@@ -69,6 +68,7 @@ const util = require('util');
   //           // fetchData(event_basketball_url)
   //         ]);
   //         for (let bet of betIds) {
+  //           let origin_bet = {...bet}
   //           bet.page = page;
   //           bet.currentBets = global.currentBets.filter(item => item.marketId === params.bet['data-market-id']);
   //           bet.currentBets.sort((a, b) => {
@@ -89,16 +89,18 @@ const util = require('util');
                   "strategy": {
                       "name": "tennis_1",
                       "params": {
-                        "inSets" : {
-                          "until": 0
+                        "breakdown" : {
+                          "until": 1
                         },
-                        "loseSet": {
+                        "loseSets": {
                             "side": "BACK",
                             "vol": 10,
                             "delta": 6,
-                            "set": 1
+                            "set": 1,
+                            "scale": 1.0,
+                            "until": 3
                         },
-                        "winSet": {
+                        "drawSets": {
                             "side": "BACK",
                             "scale": 1.0
                         }
@@ -113,132 +115,7 @@ const util = require('util');
                   "selectionId": "19924831",
                   "oth_selectionId": "10372253",
                   "currentBets": [
-                    {
-                      "offerId": 128471276,
-                      "marketId": "1.221414380",
-                      "eventId": "32809962",
-                      "price": 3.4,
-                      "averagePrice": 3.55,
-                      "averagePriceRounded": 3.55,
-                      "size": "6.00",
-                      "selectionId": 10372253,
-                      "selectionName": "Daniil Medvedev",
-                      "lineSide": null,
-                      "marketName": "Match Odds",
-                      "marketType": "MATCH_ODDS",
-                      "eventName": "Sinner v Medvedev",
-                      "eventTypeId": 2,
-                      "raceName": "",
-                      "side": "LAY",
-                      "offerState": "MATCHED",
-                      "placedDate": 1700318649000,
-                      "matchedDate": 1700318652000,
-                      "marketStartDate": 1700313360000,
-                      "cancelledDate": null,
-                      "sizePlaced": "6.00",
-                      "sizeMatched": "6.00",
-                      "sizeRemaining": "0.00",
-                      "sizeLapsed": "0.00",
-                      "sizeCancelled": "0.00",
-                      "sizeVoided": "0.00",
-                      "settledDate": null,
-                      "profit": "0.00",
-                      "liability": "6.00",
-                      "profitNet": "15.30",
-                      "potentialProfit": "15.30",
-                      "groupName": "ATP World Tour Finals 2023",
-                      "currency": "EUR",
-                      "sportName": "Tennis",
-                      "resettled": false,
-                      "handicap": "0.00",
-                      "bettingType": "ODDS",
-                      "persistenceEnabled": false,
-                      "persistenceType": "LAPSE",
-                      "eachWayDivisor": null,
-                      "numberOfWinners": null,
-                      "minUnitValue": null,
-                      "maxUnitValue": null,
-                      "interval": null,
-                      "marketUnit": null,
-                      "commissionType": "WINNINGS",
-                      "betType": "EXCHANGE",
-                      "triggeredByCashOut": false,
-                      "cancelledByOperator": false,
-                      "alternativeBackOdds": null,
-                      "alternativeBackOddsRounded": null,
-                      "totalWinnings": "21.30",
-                      "pastTotalLiability": null,
-                      "fancyView": false,
-                      "oldOfferId": null,
-                      "competitionId": null,
-                      "disabledLayOdds": false,
-                      "priceLadderDescription": {
-                          "type": "CLASSIC"
-                      }
-                  },
-                  {
-                    "offerId": 128471276,
-                    "marketId": "1.221414380",
-                    "eventId": "32809962",
-                    "price": 3.4,
-                    "averagePrice": 3.55,
-                    "averagePriceRounded": 3.55,
-                    "size": "6.00",
-                    "selectionId": 19924831,
-                    "selectionName": "Daniil Medvedev",
-                    "lineSide": null,
-                    "marketName": "Match Odds",
-                    "marketType": "MATCH_ODDS",
-                    "eventName": "Sinner v Medvedev",
-                    "eventTypeId": 2,
-                    "raceName": "",
-                    "side": "BACK",
-                    "offerState": "MATCHED",
-                    "placedDate": 1700318649000,
-                    "matchedDate": 1700318652000,
-                    "marketStartDate": 1700313360000,
-                    "cancelledDate": null,
-                    "sizePlaced": "6.00",
-                    "sizeMatched": "6.00",
-                    "sizeRemaining": "0.00",
-                    "sizeLapsed": "0.00",
-                    "sizeCancelled": "0.00",
-                    "sizeVoided": "0.00",
-                    "settledDate": null,
-                    "profit": "0.00",
-                    "liability": "6.00",
-                    "profitNet": "15.30",
-                    "potentialProfit": "15.30",
-                    "groupName": "ATP World Tour Finals 2023",
-                    "currency": "EUR",
-                    "sportName": "Tennis",
-                    "resettled": false,
-                    "handicap": "0.00",
-                    "bettingType": "ODDS",
-                    "persistenceEnabled": false,
-                    "persistenceType": "LAPSE",
-                    "eachWayDivisor": null,
-                    "numberOfWinners": null,
-                    "minUnitValue": null,
-                    "maxUnitValue": null,
-                    "interval": null,
-                    "marketUnit": null,
-                    "commissionType": "WINNINGS",
-                    "betType": "EXCHANGE",
-                    "triggeredByCashOut": false,
-                    "cancelledByOperator": false,
-                    "alternativeBackOdds": null,
-                    "alternativeBackOddsRounded": null,
-                    "totalWinnings": "21.30",
-                    "pastTotalLiability": null,
-                    "fancyView": false,
-                    "oldOfferId": null,
-                    "competitionId": null,
-                    "disabledLayOdds": false,
-                    "priceLadderDescription": {
-                        "type": "CLASSIC"
-                    }
-                }
+
                   ]
               },
               "event": {
@@ -250,16 +127,24 @@ const util = require('util');
                   "score_homeS": 0,
                   "score_awayS": 0,
                   "score_home": [
-                    "6","3"
+        
                   ],
                   "score_away": [
-                    "3","6"
+       
                   ]
               }
           }
             if (checkBets(params))
               await executor.execute(params.bet.strategy.name, params);
-              console.log(params.event)
+
+            if (params.event.hasNestedProperty('lastIsRunner_breakdown') && params.event.hasNestedProperty('lastSet_breakdown')) {
+              original_bet.event.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
+              original_bet.event.lastSet_breakdown = params.event.lastSet_breakdown
+              bet = {...original_bet}
+              await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(betIds, null, 2), 'utf8')
+            }
+            console.log(params.event)
+
 
   //         }
   //       } catch (error) {
@@ -275,6 +160,7 @@ const util = require('util');
   //       }
   //     }
   //   }
+  // await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(betIds, null, 2), 'utf8')
   // }
 
   // await browser.close();

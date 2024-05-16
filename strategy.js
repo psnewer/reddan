@@ -60,7 +60,7 @@ class StrategyExecutor {
 
     drawGames(params, condition) {
         if (this.inSets(params, condition))
-            if (params.event.score_homeS == params.event.score_awayS)
+            if (!this.breakdown(params, condition))
                 return true
         return false
     }
@@ -73,8 +73,9 @@ class StrategyExecutor {
     }
 
     betweenSets(params, condition) {
-        if (!this.inSets(params, condition))
-            return true
+        if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS'))
+            if (!this.inSets(params, condition))
+                return true
         return false
     }
 
@@ -84,10 +85,10 @@ class StrategyExecutor {
 
     breakdown(params, condition) {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS')) {
-            if (params.event.hasOwnProperty('Epr') && params.event.score_homeS != params.event.score_awayS) {
+            if (params.event.hasOwnProperty('Esrv') && params.event.score_homeS != params.event.score_awayS) {
                 console.log('3333')
-                let score_homeS = params.event.Epr == 2 ? params.event.score_homeS - 1 : params.event.score_homeS
-                let score_awayS = params.event.Epr == 1 ? params.event.score_awayS - 1 : params.event.score_awayS
+                let score_homeS = params.event.Esrv == 2 ? params.event.score_homeS - 1 : params.event.score_homeS
+                let score_awayS = params.event.Esrv == 1 ? params.event.score_awayS - 1 : params.event.score_awayS
                 if (Math.abs(score_homeS - score_awayS) >= 1) 
                     return true
             }
@@ -97,7 +98,7 @@ class StrategyExecutor {
 
     BreakdownNotMatch(params,condition) {
         let match = false
-        if(params.event.score_home.length < params.bet.strategy.params[condition].until && params.event.hasOwnProperty('Epr')) {
+        if(params.event.score_home.length < params.bet.strategy.params[condition].until) {
             if (params.event.hasOwnProperty('lastIsRunner')) {
                 if (params.event.score_homeS > params.event.score_awayS) {
                     if (params.event.lastIsRunner && params.bet.home == params.bet.runner) 
@@ -126,7 +127,7 @@ class StrategyExecutor {
             }
             }
         }
-        else if (params.event.score_home.length >= params.bet.strategy.params[condition].until && params.event.hasOwnProperty('Epr')) {
+        else if (params.event.score_home.length >= params.bet.strategy.params[condition].until) {
             if (parseInt(params.event.runner_win) < 0) {
                 if (!params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
@@ -155,12 +156,12 @@ class StrategyExecutor {
 
         if (match) {
             if (params.event.score_homeS > params.event.score_awayS) {
-                params.event.lastIsRunner_breakdown = params.bet.home == params.bet.runner ? false : true
-                params.event.lastSet_breakdown = params.bet.currentBets.length + 1
+                params.event.lastIsRunner_breakdown = params.bet.away == params.bet.runner ? true : false
+                params.event.lastSet_breakdown = params.event.score_home.length + 1
             }
             else {
-                params.event.lastIsRunner_breakdown = params.bet.away == params.bet.runner ? true : false
-                params.event.lastSet_breakdown = params.bet.currentBets.length + 1
+                params.event.lastIsRunner_breakdown = params.bet.home == params.bet.runner ? true : false
+                params.event.lastSet_breakdown = params.event.score_home.length + 1
             }
         }
 
@@ -216,8 +217,8 @@ class StrategyExecutor {
 
     drawGamesNotMatch(params,condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
-            if (params.event.lastIsRunner == params.event.lastIsRunner_breakdown)
-                if (params.event.lastSet_breakdown == params.bet.currentBets.length + 1)
+            if (params.event.lastIsRunner == params.bet.pre.lastIsRunner_breakdown)
+                if (params.event.score_home.length + 1 == params.bet.pre.lastSet_breakdown)
                     return true
         return false
     } 
@@ -573,7 +574,7 @@ class StrategyExecutor {
         if (params.event.lastIsRunner)
             params.bet.strategy.params[condition].oth = true
 
-        if (params.event.runner_win > 0 || params.event.oth_win > 0) {
+        if (parseInt(params.event.runner_win) > 0 || parseInt(params.event.oth_win) > 0) {
             params.bet.strategy.params[condition]['oth'] = false
             if (params.bet.strategy.params[condition].hasOwnProperty('side')) {
                 if (params.event.runner_side == params.bet.strategy.params[condition].side) {

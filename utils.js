@@ -155,13 +155,6 @@ function checkBets(params) {
   if (currentBets.length) {
     let first_bet = currentBets[0]
     let last_bet = currentBets[currentBets.length - 1]
-
-    if (first_bet.selectionId == params.bet.selectionId) {
-        params.event.firstIsRunner = first_bet.side == 'BACK' ? true : false
-    } 
-    else {
-        params.event.firstIsRunner = first_bet.side == 'BACK' ? false : true
-    }
     
     if (last_bet.selectionId == params.bet.selectionId) {
       params.event.runner_thresh_odds = last_bet.averagePrice
@@ -199,13 +192,7 @@ function checkBets(params) {
     }
   }
 
-  if (params.event.hasOwnProperty('lastIsRunner')) {
-    params.event.lastIsRunner ? params.event.runner_side = 'BACK' : params.event.runner_side = 'LAY'
-    !params.event.lastIsRunner ? params.event.oth_side = 'BACK' : params.event.oth_side = 'LAY'
-  } else {
-    params.event.runner_side = 'LAY'
-    params.event.oth_side = 'LAY'
-  }
+  params.event.runner_side = params.event.lastIsRunner ? 'BACK' : 'LAY'
 
   if (parseInt(params.event.runner_win + params.event.oth_win) < 0.0 && currentBets.length > 1)
       return false

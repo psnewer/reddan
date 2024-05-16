@@ -127,10 +127,12 @@ async function getEventData(bet) {
                                 }
                             }
                             else {
-                                params.event.score_homeS = event['Tr1S' + i]
-                                params.event.score_awayS = event['Tr2S' + i]
-                                if (event.hasOwnProperty('Epr'))
-                                    params.event.Epr = event.Epr
+                                let i = Number(event.Tr1) + Number(event.Tr2)
+                                if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
+                                    params.event.score_homeS = event['Tr1S' + i]
+                                    params.event.score_awayS = event['Tr2S' + i]
+                                    params.event.Esrv = event.Esrv
+                                }
                             }
                         }
                     }

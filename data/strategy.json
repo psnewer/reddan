@@ -123,8 +123,8 @@
             "action": "placeBet"
         },
         {
-            "condition": "inSets",
-            "checktion":["drawGames","drawGamesNotMatch"],
+            "condition": "drawGames",
+            "checktion":["drawGamesNotMatch"],
             "action": "placeBet"
         },
         {
@@ -155,8 +155,8 @@
             "action": "placeBet"
         },
         {
-            "condition": "inSets",
-            "checktion":["drawGames","drawGamesNotMatch"],
+            "condition": "drawGames",
+            "checktion":["drawGamesNotMatch"],
             "action": "placeBet"
         },
         {
@@ -187,8 +187,8 @@
             "action": "placeBet"
         },
         {
-            "condition": "inSets",
-            "checktion":["drawGames","drawGamesNotMatch"],
+            "condition": "drawGames",
+            "checktion":["drawGamesNotMatch"],
             "action": "placeBet"
         },
         {
@@ -213,8 +213,8 @@
             "action": "placeBet"
         },
         {
-            "condition": "inSets",
-            "checktion":["drawGames","drawGamesNotMatch"],
+            "condition": "drawGames",
+            "checktion":["drawGamesNotMatch"],
             "action": "placeBet"
         },
         {

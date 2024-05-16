@@ -78,6 +78,8 @@ const util = require('util');
   //           bet.score_tennis = score_tennis;
   //           // bet.score_basketball = score_basketball;
             // const params = await getEventData(bet);
+            if (bet.hasOwnProperty('pre'))
+              params.event = {...bet.pre}
             let params = {
               "bet": {
                   "sport": "Tennis",
@@ -137,11 +139,10 @@ const util = require('util');
             if (checkBets(params))
               await executor.execute(params.bet.strategy.name, params);
 
-            if (params.event.hasNestedProperty('lastIsRunner_breakdown') && params.event.hasNestedProperty('lastSet_breakdown')) {
-              original_bet.event.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
-              original_bet.event.lastSet_breakdown = params.event.lastSet_breakdown
-              bet = {...original_bet}
-              await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(betIds, null, 2), 'utf8')
+            if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
+                bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
+                bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+                await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(betIds, null, 2), 'utf8')
             }
             console.log(params.event)
 

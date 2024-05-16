@@ -129,7 +129,7 @@ async function getEventData(bet) {
                             else {
                                 params.event.score_homeS = event['Tr1S' + i]
                                 params.event.score_awayS = event['Tr2S' + i]
-                                event.hasOwnProperty('Epr')
+                                if (event.hasOwnProperty('Epr'))
                                     params.event.Epr = event.Epr
                             }
                         }

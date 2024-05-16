@@ -138,19 +138,93 @@
             "action": "placeBet"
         }
     ],
+    "tennis_13": [
+        {
+            "condition": "notInPlay",
+            "checktion":["commission","notPlaceOne"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["commission"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "breakdown",
+            "checktion":["BreakdownNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "inSets",
+            "checktion":["drawGames","drawGamesNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "loseSets",
+            "checktion":["deltaIn","loseSetsNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "drawSets",
+            "checktion":["drawSetsNotMatch"],
+            "action": "placeBet"
+        }
+    ],
+    "tennis_23": [
+        {
+            "condition": "notInPlay",
+            "checktion":["commission","notPlaceOne"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["commission"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "breakdown",
+            "checktion":["BreakdownNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "inSets",
+            "checktion":["drawGames","drawGamesNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["deltaIn","eitherLoseNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherDraw",
+            "checktion":["eitherDrawNotMatch"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_2": [
         {
             "condition": "notInPlay",
             "action": "break"
         },
         {
-            "condition": "eitherLose",
-            "checktion":["betweensets","deltaIn"],
+            "condition": "breakdown",
+            "checktion":["BreakdownNotMatch"],
             "action": "placeBet"
         },
         {
-            "condition": "loseWin",
-            "checktion":["betweensets"],
+            "condition": "inSets",
+            "checktion":["drawGames","drawGamesNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["deltaIn","eitherLoseNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherDraw",
+            "checktion":["eitherDrawNotMatch"],
             "action": "placeBet"
         }
     ],
@@ -251,7 +325,7 @@
         },
         {
             "condition": "notMatchTwo",
-            "checktion":["loseWin"],
+            "checktion":["eitherDraw"],
             "action": "placeBet"
         }
     ]

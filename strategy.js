@@ -85,6 +85,7 @@ class StrategyExecutor {
     breakdown(params, condition) {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS')) {
             if (params.event.hasOwnProperty('Epr') && params.event.score_homeS != params.event.score_awayS) {
+                console.log('3333')
                 let score_homeS = params.event.Epr == 2 ? params.event.score_homeS - 1 : params.event.score_homeS
                 let score_awayS = params.event.Epr == 1 ? params.event.score_awayS - 1 : params.event.score_awayS
                 if (Math.abs(score_homeS - score_awayS) >= 1) 
@@ -173,12 +174,45 @@ class StrategyExecutor {
         return false
     }
 
+    eitherLoseNotMatch(params,condition) {
+        if (params.event.score_home.length <= params.bet.strategy.params[condition].until) {
+            if (params.event.hasOwnProperty('lastIsRunner')) {
+                if (!params.event.lastIsRunner) {
+                    if (this.loseSets(params,condition))
+                        return true
+                } else {
+                    if (!this.loseSets(params,condition))
+                        return true
+                }
+            } else return true
+        }
+        return false
+    }
+
     drawSetsNotMatch(params,condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
             if (params.event.lastIsRunner)
                 return true
         return false
     } 
+
+    eitherDrawNotMatch(params,condition) {
+        if (params.event.hasOwnProperty('lastIsRunner'))
+            if (!params.event.lastIsRunner) {
+                if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                    return true
+                else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
+                    return true
+            }
+            else {
+                if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
+                    return true
+                else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                    return true
+            }
+        
+        return false
+    }
 
     drawGamesNotMatch(params,condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
@@ -670,7 +704,7 @@ class StrategyExecutor {
             else {
                 if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
                     params.bet.strategy.params[condition]['scale'] = 1.0
-                
+
                 if (params.bet.strategy.params[condition].side === 'LAY') {
                     size = params.bet.strategy.params[condition]['scale'] * (net_profit / (current_odds - 1.0) - liability) + liability
                 }

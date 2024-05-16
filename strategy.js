@@ -84,9 +84,11 @@ class StrategyExecutor {
 
     breakdown(params, condition) {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS')) {
-            if (params.event.hasOwnProperty('Epr')) {
+            if (params.event.hasOwnProperty('Epr') && params.event.score_homeS != params.event.score_awayS) {
                 let score_homeS = params.event.Epr == 2 ? params.event.score_homeS - 1 : params.event.score_homeS
                 let score_awayS = params.event.Epr == 1 ? params.event.score_awayS - 1 : params.event.score_awayS
+                if (Math.abs(score_homeS - score_awayS) >= 1) 
+                    return true
             }
         }
         return false
@@ -125,29 +127,33 @@ class StrategyExecutor {
         }
         else if (params.event.score_home.length >= params.bet.strategy.params[condition].until && params.event.hasOwnProperty('Epr')) {
             if (parseInt(params.event.runner_win) < 0) {
-
+                if (!params.event.lastIsRunner) {
+                    if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
+                        match = true
+                    else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
+                        match = true
+                }
             } 
             else if (parseInt(params.event.oth_win) < 0) {
                 if (params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
-                        math = true
+                        match = true
                     else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
-                        math = true
-                    if (math)
-                        params.bet.strategy.params[condition].scale = 0.0
-                } else {
-                    if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
-                        math = true
-                    else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
-                        math = true
-                    if (math && params.bet.strategy.params[condition].last_runner)
-                        params.bet.strategy.params[condition].scale = 1.0
+                        match = true
                 }
+            }
+
+            if (match) {
+                params.bet.strategy.params[condition].scale = 0.0
+                if (params.bet.strategy.params[condition].last_runner && !params.event.lastIsRunner)
+                    params.bet.strategy.params[condition].scale = 1.0
+                else if (params.bet.strategy.params[condition].last_oth && params.event.lastIsRunner)
+                    params.bet.strategy.params[condition].scale = 1.0
             }
         }
 
         if (match) {
-            if (score_homeS > score_awayS) {
+            if (params.event.score_homeS > params.event.score_awayS) {
                 params.event.lastIsRunner_breakdown = params.bet.home == params.bet.runner ? false : true
                 params.event.lastSet_breakdown = params.bet.currentBets.length + 1
             }
@@ -661,7 +667,10 @@ class StrategyExecutor {
 
             if ((parseInt(params.event.runner_win) == 0.0 && parseInt(params.event.oth_win) == 0.0))
                 size = params.bet.strategy.params[condition]['vol'];
-            else if (params.bet.strategy.params[condition].hasOwnProperty('scale')) {
+            else {
+                if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
+                    params.bet.strategy.params[condition]['scale'] = 1.0
+                
                 if (params.bet.strategy.params[condition].side === 'LAY') {
                     size = params.bet.strategy.params[condition]['scale'] * (net_profit / (current_odds - 1.0) - liability) + liability
                 }

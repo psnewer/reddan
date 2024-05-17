@@ -22,10 +22,8 @@ class StrategyExecutor {
 
         for (let rule of strategy) {
             if (this[rule.condition](params, rule.condition)) {
-                console.log(rule.condition)
                 if (rule.hasOwnProperty('checktion')) {
                     for (let check of rule.checktion) {
-                        console.log(check)
                         if (!this[check](params, rule.condition))
                             return
                     }
@@ -86,7 +84,6 @@ class StrategyExecutor {
     breakdown(params, condition) {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS')) {
             if (params.event.hasOwnProperty('Esrv') && params.event.score_homeS != params.event.score_awayS) {
-                console.log('3333')
                 let score_homeS = params.event.Esrv == 2 ? params.event.score_homeS - 1 : params.event.score_homeS
                 let score_awayS = params.event.Esrv == 1 ? params.event.score_awayS - 1 : params.event.score_awayS
                 if (Math.abs(score_homeS - score_awayS) >= 1) 
@@ -118,13 +115,20 @@ class StrategyExecutor {
                         match = true
                     else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
                         match = true
-                } else {
-                if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner) 
-                    params.bet.strategy.params[condition].oth = true
-                else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
-                    params.bet.strategy.params[condition].oth = true
-                match = true
-            }
+                }
+                else if (params.bet.strategy.params[condition].oth) {
+                    if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner) 
+                        match = true
+                    else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
+                        match = true
+                    }
+                else {
+                    if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner) 
+                        params.bet.strategy.params[condition].oth = true
+                    else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
+                        params.bet.strategy.params[condition].oth = true
+                    match = true
+                }
             }
         }
         else if (params.event.score_home.length >= params.bet.strategy.params[condition].until) {
@@ -550,7 +554,6 @@ class StrategyExecutor {
 
     // 动作函数
     async placeBet(params, condition) {
-        console.log('placeBet',params.bet.strategy.params[condition].oth)
         let CANCEL = false
         // 首先判断currentBets中是否已经place,如果place则cancel
         let currentBets = params.bet.currentBets
@@ -558,8 +561,8 @@ class StrategyExecutor {
             if (placed.marketId === params.bet['data-market-id']) {
                 if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
                     CANCEL = true
-                    console.log('CANCEL')
-                    return
+                    // console.log('CANCEL')
+                    // return
                     if (!global.placing) {
                         global.placing = true
                         await cancelBet(params.bet.page, placed.marketId, placed.offerId)
@@ -733,7 +736,6 @@ class StrategyExecutor {
                 if (!result) return;
 
                 if (process.argv.includes('--test')) {
-                    console.log(condition)
                     params.output = {'action' : 'PLACE', 'price': price, 'size' : size, 'selectionId': selectionId, 'handicap' : handicap, 'side' : params.bet.strategy.params[condition].side}
                     return
                 }

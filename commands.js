@@ -125,9 +125,7 @@ async function getEventData(bet) {
                                     params.event.score_home.push(event['Tr1S' + i])
                                     params.event.score_away.push(event['Tr2S' + i])
                                 }
-                            }
-                            else {
-                                let i = Number(event.Tr1) + Number(event.Tr2)
+                                let i = Number(event.Tr1) + Number(event.Tr2) + 1
                                 if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
                                     params.event.score_homeS = event['Tr1S' + i]
                                     params.event.score_awayS = event['Tr2S' + i]

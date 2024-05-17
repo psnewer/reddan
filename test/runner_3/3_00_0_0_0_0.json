@@ -1,0 +1,60 @@
+{
+  "params": {
+    "bet": {
+      "sport": "Tennis",
+      "competition": "ATP World Tour Finals 2023",
+      "home": "Jannik Sinner",
+      "away": "Daniil Medvedev",
+      "market": "Match Odds",
+      "runner": "Daniil Medvedev",
+      "strategy": {
+        "name": "tennis_3",
+        "params": {
+          "notInPlay": {
+            "side": "BACK",
+            "vol": 10,
+            "guarantee": 0.96
+          },
+          "notMatchOne": {
+            "side": "BACK",
+            "vol": 10,
+            "guarantee": 0.9
+          },
+          "notMatchTwo": {
+            "side": "LAY",
+            "scale": 1,
+            "rec": 0.5
+          }
+        }
+      },
+      "oth_runner": "Jannik Sinner",
+      "handicap": 0,
+      "oth_handicap": 0,
+      "data-event-id": "32809962",
+      "data-market-id": "1.221414380",
+      "runner_url": "https://orbitxch.com/customer/sport/2/market/1.221414380",
+      "selectionId": "19924831",
+      "oth_selectionId": "10372253",
+      "currentBets": []
+    },
+    "event": {
+      "inPlay": true,
+      "oth_back_odds": 1.42,
+      "oth_lay_odds": 1.43,
+      "back_odds": 3.3,
+      "lay_odds": 3.4,
+      "score_homeS": 0,
+      "score_awayS": 0,
+      "score_home": [],
+      "score_away": []
+    }
+  },
+  "target": {
+    "action": "PLACE",
+    "price": 3.3,
+    "size": 10,
+    "selectionId": "19924831",
+    "handicap": 0,
+    "side": "BACK"
+  }
+}

@@ -54,8 +54,8 @@ const util = require('util');
       // const response = await currentBets(page); // 需要实现 currentBets 方法
 
       let currentDate = formatDate(new Date());
-      // const event_soccer_url = `https://prod-public-api.livescore.com/v1/api/app/date/soccer/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
       const event_tennis_url = `https://prod-public-api.livescore.com/v1/api/app/date/tennis/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
+      // const event_soccer_url = `https://prod-public-api.livescore.com/v1/api/app/date/soccer/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
       // const event_basketball_url = `https://prod-public-api.livescore.com/v1/api/app/date/basketball/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
 
       const betIds = JSON.parse(await fs.readFile('./cypress/e2e/orbit/data/bets.json', 'utf8'));
@@ -76,21 +76,21 @@ const util = require('util');
             // bet.score_soccer = score_soccer;
             // bet.score_basketball = score_basketball;
             const params = await getEventData(bet);
-            
+
             if (checkBets(params))
               await executor.execute(params.bet.strategy.name, params);
 
             if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
-                if (!bet.hasOwnProperty('pre'))
-                    bet.pre = {}
-                if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
-                    bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
-                    bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
-                    delete bet.currentBets
-                    delete bet.score_tennis
-                    delete bet.page
-                    await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(betIds, null, 2), 'utf8')
-                }
+              if (!bet.hasOwnProperty('pre'))
+                bet.pre = {}
+              if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
+                bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
+                bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+                delete bet.currentBets
+                delete bet.score_tennis
+                delete bet.page
+                await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(betIds, null, 2), 'utf8')
+              }
             }
 
 

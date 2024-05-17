@@ -32,7 +32,7 @@ async function getJsonFiles(directory) {
     try {
         await fs.unlink('output.json');
     } catch (err) {
-        
+
     }
 
     const executor = new StrategyExecutor('../data/strategy.json');
@@ -43,7 +43,7 @@ async function getJsonFiles(directory) {
     const jsonFiles = await getJsonFiles('./')
 
     // 遍历文件，为每个文件创建一个测试用例
-jsonFiles.forEach(async file => {
+    jsonFiles.forEach(async file => {
 
         // 读取 JSON 文件中的参数和目标输出
         const data = JSON.parse(await fs.readFile(file, 'utf8'));
@@ -54,7 +54,7 @@ jsonFiles.forEach(async file => {
         // 调用异步测试函数，传入 params
         console.log(file)
         if (checkBets(params))
-              await executor.execute(params.bet.strategy.name, params);
+            await executor.execute(params.bet.strategy.name, params);
 
         if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
             if (!params.bet.hasOwnProperty('pre'))
@@ -78,7 +78,7 @@ jsonFiles.forEach(async file => {
             process.exit(1); // 如果测试失败，退出程序
         }
 
-});
-            
+    });
+
 })();
 

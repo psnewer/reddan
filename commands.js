@@ -192,12 +192,12 @@ async function currentBets(page) {
     const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
     cookieNames.forEach(cookieName => {
         const cookie = cookies.find(cookie => cookie.name === cookieName)
-            if (cookie) {
-                updatedCookies.push(`${cookie.name}=${cookie.value}`);
-                if (cookie.name === 'CSRF-TOKEN') {
-                    payload.headers["x-csrf-token"] = cookie.value;
-                }
+        if (cookie) {
+            updatedCookies.push(`${cookie.name}=${cookie.value}`);
+            if (cookie.name === 'CSRF-TOKEN') {
+                payload.headers["x-csrf-token"] = cookie.value;
             }
+        }
 
     });
     const cookieString = updatedCookies.join('; ')
@@ -267,12 +267,12 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
     const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
     cookieNames.forEach(cookieName => {
         const cookie = cookies.find(cookie => cookie.name === cookieName)
-            if (cookie) {
-                updatedCookies.push(`${cookie.name}=${cookie.value}`);
-                if (cookie.name === 'CSRF-TOKEN') {
-                    payload.headers["x-csrf-token"] = cookie.value;
-                }
+        if (cookie) {
+            updatedCookies.push(`${cookie.name}=${cookie.value}`);
+            if (cookie.name === 'CSRF-TOKEN') {
+                payload.headers["x-csrf-token"] = cookie.value;
             }
+        }
 
     });
     const cookieString = updatedCookies.join('; ')
@@ -332,12 +332,12 @@ async function cancelBet(page, marketId, offerId) {
     const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
     cookieNames.forEach(cookieName => {
         const cookie = cookies.find(cookie => cookie.name === cookieName)
-            if (cookie) {
-                updatedCookies.push(`${cookie.name}=${cookie.value}`);
-                if (cookie.name === 'CSRF-TOKEN') {
-                    payload.headers["x-csrf-token"] = cookie.value;
-                }
+        if (cookie) {
+            updatedCookies.push(`${cookie.name}=${cookie.value}`);
+            if (cookie.name === 'CSRF-TOKEN') {
+                payload.headers["x-csrf-token"] = cookie.value;
             }
+        }
 
     });
     const cookieString = updatedCookies.join('; ')

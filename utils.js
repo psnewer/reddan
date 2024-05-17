@@ -261,7 +261,7 @@ function parseBet(event) {
   if (event.payload && event.payload.includes('offerId')) {
     const trimmedPayload = event.payload.substr(2, event.payload.length - 3);
     const jsonArrayString = JSON.parse(trimmedPayload);
-    jsonArray = JSON.parse(jsonArrayString);
+    jsonArray = JSON.parse(jsonArrayString).CURRENT_BETS;
   }
   return jsonArray
 }

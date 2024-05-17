@@ -10,17 +10,20 @@ const util = require('util');
   const context = await browser.newContext();
   const page = await context.newPage();
 
+  const ret = await login(page);
+  await page.reload();
+
   global.currentBets = ''; // 初始化全局变量来存储 WebSocket 响应
   page.on('websocket', websocket => {
     // 检查 WebSocket URL 是否包含 "current-bets"
-    if (websocket.url().includes("current-bets")) {
+    if (websocket.url().includes("/ws/general")) {
       console.log(`WebSocket connected: ${websocket.url()}`);
 
       websocket.on('framereceived', event => {
         console.log(`Received message: ${event}`);
         // console.dir(event, { depth: null });
         // 将接收到的消息存储到全局变量中
-        if (event.payload && event.payload.includes('a'))
+        if (event.payload && event.payload.includes('CURRENT_BETS'))
           global.currentBets = parseBet(event)
       });
 
@@ -39,10 +42,8 @@ const util = require('util');
     }
   });
 
-  const ret = await login(page);
-
   if (ret) {
-
+    
     const executor = new StrategyExecutor('./data/strategy.json');
     await executor.initialize();
 
@@ -68,7 +69,7 @@ const util = require('util');
           ]);
           for (let bet of betIds) {
             bet.page = page;
-            bet.currentBets = global.currentBets.filter(item => item.marketId === params.bet['data-market-id']);
+            bet.currentBets = global.currentBets.filter(item => item.marketId === bet['data-market-id']);
             bet.currentBets.sort((a, b) => {
               return a.matchedDate - b.matchedDate;
             });

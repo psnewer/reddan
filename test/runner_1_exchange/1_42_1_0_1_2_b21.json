@@ -187,11 +187,5 @@
     }
   },
   "target": {
-    "action": "PLACE",
-    "price": 3.4,
-    "size": 6,
-    "selectionId": "19924831",
-    "handicap": 0,
-    "side": "LAY"
   }
 }

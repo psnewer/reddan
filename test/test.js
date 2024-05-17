@@ -6,6 +6,27 @@ const StrategyExecutor = require('../strategy.js');
 const { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail, checkBets } = require('../utils.js');
 const { login, getEventData, currentBets, placeBet, cancelBet } = require('../commands.js');
 
+async function getJsonFiles(directory) {
+    let jsonFiles = [];
+    try {
+        const files = await fs.readdir(directory, { withFileTypes: true });
+        for (let file of files) {
+            const fullPath = path.join(directory, file.name);
+            if (file.isDirectory()) {
+                // 递归处理子目录
+                const nestedFiles = await getJsonFiles(fullPath);
+                jsonFiles = jsonFiles.concat(nestedFiles);
+            } else if (file.isFile() && path.extname(file.name) === '.json') {
+                // 收集 JSON 文件名
+                jsonFiles.push(fullPath);
+            }
+        }
+    } catch (error) {
+        console.error(`Error processing directory ${directory}:`, error);
+    }
+    return jsonFiles;
+}
+
 (async () => {
 
     try {
@@ -17,8 +38,9 @@ const { login, getEventData, currentBets, placeBet, cancelBet } = require('../co
     const executor = new StrategyExecutor('../data/strategy.json');
     await executor.initialize();
 
-    const files = await fs.readdir('./');
-    const jsonFiles = files.filter(file => path.extname(file) === '.json');
+    // const files = await fs.readdir('./');
+    // const jsonFiles = files.filter(file => path.extname(file) === '.json');
+    const jsonFiles = await getJsonFiles('./')
 
     // 遍历文件，为每个文件创建一个测试用例
 jsonFiles.forEach(async file => {
@@ -30,6 +52,7 @@ jsonFiles.forEach(async file => {
         params.output = {}
 
         // 调用异步测试函数，传入 params
+        console.log(file)
         if (checkBets(params))
               await executor.execute(params.bet.strategy.name, params);
 

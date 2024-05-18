@@ -22,8 +22,10 @@ class StrategyExecutor {
 
         for (let rule of strategy) {
             if (this[rule.condition](params, rule.condition)) {
+                // console.log(rule.condition)
                 if (rule.hasOwnProperty('checktion')) {
                     for (let check of rule.checktion) {
+                        // console.log(check)
                         if (!this[check](params, rule.condition))
                             return
                     }
@@ -704,7 +706,7 @@ class StrategyExecutor {
         }
 
         if ((parseInt(params.event.runner_win) == 0.0 && parseInt(params.event.oth_win) == 0.0))
-            size = params.bet.strategy.params.bet.vol;
+            size = params.bet.vol;
         else {
             if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
                 params.bet.strategy.params[condition]['scale'] = 1.0

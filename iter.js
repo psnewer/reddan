@@ -63,6 +63,7 @@ const util = require('util');
       // const event_basketball_url = `https://prod-public-api.livescore.com/v1/api/app/date/basketball/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
 
       const betIds = JSON.parse(await fs.readFile('./cypress/e2e/orbit/data/bets.json', 'utf8'));
+      const _betIds = JSON.parse(JSON.stringify(betIds));
       if (global.currentBets !== '') {
         try {
           const [score_tennis] = await Promise.all([
@@ -70,7 +71,9 @@ const util = require('util');
             // fetchData(event_soccer_url),
             // fetchData(event_basketball_url)
           ]);
-          for (let bet of betIds) {
+          for (let i = 0; i < betIds.length; i++) {
+            let bet = betIds[i]
+            let _bet = _betIds[i]
             bet.page = page;
             bet.currentBets = global.currentBets.filter(item => item.marketId === bet['data-market-id']);
             bet.currentBets.sort((a, b) => {
@@ -86,14 +89,11 @@ const util = require('util');
 
             if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
               if (!bet.hasOwnProperty('pre'))
-                bet.pre = {}
+                _bet.pre,bet.pre = {},{}
               if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
-                bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
-                bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
-                delete bet.currentBets
-                delete bet.score_tennis
-                delete bet.page
-                await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(betIds, null, 2), 'utf8')
+                _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
+                _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+                await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
               }
             }
 

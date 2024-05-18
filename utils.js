@@ -194,7 +194,7 @@ function checkBets(params) {
 
   params.event.runner_side = params.event.lastIsRunner ? 'BACK' : 'LAY'
 
-  if (parseInt(params.event.runner_win + params.event.oth_win) < -params.bet.vol && currentBets.length > 1)
+  if (params.event.runner_win + params.event.oth_win < -params.bet.vol && currentBets.length > 1)
     return false
 
   return true

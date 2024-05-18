@@ -194,7 +194,7 @@ function checkBets(params) {
 
   params.event.runner_side = params.event.lastIsRunner ? 'BACK' : 'LAY'
 
-  if (parseInt(params.event.runner_win + params.event.oth_win) < 0.0 && currentBets.length > 1)
+  if (parseInt(params.event.runner_win + params.event.oth_win) < params.bet.vol && currentBets.length > 1)
     return false
 
   return true
@@ -261,7 +261,9 @@ function parseBet(event) {
   if (event.payload && event.payload.includes('offerId')) {
     const trimmedPayload = event.payload.substr(2, event.payload.length - 3);
     const jsonArrayString = JSON.parse(trimmedPayload);
-    jsonArray = JSON.parse(jsonArrayString).CURRENT_BETS;
+    jsonArray = JSON.parse(jsonArrayString)
+    if (event.payload.includes('CURRENT_BETS'))
+      jsonArray = JSON.parse(jsonArrayString).CURRENT_BETS;
   }
   return jsonArray
 }

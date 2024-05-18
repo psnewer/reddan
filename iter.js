@@ -16,14 +16,15 @@ const util = require('util');
   global.currentBets = ''; // 初始化全局变量来存储 WebSocket 响应
   page.on('websocket', websocket => {
     // 检查 WebSocket URL 是否包含 "current-bets"
-    if (websocket.url().includes("/ws/general")) {
+    console.log(websocket.url())
+    if (websocket.url().includes("/ws/general") || websocket.url().includes("current-bets")) {
       console.log(`WebSocket connected: ${websocket.url()}`);
 
       websocket.on('framereceived', event => {
         console.log(`Received message: ${event}`);
         // console.dir(event, { depth: null });
         // 将接收到的消息存储到全局变量中
-        if (event.payload && event.payload.includes('CURRENT_BETS'))
+        if (event.payload && event.payload.includes('a'))
           global.currentBets = parseBet(event)
       });
 

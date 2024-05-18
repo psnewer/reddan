@@ -704,7 +704,7 @@ class StrategyExecutor {
         }
 
         if ((parseInt(params.event.runner_win) == 0.0 && parseInt(params.event.oth_win) == 0.0))
-            size = params.bet.strategy.params[condition]['vol'];
+            size = params.bet.strategy.params.bet.vol;
         else {
             if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
                 params.bet.strategy.params[condition]['scale'] = 1.0

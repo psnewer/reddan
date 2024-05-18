@@ -38,9 +38,9 @@ async function getJsonFiles(directory) {
     const executor = new StrategyExecutor('../data/strategy.json');
     await executor.initialize();
 
-    // const files = await fs.readdir('./');
-    // const jsonFiles = files.filter(file => path.extname(file) === '.json');
-    const jsonFiles = await getJsonFiles('./')
+    const files = await fs.readdir('./');
+    const jsonFiles = files.filter(file => path.extname(file) === '.json');
+    // const jsonFiles = await getJsonFiles('./')
 
     // 遍历文件，为每个文件创建一个测试用例
     jsonFiles.forEach(async file => {

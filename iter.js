@@ -100,8 +100,10 @@ const util = require('util');
           }
 
           if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
-            if (!bet.hasOwnProperty('pre'))
-              _bet.pre, bet.pre = {}, {}
+            if (!bet.hasOwnProperty('pre')) {
+                _bet.pre = {}
+                bet.pre = {}
+            }
             if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
               _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
               _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown

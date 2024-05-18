@@ -731,7 +731,7 @@ class StrategyExecutor {
                 return
         }
 
-        if (size > 0.0 && size.toFixed(2) < 6.0)
+        if (size.toFixed(2) > 0.0 && size.toFixed(2) < 6.0)
             size = 6.0
         if (size.toFixed(2) >= 6.0 && price >= 1.0) {
             const result = assertBet(currentBets[currentBets.length - 1], selectionId, params, condition)

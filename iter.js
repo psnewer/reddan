@@ -22,10 +22,12 @@ const util = require('util');
 
       websocket.on('framereceived', event => {
         console.log(`Received message: ${event}`);
-        // console.dir(event, { depth: null });
-        // 将接收到的消息存储到全局变量中
-        if (event.payload && event.payload.includes('a'))
+
+        if (event.payload && event.payload.includes('a')) {
+          if (websocket.url().includes("/ws/general") && !event.payload.includes('CURRENT_BETS'))
+            return
           global.currentBets = parseBet(event)
+        }
       });
 
       websocket.on('close', () => {

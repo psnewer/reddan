@@ -731,6 +731,11 @@ class StrategyExecutor {
                 return
         }
 
+        if (params.bet.strategy.params[condition].hasOwnProperty('then') && currentBets)
+            if ((params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition].then)
+                 || (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition].then))
+                return
+
         if (size.toFixed(2) > 0.0 && size.toFixed(2) < 6.0)
             size = 6.0
         if (size.toFixed(2) >= 6.0 && price >= 1.0) {

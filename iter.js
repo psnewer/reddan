@@ -97,6 +97,9 @@ const util = require('util');
               <pre>${errorDetails}</pre>
             `;
             await sendEmail({ subject: subject, text: text, html: html });
+
+            if (error.response.status == 405) 
+              process.exit(1)
           }
 
           if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {

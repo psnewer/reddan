@@ -90,7 +90,7 @@ const util = require('util');
           } catch (error) {
             const subject = 'Test Failure';
             const text = `A test has failed: Navigate match events and place bets`;
-            const errorDetails = error; // 获取错误的堆栈信息
+            const errorDetails = error.stack; // 获取错误的堆栈信息
             const html = `
               <p>A test has failed: <strong>Navigate match events and place bets</strong></p>
               <p>Error details:</p>

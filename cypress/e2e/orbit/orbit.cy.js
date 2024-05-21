@@ -13,8 +13,12 @@ describe('Login to www.orbitxch.com', function() {
     matches.forEach(match => {
       if (match.sport == 'Basketball') 
         [match.home, match.away] = [match.away, match.home]
-        let matchItem = match;
-      
+
+      let matchItem = {...match};
+
+      matchItem['oth_runner'] = getOth(matchItem.home, matchItem.away, matchItem.runner);
+      matchItem['handicap'] = Number(getHandicap(matchItem.runner,matchItem.home,matchItem.away))
+      matchItem['oth_handicap'] = Number(getHandicap(matchItem.oth_runner,matchItem.home,matchItem.away))
     // 点击 match.sport
       cy.contains(match.sport,{timeout: 30000}).click();
 
@@ -27,6 +31,11 @@ describe('Login to www.orbitxch.com', function() {
     // 点击 match.competition
       cy.contains(match.competition,{timeout: 30000}).click();
 
+      match.home = matchItem.home.split(/[^a-zA-Z0-9]/).filter(Boolean).at(-1);
+      match.away = matchItem.away.split(/[^a-zA-Z0-9]/).filter(Boolean).at(-1);
+      match.runner = matchItem.runner.split(/[^a-zA-Z0-9]/).filter(Boolean).at(-1);
+      match.oth_runner = matchItem.oth_runner.split(/[^a-zA-Z0-9]/).filter(Boolean).at(-1);
+
     // 点击同时含有 team1 和 team2 的组件
       cy.get(`:has(p:contains(${match.home})):has(p:contains(${match.away}))`,{timeout:30000}).as('targetMatch')
         .closest('div[data-event-id]')
@@ -35,10 +44,6 @@ describe('Login to www.orbitxch.com', function() {
           matchItem['data-event-id'] = eventId;
         });
       cy.get('@targetMatch',{timeout: 30000}).closest('div.biab_market-title-cell').click()
-    
-      matchItem['oth_runner'] = getOth(match.home, match.away, match.runner);
-      matchItem['handicap'] = Number(getHandicap(match.runner,match.home,match.away))
-      matchItem['oth_handicap'] = Number(getHandicap(match.oth_runner,match.home,match.away))
 
     // 点击 match.market
       cy.contains(match.market,{timeout: 40000}).closest('[data-sport-id]')
@@ -53,15 +58,15 @@ describe('Login to www.orbitxch.com', function() {
                 cy.contains('span', 'Show all').click();
             }
         }).then(() => {
-            let runnerEscaped = matchItem['runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            cy.contains('span', new RegExp(`^${runnerEscaped}$`)).closest('div.runnerRow')
+            // let runnerEscaped = matchItem['runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            cy.contains('span', match.runner).closest('div.runnerRow')
               .find('[data-selection-id]').first()
               .invoke('attr', 'data-selection-id')
               .then(dataSelectionId => {
                 matchItem['selectionId'] = dataSelectionId;
               });
-            let oth_runnerEscaped = matchItem['oth_runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            cy.contains('span', new RegExp(`^${oth_runnerEscaped}$`)).closest('div.runnerRow')
+            // let oth_runnerEscaped = matchItem['oth_runner'].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            cy.contains('span', match.oth_runner).closest('div.runnerRow')
               .find('[data-selection-id]').first()
               .invoke('attr', 'data-selection-id')
               .then(dataSelectionId => {

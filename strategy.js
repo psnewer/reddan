@@ -111,14 +111,14 @@ class StrategyExecutor {
                     else if (!params.event.lastIsRunner && params.bet.home == params.bet.runner)
                         match = true
                 }
-            } else {
+            } else if (!params.event.score_home.length) {
                 if (params.bet.strategy.params[condition].first_runner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
                         match = true
                     else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
                         match = true
                 }
-                else if (params.bet.strategy.params[condition].oth) {
+                else if (params.bet.strategy.params[condition].first_oth) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
                         match = true
                     else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
@@ -606,7 +606,19 @@ class StrategyExecutor {
                 else if (!params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY')
                     params.bet.strategy.params[condition]['oth'] = true
             }
+
+            if (params.bet.strategy.params[condition].first_runner) {
+                if (params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK'
+                    || !params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY')
+                    return 
+            }
+            else if (params.bet.strategy.params[condition].first_oth){
+                if (params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY'
+                    || !params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK')
+                    return
+            }
         }
+
 
         if (params.event.hasOwnProperty('runner_handicap'))
             if (params.bet.strategy.params[condition]['oth']) {

@@ -98,7 +98,7 @@ const util = require('util');
             `;
             await sendEmail({ subject: subject, text: text, html: html });
 
-            if (error.includes('405')) 
+            if (error.message.includes('405')) 
               process.exit(1)
           }
 

@@ -614,13 +614,13 @@ class StrategyExecutor {
             }
 
             if (params.bet.strategy.params[condition].first_runner) {
-                if (params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK'
-                    || !params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY')
+                if ((params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK')
+                    || (!params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY'))
                     return
             }
             if (params.bet.strategy.params[condition].first_oth) {
-                if (params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY'
-                    || !params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK')
+                if ((params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY')
+                    || (!params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK'))
                     return
             }
         }

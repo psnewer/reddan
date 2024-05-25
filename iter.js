@@ -46,52 +46,56 @@ const util = require('util');
           // fetchData(event_soccer_url),
           // fetchData(event_basketball_url)
         ]);
+
+        const promises = [];
+
         for (let i = 0; i < betIds.length; i++) {
-          let bet = betIds[i]
-          let _bet = _betIds[i]
-          bet.page = page;
-          bet.currentBets = global.currentBets.filter(item => item.marketId === bet['data-market-id']);
-          bet.currentBets.sort((a, b) => {
-            return a.matchedDate - b.matchedDate;
-          });
-          bet.score_tennis = score_tennis;
-          // bet.score_soccer = score_soccer;
-          // bet.score_basketball = score_basketball;
-          const params = await getEventData(bet);
+          const promise = (async (i) => {
+            let bet = betIds[i]
+            let _bet = _betIds[i]
+            bet.page = page;
+            bet.currentBets = global.currentBets.filter(item => item.marketId === bet['data-market-id']);
+            bet.currentBets.sort((a, b) => {
+              return a.matchedDate - b.matchedDate;
+            });
+            bet.score_tennis = score_tennis;
+            // bet.score_soccer = score_soccer;
+            // bet.score_basketball = score_basketball;
 
-          try {
-            if (checkBets(params))
-              executor.execute(params.bet.strategy.name, params);
-          } catch (error) {
-            const subject = 'Test Failure';
-            const text = `A test has failed: Navigate match events and place bets`;
-            const errorDetails = error.stack; // 获取错误的堆栈信息
-            const html = `
-              <p>A test has failed: <strong>Navigate match events and place bets ${error.response.status} ${error.message} ${error}</strong></p>
-              <p>Error details:</p>
-              <pre>${errorDetails}</pre>
-            `;
-            await sendEmail({ subject: subject, text: text, html: html });
+            try {
+              const params = await getEventData(bet);
+              if (checkBets(params))
+                await executor.execute(params.bet.strategy.name, params);
+              if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
+                if (!bet.hasOwnProperty('pre')) {
+                  _bet.pre = {}
+                  bet.pre = {}
+                }
+                if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
+                  _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
+                  _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+                  await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
+                }
+              }
+            } catch (error) {
+              const subject = 'Test Failure';
+              const text = `A test has failed: Navigate match events and place bets`;
+              const errorDetails = error.stack; // 获取错误的堆栈信息
+              const html = `
+                <p>A test has failed: <strong>Navigate match events and place bets ${error.response.status} ${error.message} ${error}</strong></p>
+                <p>Error details:</p>
+                <pre>${errorDetails}</pre>
+              `;
+              await sendEmail({ subject: subject, text: text, html: html });
 
-            if (error.message.includes('405')) 
-              process.exit(1)
-          }
-
-          if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
-            if (!bet.hasOwnProperty('pre')) {
-                _bet.pre = {}
-                bet.pre = {}
+              if (error.message.includes('405'))
+                process.exit(1)
             }
-            if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
-              _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
-              _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
-              await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
-            }
-          }
-
-
+          })(i);
+          promises.push(promise);
         }
-
+        await Promise.all(promises);
+        console.log(`Loop iteration ${i} completed`);
       }
     }
   }

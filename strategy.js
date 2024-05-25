@@ -678,25 +678,26 @@ class StrategyExecutor {
         let current_odds = 0
         if (params.bet.strategy.params[condition].oth) {
             if (params.bet.strategy.params[condition].side === 'BACK') {
-                current_odds = params.event.oth_back_odds;
-                if (!current_odds || (currentBets.length && (!oth_thresh_back_odds || current_odds < oth_thresh_back_odds)))
+                if (!params.event.oth_back_odds || (currentBets.length && (!oth_thresh_back_odds || params.event.oth_back_odds < oth_thresh_back_odds)))
                     return
+                current_odds = oth_thresh_back_odds
             }
             else {
-                current_odds = params.event.oth_lay_odds;
-                if (!current_odds || (currentBets.length && (!oth_thresh_lay_odds || current_odds > oth_thresh_lay_odds)))
+                if (!params.event.oth_lay_odds || (currentBets.length && (!oth_thresh_lay_odds || params.event.oth_lay_odds > oth_thresh_lay_odds)))
                     return
+                current_odds = oth_thresh_lay_odds;
             }
         } else {
             if (params.bet.strategy.params[condition].side === 'BACK') {
-                current_odds = params.event.back_odds;
-                if (!current_odds || (currentBets.length && (!runner_thresh_back_odds || current_odds < runner_thresh_back_odds)))
+                if (!params.event.back_odds || (currentBets.length && (!runner_thresh_back_odds || params.event.back_odds < runner_thresh_back_odds)))
                     return
+                current_odds = runner_thresh_back_odds;
+
             }
             else {
-                current_odds = params.event.lay_odds;
-                if (!current_odds || (currentBets.length && (!runner_thresh_lay_odds || current_odds > runner_thresh_lay_odds)))
+                if (!params.event.lay_odds || (currentBets.length && (!runner_thresh_lay_odds || params.event.lay_odds > runner_thresh_lay_odds)))
                     return
+                current_odds = runner_thresh_lay_odds 
             }
         }
 

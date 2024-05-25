@@ -25,8 +25,8 @@ const util = require('util');
     const executor = new StrategyExecutor('./data/strategy.json');
     await executor.initialize();
 
-    for (let i = 0; i < 500; i++) {
-      await page.waitForTimeout(10000);
+    for (let i = 0; i < 600; i++) {
+      await page.waitForTimeout(6000);
 
       global.placing = false
 
@@ -61,7 +61,7 @@ const util = require('util');
 
           try {
             if (checkBets(params))
-              await executor.execute(params.bet.strategy.name, params);
+              executor.execute(params.bet.strategy.name, params);
           } catch (error) {
             const subject = 'Test Failure';
             const text = `A test has failed: Navigate match events and place bets`;

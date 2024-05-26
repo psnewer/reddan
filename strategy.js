@@ -594,6 +594,7 @@ class StrategyExecutor {
             } else {
                 if (params.event.runner_side == 'BACK') {
                     params.bet.strategy.params[condition].side = 'LAY'
+                    params.bet.strategy.params[condition]['scale'] = 0.0
                 }
                 else if (params.event.runner_side == 'LAY') {
                     params.bet.strategy.params[condition].side = 'BACK'

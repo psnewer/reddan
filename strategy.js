@@ -678,7 +678,7 @@ class StrategyExecutor {
             } else {
                 net_profit = params.event.runner_win
                 liability = params.event.oth_win > 0.0 ? 0.0 : Math.abs(params.event.oth_win)
-                oth_thresh_back_odds = 1.0 + net_profit / liability
+                oth_thresh_back_odds = 1.0 + liability / net_profit
             }
         } else {
             if (params.bet.strategy.params[condition].side === 'LAY') {
@@ -688,7 +688,7 @@ class StrategyExecutor {
             } else {
                 net_profit = params.event.oth_win
                 liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
-                runner_thresh_back_odds = 1.0 + net_profit / liability
+                runner_thresh_back_odds = 1.0 + liability / net_profit
             }
         }
 

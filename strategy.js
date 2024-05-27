@@ -111,7 +111,7 @@ class StrategyExecutor {
                     else if (!params.event.lastIsRunner && params.bet.home == params.bet.runner)
                         match = true
                 }
-            } else if (!params.event.score_home.length) {
+            } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0) {
                 if (!(params.bet.strategy.params[condition].first_runner || params.bet.strategy.params[condition].first_oth)) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
                         params.bet.strategy.params[condition].oth = true
@@ -626,7 +626,6 @@ class StrategyExecutor {
             }
         }
 
-
         if (params.event.hasOwnProperty('runner_handicap'))
             if (params.bet.strategy.params[condition]['oth']) {
                 if (params.event.runner_side == params.bet.strategy.params[condition].side) {
@@ -663,10 +662,36 @@ class StrategyExecutor {
         }
 
         let rec = 0.0
-        let runner_thresh_back_odds = params.event.runner_thresh_odds
-        let runner_thresh_lay_odds = params.event.runner_thresh_odds
-        let oth_thresh_back_odds = params.event.oth_thresh_odds
-        let oth_thresh_lay_odds = params.event.oth_thresh_odds
+        let runner_thresh_back_odds = null
+        let runner_thresh_lay_odds = null
+        let oth_thresh_back_odds = null
+        let oth_thresh_lay_odds = null
+
+        let net_profit = 0.0
+        let liability = 0.0
+
+        if (params.bet.strategy.params[condition].oth) {
+            if (params.bet.strategy.params[condition].side === 'LAY') {
+                net_profit = params.event.oth_win
+                liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
+                oth_thresh_lay_odds = liability > 0.0 ? 1.0 + net_profit / liability : 100000.0
+            } else {
+                net_profit = params.event.runner_win
+                liability = params.event.oth_win > 0.0 ? 0.0 : Math.abs(params.event.oth_win)
+                oth_thresh_back_odds = 1.0 + net_profit / liability
+            }
+        } else {
+            if (params.bet.strategy.params[condition].side === 'LAY') {
+                net_profit = params.event.runner_win
+                liability = params.event.oth_win > 0.0 ? 0.0 : Math.abs(params.event.oth_win)
+                runner_thresh_lay_odds = liability > 0.0 ? 1.0 + net_profit / liability : 100000.0
+            } else {
+                net_profit = params.event.oth_win
+                liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
+                runner_thresh_back_odds = 1.0 + net_profit / liability
+            }
+        }
+
         if (params.bet.strategy.params[condition].hasOwnProperty('rec')) {
             rec = params.bet.strategy.params[condition].rec
             runner_thresh_back_odds = params.event.runner_thresh_odds - rec
@@ -679,51 +704,30 @@ class StrategyExecutor {
         let current_odds = 0
         if (params.bet.strategy.params[condition].oth) {
             if (params.bet.strategy.params[condition].side === 'BACK') {
-                current_odds = params.event.oth_back_odds
-                if (!params.event.oth_back_odds || (currentBets.length && !oth_thresh_back_odds))
+                if (!params.event.oth_back_odds || (currentBets.length && (!oth_thresh_back_odds || params.event.oth_back_odds < oth_thresh_back_odds)))
                     return
+                current_odds = params.event.oth_back_odds * 0.9 > 1.0 ? params.event.oth_back_odds * 0.9 : params.event.oth_back_odds
             }
             else {
-                current_odds = params.event.oth_lay_odds
-                if (!params.event.oth_lay_odds || (currentBets.length && !oth_thresh_lay_odds))
+                if (!params.event.oth_lay_odds || (currentBets.length && (!oth_thresh_lay_odds || params.event.oth_lay_odds > oth_thresh_lay_odds)))
                     return
+                current_odds = params.event.oth_lay_odds * 1.1
             }
         } else {
             if (params.bet.strategy.params[condition].side === 'BACK') {
-                current_odds = params.event.back_odds
-                if (!params.event.back_odds || (currentBets.length && !runner_thresh_back_odds))
+                if (!params.event.back_odds || (currentBets.length && (!runner_thresh_back_odds || params.event.back_odds < runner_thresh_back_odds)))
                     return
+                current_odds = params.event.back_odds * 0.9 > 1.0 ? params.event.back_odds * 0.9 : params.event.back_odds
             }
             else {
-                current_odds = params.event.lay_odds
-                if (!params.event.lay_odds || (currentBets.length && !runner_thresh_lay_odds))
+                if (!params.event.lay_odds || (currentBets.length && (!runner_thresh_lay_odds || params.event.lay_odds > runner_thresh_lay_odds)))
                     return
+                current_odds = params.event.lay_odds * 1.1
             }
         }
 
-        let size = 0;
         let price = current_odds
-        let net_profit = 0.0
-        let liability = 0.0
-
-        if (params.bet.strategy.params[condition].oth) {
-            if (params.bet.strategy.params[condition].side === 'LAY') {
-                net_profit = params.event.oth_win
-                liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
-            } else {
-                net_profit = params.event.runner_win
-                liability = params.event.oth_win > 0.0 ? 0.0 : Math.abs(params.event.oth_win)
-            }
-        } else {
-            if (params.bet.strategy.params[condition].side === 'LAY') {
-                net_profit = params.event.runner_win
-                liability = params.event.oth_win > 0.0 ? 0.0 : Math.abs(params.event.oth_win)
-            } else {
-                net_profit = params.event.oth_win
-                liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
-            }
-        }
-
+        let size = 0;
         if ((params.event.runner_win == 0.0 && params.event.oth_win == 0.0))
             size = params.bet.vol;
         else {

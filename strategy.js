@@ -694,10 +694,10 @@ class StrategyExecutor {
 
         if (params.bet.strategy.params[condition].hasOwnProperty('rec')) {
             rec = params.bet.strategy.params[condition].rec
-            runner_thresh_back_odds = params.event.runner_thresh_odds - rec
-            runner_thresh_lay_odds = params.event.runner_thresh_odds + rec
-            oth_thresh_back_odds = params.event.oth_thresh_odds - rec
-            oth_thresh_lay_odds = params.event.oth_thresh_odds + rec
+            runner_thresh_back_odds = runner_thresh_back_odds ? runner_thresh_back_odds - rec : runner_thresh_back_odds
+            runner_thresh_lay_odds = runner_thresh_lay_odds ? runner_thresh_lay_odds + rec : runner_thresh_lay_odds
+            oth_thresh_back_odds = oth_thresh_back_odds ? oth_thresh_back_odds - rec : oth_thresh_back_odds
+            oth_thresh_lay_odds = oth_thresh_lay_odds ? oth_thresh_lay_odds + rec : oth_thresh_lay_odds
         }
 
         //找到当前赔率

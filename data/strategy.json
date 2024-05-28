@@ -259,7 +259,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","loseSetsNotMatch"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -279,7 +279,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","drawSetsNotMatch"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {

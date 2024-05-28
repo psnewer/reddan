@@ -138,6 +138,22 @@
             "action": "placeBet"
         }
     ],
+    "tennis_01": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "loseSets",
+            "checktion":["deltaIn","loseSetsNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "drawSets",
+            "checktion":["drawSetsNotMatch"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_13": [
         {
             "condition": "notInPlay",
@@ -216,6 +232,22 @@
             "condition": "drawGames",
             "checktion":["drawGamesNotMatch"],
             "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["deltaIn","eitherLoseNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherDraw",
+            "checktion":["eitherDrawNotMatch"],
+            "action": "placeBet"
+        }
+    ],
+    "tennis_02": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
         },
         {
             "condition": "eitherLose",

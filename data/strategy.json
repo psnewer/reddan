@@ -234,18 +234,16 @@
             "action": "break"
         },
         {
-            "condition": "notMatchOne",
-            "checktion":["loseSets","deltaIn"],
+            "condition": "loseHang",
             "action": "placeBet"
         },
         {
             "condition": "loseSets",
-            "checktion":["notMatchTwo"],
+            "checktion":["deltaIn"],
             "action": "placeBet"
         },
         {
-            "condition": "notMatchTwo",
-            "checktion":["drawSets"],
+            "condition": "drawSets",
             "action": "placeBet"
         }
     ],
@@ -255,18 +253,16 @@
             "action": "break"
         },
         {
-            "condition": "notMatchOne",
-            "checktion":["eitherLose","deltaIn"],
+            "condition": "loseHang",
             "action": "placeBet"
         },
         {
-            "condition": "loseSets",
-            "checktion":["notMatchTwo"],
+            "condition": "eitherLose",
+            "checktion":["deltaIn"],
             "action": "placeBet"
         },
         {
-            "condition": "notMatchTwo",
-            "checktion":["eitherDraw"],
+            "condition": "eitherDraw",
             "action": "placeBet"
         }
     ],
@@ -276,18 +272,16 @@
             "action": "break"
         },
         {
-            "condition": "notMatchOne",
-            "checktion":["eitherLose","deltaIn"],
+            "condition": "winHang",
             "action": "placeBet"
         },
         {
-            "condition": "drawSets",
-            "checktion":["notMatchTwo"],
+            "condition": "eitherLose",
+            "checktion":["deltaIn"],
             "action": "placeBet"
         },
         {
-            "condition": "notMatchTwo",
-            "checktion":["eitherDraw"],
+            "condition": "eitherDraw",
             "action": "placeBet"
         }
     ],
@@ -297,18 +291,16 @@
             "action": "break"
         },
         {
-            "condition": "notMatchOne",
-            "checktion":["eitherLose","deltaIn"],
+            "condition": "eitherHang",
             "action": "placeBet"
         },
         {
             "condition": "eitherLose",
-            "checktion":["notMatchTwo"],
+            "checktion":["deltaIn"],
             "action": "placeBet"
         },
         {
-            "condition": "notMatchTwo",
-            "checktion":["eitherDraw"],
+            "condition": "eitherDraw",
             "action": "placeBet"
         }
     ],

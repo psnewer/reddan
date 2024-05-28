@@ -385,12 +385,12 @@ class StrategyExecutor {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
                     if (params.bet.runner.includes(params.bet.home)) {
-                        if (countElementsGE(home_squence, away_squence) == 0)
+                        if (countElementsGE(home_squence, away_squence) >= 0)
                             if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1])
                                 return true;
                     }
                     else if (params.bet.runner.includes(params.bet.away)) {
-                        if (countElementsGE(away_squence, home_squence) == 0)
+                        if (countElementsGE(away_squence, home_squence) >= 0)
                             if (params.event.score_away[params.event.score_away.length - 1] > params.event.score_home[params.event.score_home.length - 1])
                                 return true;
                     }
@@ -533,6 +533,24 @@ class StrategyExecutor {
             }
             return false
         }
+    }
+
+    winHang(params, condition) {
+        if (this.drawSets(params, condition) && this.notMatchTwo(params, condition))
+            return true
+        return false
+    }
+
+    loseHang(params, condition) {
+        if (this.loseSets(params, condition) && this.notMatchTwo(params, condition))
+            return true
+        return false
+    }
+
+    eitherHang(params, condition) {
+        if (this.eitherLose(params, condition) && this.notMatchTwo(params, condition))
+            return true
+        return false
     }
 
     deltaIn(params, condition) {

@@ -385,12 +385,12 @@ class StrategyExecutor {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
                     if (params.bet.runner.includes(params.bet.home)) {
-                        if (countElementsGE(home_squence, away_squence) >= 0)
+                        if (countElementsGE(home_squence, away_squence) == 0)
                             if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1])
                                 return true;
                     }
                     else if (params.bet.runner.includes(params.bet.away)) {
-                        if (countElementsGE(away_squence, home_squence) >= 0)
+                        if (countElementsGE(away_squence, home_squence) == 0)
                             if (params.event.score_away[params.event.score_away.length - 1] > params.event.score_home[params.event.score_home.length - 1])
                                 return true;
                     }
@@ -424,6 +424,29 @@ class StrategyExecutor {
                     else if (params.bet.runner.includes(params.bet.away)) {
                         if (params.event.score_away - params.event.score_home >= delta)
                             return true;
+                    }
+                }
+            }
+            return false
+        }
+    }
+
+    winSets(params, condition) {
+        if (params.bet.sport === "Tennis") {
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                let set = params.event.score_home.length
+                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                    set = params.bet.strategy.params[condition].set
+                if (set >= 1 && params.event.score_home.length == set && params.event.score_away.length == set) {
+                    const home_squence = params.event.score_home.slice(0, set)
+                    const away_squence = params.event.score_away.slice(0, set)
+                    if (params.bet.runner.includes(params.bet.home)) {
+                        if (countElementsGE(home_squence, away_squence) > 0)
+                                return true;
+                    }
+                    else if (params.bet.runner.includes(params.bet.away)) {
+                        if (countElementsGE(away_squence, home_squence) > 0)
+                                return true;
                     }
                 }
             }
@@ -502,10 +525,10 @@ class StrategyExecutor {
                     const away_squence = params.event.score_away.slice(0, set)
                     const home_squence_pre = params.event.score_home.slice(0, set - 1)
                     const away_squence_pre = params.event.score_away.slice(0, set - 1)
-                    if (countElementsGE(away_squence, home_squence) >= 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0) {
+                    if (countElementsGE(away_squence, home_squence) == 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0) {
                         return true
                     }
-                    else if (countElementsGE(home_squence, away_squence) >= 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0) {
+                    else if (countElementsGE(home_squence, away_squence) == 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0) {
                         return true
                     }
                 }
@@ -536,7 +559,7 @@ class StrategyExecutor {
     }
 
     winHang(params, condition) {
-        if (this.drawSets(params, condition) && this.notMatchTwo(params, condition))
+        if (this.winSets(params, condition) && this.notMatchTwo(params, condition))
             return true
         return false
     }

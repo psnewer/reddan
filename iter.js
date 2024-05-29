@@ -82,7 +82,7 @@ const util = require('util');
               const text = `A test has failed: Navigate match events and place bets`;
               const errorDetails = error.stack; // 获取错误的堆栈信息
               const html = `
-                <p>A test has failed: <strong>Navigate match events and place bets ${error.response.status} ${error.message} ${error}</strong></p>
+                <p>A test has failed: <strong>Navigate match events and place bets ${error.message} ${error}</strong></p>
                 <p>Error details:</p>
                 <pre>${errorDetails}</pre>
               `;

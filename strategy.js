@@ -702,11 +702,7 @@ class StrategyExecutor {
             }
         }
 
-        let rec = 0.0
-        let runner_thresh_back_odds = null
-        let runner_thresh_lay_odds = null
-        let oth_thresh_back_odds = null
-        let oth_thresh_lay_odds = null
+        let rec = 0.5
 
         let net_profit = 0.0
         let liability = 0.0
@@ -715,31 +711,27 @@ class StrategyExecutor {
             if (params.bet.strategy.params[condition].side === 'LAY') {
                 net_profit = params.event.oth_win
                 liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
-                oth_thresh_lay_odds = liability > 0.0 ? 1.0 + net_profit / liability : 100000.0
             } else {
                 net_profit = params.event.runner_win
                 liability = params.event.oth_win > 0.0 ? 0.0 : Math.abs(params.event.oth_win)
-                oth_thresh_back_odds = 1.0 + liability / net_profit
             }
         } else {
             if (params.bet.strategy.params[condition].side === 'LAY') {
                 net_profit = params.event.runner_win
                 liability = params.event.oth_win > 0.0 ? 0.0 : Math.abs(params.event.oth_win)
-                runner_thresh_lay_odds = liability > 0.0 ? 1.0 + net_profit / liability : 100000.0
             } else {
                 net_profit = params.event.oth_win
                 liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
-                runner_thresh_back_odds = 1.0 + liability / net_profit
             }
         }
 
-        if (params.bet.strategy.params[condition].hasOwnProperty('rec')) {
+        if (params.bet.strategy.params[condition].hasOwnProperty('rec')) 
             rec = params.bet.strategy.params[condition].rec
-            runner_thresh_back_odds = runner_thresh_back_odds ? runner_thresh_back_odds - rec : runner_thresh_back_odds
-            runner_thresh_lay_odds = runner_thresh_lay_odds ? runner_thresh_lay_odds + rec : runner_thresh_lay_odds
-            oth_thresh_back_odds = oth_thresh_back_odds ? oth_thresh_back_odds - rec : oth_thresh_back_odds
-            oth_thresh_lay_odds = oth_thresh_lay_odds ? oth_thresh_lay_odds + rec : oth_thresh_lay_odds
-        }
+
+        let runner_thresh_back_odds = params.event.runner_thresh_odds ? params.event.runner_thresh_odds - rec : params.event.runner_thresh_odds
+        let runner_thresh_lay_odds = params.event.runner_thresh_odds ? params.event.runner_thresh_odds + rec : params.event.runner_thresh_odds
+        let oth_thresh_back_odds = params.event.oth_thresh_odds ? params.event.oth_thresh_odds - rec : params.event.oth_thresh_odds
+        let oth_thresh_lay_odds = params.event.oth_thresh_odds ? params.event.oth_thresh_odds + rec : params.event.oth_thresh_odds
 
         //找到当前赔率
         let current_odds = 0

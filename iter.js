@@ -6,19 +6,54 @@ const { login, getEventData, currentBets, placeBet, cancelBet } = require('./com
 const util = require('util');
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true,
+    executablePath: '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'});
   const context = await browser.newContext();
   const page = await context.newPage();
 
   const ret = await login(page);
+  await page.reload();
 
   global.currentBets = ''; // 初始化全局变量来存储 WebSocket 响应
+
   page.on('response', async response => {
     if (response.url().includes('/customer/api/currentBets')) {
       console.log(`Response status: ${response.status()}`);
       global.currentBets = await response.json();
     }
   });
+
+  page.on('websocket', websocket => {
+    // 检查 WebSocket URL 是否包含 "current-bets"
+    console.log(websocket.url())
+    if (websocket.url().includes("/ws/general") || websocket.url().includes("current-bets")) {
+      console.log(`WebSocket connected: ${websocket.url()}`);
+
+      websocket.on('framereceived', event => {
+        console.log(`Received message: ${event}`);
+
+        if (event.payload && event.payload.includes('a')) {
+          if (websocket.url().includes("/ws/general") && !event.payload.includes('CURRENT_BETS'))
+            return
+          global.currentBets = parseBet(event)
+        }
+      });
+
+      websocket.on('close', () => {
+        console.log('websocket close')
+        global.currentBets = ''
+        process.exit(1)
+      });
+
+      websocket.on('socketerror', (error) => {
+        console.log('websocket error')
+        global.currentBets = ''
+        process.exit(1)
+      });
+
+    }
+  });
+
 
   if (ret) {
 

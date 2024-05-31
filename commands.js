@@ -209,14 +209,15 @@ async function currentBets(page) {
 };
 
 async function placeBet(page, marketId, price, size, selectionId, handicap, side) {
+
     let payload = {
         "headers": {
             "host": "www.orbitxch.com",
             "connection": "keep-alive",
-            "sec-ch-ua": "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
-            "x-csrf-token": "1ed7f80a-d692-4cd2-928c-f3e2ff0112bd",
+            "sec-ch-ua": "\"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"114\"",
+            "x-csrf-token": "1a548649-196e-4fa6-bde9-0afb14a2bea0",
             "sec-ch-ua-mobile": "?0",
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/13.5.0 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36",
             "content-type": "application/json",
             "access-control-allow-origin": "*",
             "accept": "application/json, text/plain, */*",
@@ -227,9 +228,10 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
             "sec-fetch-site": "same-origin",
             "sec-fetch-mode": "cors",
             "sec-fetch-dest": "empty",
+            "referer": "https://www.orbitxch.com/customer/sport/2/event/33313982",
             "accept-encoding": "gzip, deflate, br",
-            "accept-language": "zh-CN,zh;q=0.9",
-            "cookie": "CSRF-TOKEN=1ed7f80a-d692-4cd2-928c-f3e2ff0112bd; BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUyT1RrNU9EYzNPVGdzSW1saGRDSTZNVFk1T1RrMU1UYzVPQ3dpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLnhLblhzT0VZWnNKVTdIRzJwWGFSb2tBRGlUaG1QaGUzN2RXLUF1Q0c4Zzh8fHhYN2IzY2g3eHZiem85M0xjMnhxdFNEVEJXcz0=; BIAB_AN=90caa73b-00f9-4bb0-92c6-f8c4533a68c6; _gid=GA1.2.953711950.1699951790; BIAB_LANGUAGE=en; BIAB_TZ=-480; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_LOGIN_POP_UP_SHOWN=true; _gat_gtag_UA_252822765_1=1; BIAB_SHOW_TOOLTIPS=false; _ga=GA1.1.1979628482.1699951790; _ga_R0X6ZP423B=GS1.1.1699954670.2.1.1699954687.0.0.0; AWSALB=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG; AWSALBCORS=uKUKreCIS+0SpUbEjO3VWGCJTcjcsAByqXyh+we0zg57SV/i6EfkQfKjoYkErq38ARz9ATrfHUiN/FNQOBLMMF61wZVramCtytqMeLj7qhgJI5WeqKyx1D05KsOG"
+            "accept-language": "zh-CN",
+            "cookie": "BIAB_AN=5aea1f5f-56f9-46b3-85a5-5243d181f9b1; BIAB_LANGUAGE=en; BIAB_TZ=-480; _ga=GA1.2.1446035011.1717153979; _gid=GA1.2.645143785.1717153980; _gat_gtag_UA_252822765_1=1; CSRF-TOKEN=1a548649-196e-4fa6-bde9-0afb14a2bea0; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUzTVRjeE9EazVPRElzSW1saGRDSTZNVGN4TnpFMU16azRNaXdpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLkY5OUpKc29wUk5nSGhsVzFtN3JBa2RyOGlCcXhXV2FmZGpaQ0VPbVZtT018fEJtZlMvZnJGOW5Ga3EvV3ZpanQzaW9UUFk2az0=; BIAB_LOGIN_POP_UP_SHOWN=true; BIAB_SHOW_TOOLTIPS=false; _ga_R0X6ZP423B=GS1.1.1717153979.1.1.1717154011.0.0.0; AWSALB=c4yRdyHrX+Y9DSwvqH8CVrjXi81a5vrJRYRK8badCkR9Ghu2MEoMFOmpMC407H4XJb+fDrxT2PYsT/e7f8gyTkyoyG6OXjQat7G+o8UyNQGbCfUQ7tceeTn+NcQS; AWSALBCORS=c4yRdyHrX+Y9DSwvqH8CVrjXi81a5vrJRYRK8badCkR9Ghu2MEoMFOmpMC407H4XJb+fDrxT2PYsT/e7f8gyTkyoyG6OXjQat7G+o8UyNQGbCfUQ7tceeTn+NcQS"
         },
         "url": "https://www.orbitxch.com/customer/api/placeBets",
         "method": "POST",
@@ -253,14 +255,14 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
                     "mobile": false,
                     "isEachWay": false,
                     "eachWayData": {},
-                    "page": "competition",
+                    "page": "event",
                     "persistenceType": "LAPSE",
                     "placedUsingEnterKey": false
                 }
             ]
         },
         "responseTimeout": 30000
-    }
+      }
 
     const cookies = await page.context().cookies();
     const updatedCookies = [];
@@ -286,32 +288,24 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
 
 async function cancelBet(page, marketId, offerId) {
     let payload = {
-        "headers": {
-            "host": "www.orbitxch.com",
-            "connection": "keep-alive",
-            "sec-ch-ua": "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"",
-            "x-csrf-token": "09b23b6d-0005-489c-8963-e0abc3ed82f6",
-            "sec-ch-ua-mobile": "?0",
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-            "content-type": "application/json",
-            "access-control-allow-origin": "*",
-            "accept": "application/json, text/plain, */*",
-            "access-control-allow-credentials": "true",
-            "x-device": "DESKTOP",
-            "sec-ch-ua-platform": "\"macOS\"",
-            "origin": "https://www.orbitxch.com",
-            "sec-fetch-site": "same-origin",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-dest": "empty",
-            "accept-encoding": "gzip, deflate, br",
-            "accept-language": "zh-CN,zh;q=0.9",
-            "cookie": "BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUzTURBd05EY3lNekVzSW1saGRDSTZNVGN3TURBeE1USXpNU3dpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLm9TMXM4Xy0xaUd4VFNJekdrTTZHS3lIbVQwM0VIR2MyX2hsRzFoTmRKNzh8fDdrMVg1U1JmQTVUMjJqQmFSdmw3UUVPWUJRST0=; BIAB_AN=caaecd33-9873-4205-a37d-c00fdef1ea80; _gid=GA1.2.2024580322.1700011224; BIAB_LANGUAGE=en; BIAB_TZ=-480; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_LOGIN_POP_UP_SHOWN=true; CSRF-TOKEN=09b23b6d-0005-489c-8963-e0abc3ed82f6; _gat_gtag_UA_252822765_1=1; _ga=GA1.1.538752001.1700011224; BIAB_SHOW_TOOLTIPS=false; _ga_R0X6ZP423B=GS1.1.1700019309.4.1.1700019313.0.0.0; AWSALB=FoLqO3syAoT1g9j5elNOQEKlA5OjzVo/3WVCmwTT952hDeiM4iVzBRyYKdEinWNbKC95RzuJq+AIx6RrZe12W8IF621mHIROS8zUJZFKoYnJYwNvuoR+ZaXTIn1n; AWSALBCORS=FoLqO3syAoT1g9j5elNOQEKlA5OjzVo/3WVCmwTT952hDeiM4iVzBRyYKdEinWNbKC95RzuJq+AIx6RrZe12W8IF621mHIROS8zUJZFKoYnJYwNvuoR+ZaXTIn1n"
-        },
+        headers: {
+            accept: 'application/json, text/plain, */*',
+            'content-type': 'application/json',
+            cookie: 'BIAB_AN=89040be8-fec8-49bd-84ee-2e60573d66fa; BIAB_LANGUAGE=en; BIAB_TZ=-480; _gid=GA1.2.1174095756.1717158123; _gat_gtag_UA_252822765_1=1; CSRF-TOKEN=c403a70d-13b5-44a4-a2e5-8940eaa99c25; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUzTVRjeE9UUXhNalVzSW1saGRDSTZNVGN4TnpFMU9ERXlOU3dpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLkVoY0pXVkR5cm5ISGp4Z1RSSHVpOFFiMGFCSUhQdTB3WVlUZkxwdmV3Zzh8fGh5enlnUEhtTDlqV0FYQ2MxNk1VUDF2MFVUVT0=; BIAB_LOGIN_POP_UP_SHOWN=true; BIAB_SHOW_TOOLTIPS=false; _ga=GA1.1.95045878.1717158122; _ga_R0X6ZP423B=GS1.1.1717158122.1.1.1717158126.0.0.0; AWSALB=sc14t9KkU1MQqltn9fAvtgcpW1Dn9naqBEae9Z5NLKQRcn3XfT8OKL1UsllNLlm4+FI1PAj5ATlqcdJvaGnjWhbNgTpYYT16NdL+nHbg89TwD/8BZSKrnfcPfd0+; AWSALBCORS=sc14t9KkU1MQqltn9fAvtgcpW1Dn9naqBEae9Z5NLKQRcn3XfT8OKL1UsllNLlm4+FI1PAj5ATlqcdJvaGnjWhbNgTpYYT16NdL+nHbg89TwD/8BZSKrnfcPfd0+',
+            origin: 'https://www.orbitxch.com',
+            referer: 'https://www.orbitxch.com/customer/inplay/highlights',
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+            'x-csrf-token': 'c403a70d-13b5-44a4-a2e5-8940eaa99c25',
+            'access-control-allow-credentials': 'true',
+            'access-control-allow-origin': '*',
+            'sec-ch-ua': '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"macOS"',
+            'x-device': 'DESKTOP'
+          },
         "url": "https://www.orbitxch.com/customer/api/cancelBets",
         "method": "POST",
-        "httpVersion": "1.1",
         "resourceType": "xhr",
-        "query": {},
         "data": {
             [marketId]: [
                 {

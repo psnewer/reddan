@@ -113,24 +113,11 @@ const util = require('util');
                 }
               }
             } catch (error) {
-              if (error.response) {
-                console.error('Response data:', error.response.data);
-                console.error('Response status:', error.response.status);
-                console.error('Response headers:', error.response.headers);
-              } else if (error.request) {
-                console.error('Request data:', error.request);
-              } else {
-                console.error('Error message:', error.message);
-              }
-              console.error('Error config:', error.config);
               const subject = 'Test Failure';
               const text = `A test has failed: Navigate match events and place bets`;
               const errorDetails = error.stack; // 获取错误的堆栈信息
               const html = `
-                <p>A test has failed: <strong>Navigate match events and place bets ${error.message} </strong></p>
-                <p>${error.response.data}</p>
-                <p>${error.response.headers}</p>
-                <p>${error.config}</p>
+                <p>A test has failed: <strong>Navigate match events and place bets ${error.message} ${error}</strong></p>
                 <p>Error details:</p>
                 <pre>${errorDetails}</pre>
               `;

@@ -253,7 +253,7 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
                     "mobile": false,
                     "isEachWay": false,
                     "eachWayData": {},
-                    "page": "multi-market",
+                    "page": "competition",
                     "persistenceType": "LAPSE",
                     "placedUsingEnterKey": false
                 }

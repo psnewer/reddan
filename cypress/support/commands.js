@@ -23,3 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (username, password) => {    
+    cy.session([username,password],()=>{
+        cy.visit('http://www.orbitxch.com',{timeout:20000}).then(response => {
+
+            cy.task('readJsonFile','cypress/e2e/orbit/data/profile.json').then(json => {
+                cy.get('input[name=username]').type(json['username'])
+                cy.get('input[name=password]').type(json['password'])
+                cy.get('form').submit()
+                cy.get('.biab_btn-continue').click();
+            })
+        })   
+    })    
+});

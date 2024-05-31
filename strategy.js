@@ -157,13 +157,6 @@ class StrategyExecutor {
                 }
             }
 
-            if (match) {
-                params.bet.strategy.params[condition].scale = 0.0
-                if (params.bet.strategy.params[condition].last_runner && !params.event.lastIsRunner)
-                    params.bet.strategy.params[condition].scale = 1.0
-                else if (params.bet.strategy.params[condition].last_oth && params.event.lastIsRunner)
-                    params.bet.strategy.params[condition].scale = 1.0
-            }
         }
 
         if (match) {
@@ -800,7 +793,7 @@ class StrategyExecutor {
 
             if (!global.placing) {
                 global.placing = true
-                await placeBet(params.bet.page, params.bet['data-market-id'], price.toFixed(2), size.toFixed(2), selectionId, handicap, params.bet.strategy.params[condition].side)
+                await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 
         }

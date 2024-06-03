@@ -309,10 +309,6 @@ async function cancelBet(page, marketId, offerId) {
         "data": {
             [marketId]: [
                 {
-                    "price": 50,
-                    "size": 0,
-                    "selectionId": 47999,
-                    "handicap": "0.00",
                     "offerId": offerId,
                     "betType": "EXCHANGE"
                 }

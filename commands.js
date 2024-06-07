@@ -31,7 +31,7 @@ const axios = require('axios');
 const fs = require('fs').promises;
 
 async function login(page) {
-    filePath = '../data/profile.json'
+    filePath = './data/profile.json'
     const json = JSON.parse(await fs.readFile(filePath, 'utf8'));
 
     await page.goto('http://www.orbitxch.com', { timeout: 20000 });

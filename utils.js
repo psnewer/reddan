@@ -153,7 +153,6 @@ function checkBets(params) {
   params.event.oth_win = 0.0
 
   if (currentBets.length) {
-    let first_bet = currentBets[0]
     let last_bet = currentBets[currentBets.length - 1]
 
     if (last_bet.selectionId == params.bet.selectionId) {

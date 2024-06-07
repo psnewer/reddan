@@ -201,26 +201,26 @@ function checkBets(params) {
 
 async function assertBet(currentBet, selectionId, params, condition) {
   let res = true
-  if (currentBet) {
-    if (currentBet.selectionId == selectionId && params.bet.strategy.params[condition].side == currentBet.side)
-      res = false
-    else if (currentBet.selectionId != selectionId && params.bet.strategy.params[condition].side != currentBet.side)
-      res = false
+  // if (currentBet) {
+  //   if (currentBet.selectionId == selectionId && params.bet.strategy.params[condition].side == currentBet.side)
+  //     res = false
+  //   else if (currentBet.selectionId != selectionId && params.bet.strategy.params[condition].side != currentBet.side)
+  //     res = false
 
-    if (!res) {
-      let _params = JSON.stringify(params);
-      let _selectionId = selectionId.toString();
-      try {
-        const response = await sendEmail({
-          subject: 'Bets Confict',
-          html: `<p>${_selectionId}</p><p>${_params}</p>`
-        });
-        console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
+  //   if (!res) {
+  //     let _params = JSON.stringify(params);
+  //     let _selectionId = selectionId.toString();
+  //     try {
+  //       const response = await sendEmail({
+  //         subject: 'Bets Confict',
+  //         html: `<p>${_selectionId}</p><p>${_params}</p>`
+  //       });
+  //       console.log(response);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  // }
 
 
   if (res) {

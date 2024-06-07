@@ -78,7 +78,7 @@ describe('Login to www.orbitxch.com', function() {
       arry.push(matchItem);
   });
 
-  cy.task('saveToFile', arry);
+  cy.task('saveToFile', arry, 'cypress/e2e/orbit/data/bets.json');
 
 });
 })

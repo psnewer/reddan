@@ -99,37 +99,38 @@ class StrategyExecutor {
         let match = false
         if (params.event.score_home.length < params.bet.strategy.params[condition].until) {
             if (params.event.hasOwnProperty('lastIsRunner')) {
-                if (!params.bet.strategy.params[condition].hasOwnProperty('on')) {
-                    if (params.event.score_homeS > params.event.score_awayS) {
-                        if (params.event.lastIsRunner && params.bet.home == params.bet.runner)
-                            match = true
-                        else if (!params.event.lastIsRunner && params.bet.away == params.bet.runner)
-                            match = true
+                if (params.event.score_homeS > params.event.score_awayS) {
+                    if (params.event.lastIsRunner && params.bet.home == params.bet.runner)
+                        match = true
+                    else if (!params.event.lastIsRunner && params.bet.away == params.bet.runner)
+                        match = true
 
-                    } else {
-                        if (params.event.lastIsRunner && params.bet.away == params.bet.runner)
-                            match = true
-                        else if (!params.event.lastIsRunner && params.bet.home == params.bet.runner)
-                            match = true
-                    }
                 } else {
-                    if (this.checkOn(params, condition)) {
-                        if (params.event.lastIsRunner) {
-                            if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
-                                match = true
-                            else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
-                                match = true
-                        } else {
-                            if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
-                                match = true
-                            else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
-                                match = true
+                    if (params.event.lastIsRunner && params.bet.away == params.bet.runner)
+                        match = true
+                    else if (!params.event.lastIsRunner && params.bet.home == params.bet.runner)
+                        match = true
+                }
+                
+                if (!match) {
+                    if (!params.bet.strategy.params[condition].hasOwnProperty('on'))
+                        if (this.checkOn(params, condition)) {
+                            if (params.event.lastIsRunner) {
+                                if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
+                                    match = true
+                                else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
+                                    match = true
+                            } else {
+                                if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
+                                    match = true
+                                else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
+                                    match = true
+                                if (match)
+                                    params.bet.strategy.params[condition].oth = true
+                            }
                             if (match)
-                                params.bet.strategy.params[condition].oth = true
+                                params.bet.strategy.params[condition].on = true
                         }
-                        if (match)
-                            params.bet.strategy.params[condition].on = true
-                    }
                 }
             } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0) {
                 if (!(params.bet.strategy.params[condition].first_runner || params.bet.strategy.params[condition].first_oth)) {

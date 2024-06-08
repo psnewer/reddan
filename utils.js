@@ -88,9 +88,9 @@ function getSimilar(shorten, base, ...args) {
     // 计算当前参数中有多少元素被基准参数包含
     const includedCount = argElements.reduce((count, elem) => {
       if (shorten)
-        return count + (baseElements.some(baseElem => isSubsequence(baseElem, elem) || isSubsequence(elem, baseElem)) ? 1 : 0);
+        return count + (baseElements.some(baseElem => (/[A-Z]/.test(baseElem) || baseElem.length > 1) && (isSubsequence(baseElem, elem) || isSubsequence(elem, baseElem))) ? 1 : 0);
       else
-        return count + (baseElements.some(baseElem => baseElem.includes(elem) || elem.includes(baseElem)) ? 1 : 0);
+        return count + (baseElements.some(baseElem => (/[A-Z]/.test(baseElem) || baseElem.length > 1) && (baseElem.includes(elem) || elem.includes(baseElem))) ? 1 : 0);
     }, 0);
 
     // 如果任何一个参数与基准参数的被包含元素数量为0，则返回0

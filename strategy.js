@@ -111,9 +111,9 @@ class StrategyExecutor {
                     else if (!params.event.lastIsRunner && params.bet.home == params.bet.runner)
                         match = true
                 }
-                
+
                 if (!match) {
-                    if (!params.bet.strategy.params[condition].hasOwnProperty('on'))
+                    if (params.bet.strategy.params[condition].hasOwnProperty('on'))
                         if (this.checkOn(params, condition)) {
                             if (params.event.lastIsRunner) {
                                 if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)

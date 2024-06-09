@@ -799,9 +799,11 @@ class StrategyExecutor {
 
             if (params.bet.strategy.params[condition].side === 'LAY') {
                 size = params.bet.strategy.params[condition]['scale'] * (net_profit / (current_odds - 1.0) - liability) + liability
+                size = size * (current_odds - 1.0) > net_profit ? net_profit / (current_odds - 1.0) : size
             }
             else {
                 size = params.bet.strategy.params[condition]['scale'] * (net_profit - liability / (current_odds - 1.0)) + liability / (current_odds - 1.0);
+                size = size > net_profit ? net_profit : size
             }
         }
         if (params.bet.strategy.params[condition].hasOwnProperty('profit')) {

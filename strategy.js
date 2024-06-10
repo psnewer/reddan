@@ -204,6 +204,16 @@ class StrategyExecutor {
             return true
     }
 
+    checkOnDrawGame(params, condition) {
+        let currentBets = params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0)
+        let first_bet = currentBets[0]
+        let selectionId = first_bet.selectionId
+        let side = first_bet.side
+        let first_bets = params.bet.currentBets.filter(item => item.selectionId == selectionId && item.side == side)
+        if (first_bets.length == currentBets.length && currentBets.length > 1)
+            return true
+    }
+
     loseSetsNotMatch(params, condition) {
         if (params.event.score_home.length <= params.bet.strategy.params[condition].until)
             if (!params.event.lastIsRunner)
@@ -260,7 +270,7 @@ class StrategyExecutor {
             if (params.event.lastIsRunner == params.bet.pre.lastIsRunner_breakdown)
                 if (params.event.score_home.length + 1 == params.bet.pre.lastSet_breakdown) {
                     if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
-                        if (params.bet.strategy.params[condition].on)
+                        if (this.checkOnDrawGame(params, condition))
                             params.bet.strategy.params[condition]['scale'] = 0.0
                     return true
                 }

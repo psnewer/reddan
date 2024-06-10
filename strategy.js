@@ -258,8 +258,12 @@ class StrategyExecutor {
     drawGamesNotMatch(params, condition) {
         if (params.event.hasOwnProperty('lastIsRunner') && params.bet.hasOwnProperty('pre'))
             if (params.event.lastIsRunner == params.bet.pre.lastIsRunner_breakdown)
-                if (params.event.score_home.length + 1 == params.bet.pre.lastSet_breakdown)
+                if (params.event.score_home.length + 1 == params.bet.pre.lastSet_breakdown) {
+                    if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
+                        if (params.bet.strategy.params[condition].on)
+                            params.bet.strategy.params[condition]['scale'] = 0.0
                     return true
+                }
         return false
     }
 

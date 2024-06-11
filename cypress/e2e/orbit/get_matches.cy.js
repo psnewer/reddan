@@ -24,7 +24,7 @@ describe('Extract and Fill Data', () => {
           const $competitionLi = $competitionItems.eq(index);
           const competitionText = $competitionLi.text();
 
-          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && !competitionText.includes('Herto') && competitionText.includes('Valencia')) {
+          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('Hertogenbosch') || competitionText.includes('ATP Stuttgart') || competitionText.includes('WTA Nottingham')  )) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -55,86 +55,102 @@ describe('Extract and Fill Data', () => {
                           const $eventLi = eventItems.eq(eventIndex);
                           
                           // 确保元素存在并可见，然后点击
-                          cy.wrap($eventLi).click();
-
+                          // cy.wrap($eventLi).click();
+                          const data_event_id = $eventLi.attr('data-navigation-id')
                           // 确保 event 页面加载
-                          cy.wait(2000); // 根据需要调整等待时间
+                          // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          cy.get('div.styles_eventMarket__runnersContainer__WKEEh').should('be.visible').first().within(() => {
+                          cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
-                            // 找到两个 class="styles_marketRunner__uvfrt marketRunner" 的 div
-                            cy.get('div.styles_marketRunner__uvfrt.marketRunner').then(($runners) => {
-                              if ($runners.length >= 2) {
-                                // 获取 Home 和 Away 的名称及赔率
-                                const homeDiv = $runners.eq(0);
-                                const awayDiv = $runners.eq(1);
+                            const data_market_id = $rowDiv.attr('data-market-id');
+                            const homeName = $rowDiv.find('p[title]').eq(0).attr('title');
+                            const awayName = $rowDiv.find('p[title]').eq(1).attr('title');
 
-                                const homeName = homeDiv.find('span').first().text();
-                                const homeOdds = homeDiv.find('button[class*="back"] span').first().text();
+                            const selectionDivs = $rowDiv.find('div[data-selection-id]');
+                            const homeDiv = selectionDivs.eq(0);
+                            const awayDiv = selectionDivs.eq(1);
 
-                                const awayName = awayDiv.find('span').first().text();
-                                const awayOdds = awayDiv.find('button[class*="back"] span').first().text();
+                            const homeOdds = homeDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
+                            const homeSelectionId = homeDiv.attr('data-selection-id');
 
-                                // 将赔率转换为数字以便比较
-                                const homeOddsValue = parseFloat(homeOdds);
-                                const awayOddsValue = parseFloat(awayOdds);
+                            const awayOdds = awayDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
+                            const awaySelectionId = awayDiv.attr('data-selection-id');
+
+                              // if ($runners.length >= 2) {
+
 
                                 // 根据赔率比较来决定 runner
-                                let runner;
-                                if (homeOddsValue >= awayOddsValue) {
+                                let runner,oth_runner,selectionId,oth_selectionId;
+                                if (homeOdds <= awayOdds) {
                                   runner = homeName;
+                                  oth_runner = awayName;
+                                  selectionId = homeSelectionId;
+                                  oth_selectionId = awaySelectionId;
                                 } else {
                                   runner = awayName;
+                                  oth_runner = homeName
+                                  selectionId = awaySelectionId;
+                                  oth_selectionId = homeSelectionId;
                                 }
 
                                 // 创建目标对象
-                                const result = {
-                                  sport: "Tennis",
-                                  competition: competitionText,
-                                  home: homeName,
-                                  away: awayName,
-                                  market: "Match Odds",
-                                  runner: runner,
-                                  vol: 10,
-                                  strategy: {
-                                    name: "tennis_2",
-                                    params: {
-                                      breakdown: {
-                                        until: 2,
-                                        side: "BACK",
-                                        first_runner: false,
-                                        first_oth: false,
-                                        last_runner: false,
-                                        last_oth: false
+                                const result =   {
+                                  "sport": "Tennis",
+                                  "competition": competitionText,
+                                  "home": homeName,
+                                  "away": awayName,
+                                  "market": "Match Odds",
+                                  "runner": runner,
+                                  "vol": 6,
+                                  "strategy": {
+                                    "name": "tennis_2",
+                                    "params": {
+                                      "breakdown": {
+                                        "until": 2,
+                                        "side": "BACK",
+                                        "first_runner": true,
+                                        "first_oth": false,
+                                        "last_runner": true,
+                                        "last_oth": false
                                       },
-                                      eitherLose: {
-                                        side: "BACK",
-                                        until: 1
+                                      "eitherLose": {
+                                        "first_runner": true,
+                                        "first_oth": true,
+                                        "side": "BACK",
+                                        "until": 1
                                       },
-                                      eitherDraw: {
-                                        side: "BACK"
+                                      "eitherDraw": {
+                                        "side": "BACK",
+                                        "scale": 0.0
                                       },
-                                      drawGames: {
-                                        side: "BACK"
+                                      "drawGames": {
+                                        "side": "BACK"
                                       }
                                     }
-                                  }
+                                  },
+                                  "oth_runner": oth_runner,
+                                  "handicap": 0,
+                                  "oth_handicap": 0,
+                                  "data-event-id": data_event_id,
+                                  "data-market-id": data_market_id,
+                                  "selectionId": selectionId,
+                                  "oth_selectionId": oth_selectionId
                                 };
 
                                 // 将结果添加到数组中
                                 results.push(result);
 
                                 // 打印当前结果到控制台
-                                cy.log(JSON.stringify(result));
-                              }
-                            });
-                            cy.wait(2000).then(() => {
-                              cy.go('back').then(() => {
-                                // 等待页面回退加载完成
-                                cy.wait(2000);
-                              });
-                            });
+                                // cy.log(JSON.stringify(result));
+                              // }
+                     
+                            // cy.wait(2000).then(() => {
+                            //   cy.go('back').then(() => {
+                            //     // 等待页面回退加载完成
+                            //     cy.wait(2000);
+                            //   });
+                            // });
                           });
                               clickEvents(eventIndex + 1);
 

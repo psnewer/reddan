@@ -24,7 +24,7 @@ describe('Extract and Fill Data', () => {
           const $competitionLi = $competitionItems.eq(index);
           const competitionText = $competitionLi.text();
 
-          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('Hertogenbosch') || competitionText.includes('ATP Stuttgart') || competitionText.includes('WTA Nottingham')  )) {
+          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Stuttgart'))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -77,10 +77,10 @@ describe('Extract and Fill Data', () => {
                             const awayOdds = awayDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
                             const awaySelectionId = awayDiv.attr('data-selection-id');
 
-                              // if ($runners.length >= 2) {
-
-
-                                // 根据赔率比较来决定 runner
+                            if (!homeOdds || !awayOdds) {
+                              cy.wrap($rowDiv).click();
+                              
+                            }
                                 let runner,oth_runner,selectionId,oth_selectionId;
                                 if (homeOdds <= awayOdds) {
                                   runner = homeName;
@@ -140,17 +140,6 @@ describe('Extract and Fill Data', () => {
 
                                 // 将结果添加到数组中
                                 results.push(result);
-
-                                // 打印当前结果到控制台
-                                // cy.log(JSON.stringify(result));
-                              // }
-                     
-                            // cy.wait(2000).then(() => {
-                            //   cy.go('back').then(() => {
-                            //     // 等待页面回退加载完成
-                            //     cy.wait(2000);
-                            //   });
-                            // });
                           });
                               clickEvents(eventIndex + 1);
 

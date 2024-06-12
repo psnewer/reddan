@@ -270,8 +270,10 @@ class StrategyExecutor {
             if (params.event.lastIsRunner == params.bet.pre.lastIsRunner_breakdown)
                 if (params.event.score_home.length + 1 == params.bet.pre.lastSet_breakdown) {
                     if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
-                        if (this.checkOnDrawGame(params, condition))
+                        if (this.checkOnDrawGame(params, condition)) {
+                            params.bet.strategy.params[condition].side = 'LAY'
                             params.bet.strategy.params[condition]['scale'] = 0.0
+                        }
                     return true
                 }
         return false

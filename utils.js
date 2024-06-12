@@ -225,11 +225,11 @@ async function assertBet(currentBet, selectionId, params, condition) {
 
   if (res) {
     if (params.bet.strategy.params[condition].side == 'BACK') {
-      if (!((params.event.oth_back_odds > 1.03 && params.event.oth_back_odds < 40) && (params.event.back_odds > 1.03 && params.event.back_odds < 40)))
+      if (!((params.event.oth_back_odds > 1.03 && params.event.oth_back_odds < 99) && (params.event.back_odds > 1.03 && params.event.back_odds < 99)))
         res = false
     }
     else if (params.bet.strategy.params[condition].side == 'LAY') {
-      if (!((params.event.oth_lay_odds > 1.03 && params.event.oth_lay_odds < 40) && (params.event.lay_odds > 1.03 && params.event.lay_odds < 40)))
+      if (!((params.event.oth_lay_odds > 1.03 && params.event.oth_lay_odds < 99) && (params.event.lay_odds > 1.03 && params.event.lay_odds < 99)))
         res = false
     }
 

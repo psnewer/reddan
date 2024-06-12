@@ -24,7 +24,7 @@ describe('Extract and Fill Data', () => {
           const $competitionLi = $competitionItems.eq(index);
           const competitionText = $competitionLi.text();
 
-          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Stuttgart'))) {
+          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Stuttgart') || competitionText.includes('Hertogenbosch') || competitionText.includes('WTA Nottingham 2024') || competitionText.includes('WTA Valencia 2024'))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -42,10 +42,11 @@ describe('Extract and Fill Data', () => {
 
                   if (!groupText.includes('Double')) {
                     cy.wrap($groupLi).click();
+                    
 
                     // 点击后等待子元素加载
                     cy.wait(2000); // 根据需要调整等待时间
-
+                    cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 10000 });
                     // 定义一个递归函数来处理 event 项的点击
                     function clickEvents(eventIndex) {
                       cy.get('body').then(($body) => {
@@ -61,26 +62,23 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
+                          if (data_event_id!='33337823')
                           cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
                             const data_market_id = $rowDiv.attr('data-market-id');
-                            const homeName = $rowDiv.find('p[title]').eq(0).attr('title');
-                            const awayName = $rowDiv.find('p[title]').eq(1).attr('title');
+                            let homeName = $rowDiv.find('p[title]').eq(0).attr('title');
+                            let awayName = $rowDiv.find('p[title]').eq(1).attr('title');
 
                             const selectionDivs = $rowDiv.find('div[data-selection-id]');
                             const homeDiv = selectionDivs.eq(0);
                             const awayDiv = selectionDivs.eq(1);
 
-                            const homeOdds = homeDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
-                            const homeSelectionId = homeDiv.attr('data-selection-id');
+                            let homeOdds = homeDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
+                            let homeSelectionId = homeDiv.attr('data-selection-id');
 
-                            const awayOdds = awayDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
-                            const awaySelectionId = awayDiv.attr('data-selection-id');
+                            let awayOdds = awayDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
+                            let awaySelectionId = awayDiv.attr('data-selection-id');
 
-                            if (!homeOdds || !awayOdds) {
-                              cy.wrap($rowDiv).click();
-                              
-                            }
                                 let runner,oth_runner,selectionId,oth_selectionId;
                                 if (homeOdds <= awayOdds) {
                                   runner = homeName;
@@ -135,7 +133,7 @@ describe('Extract and Fill Data', () => {
                                   "data-event-id": data_event_id,
                                   "data-market-id": data_market_id,
                                   "selectionId": selectionId,
-                                  "oth_selectionId": oth_selectionId
+                                  "oth_selectionId": oth_selectionId,
                                 };
 
                                 // 将结果添加到数组中

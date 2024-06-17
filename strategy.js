@@ -835,7 +835,7 @@ class StrategyExecutor {
                 return
         }
 
-        if (parseInt(size) > 0.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')
+        if (parseInt(size) > 2.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')
             size = 6.0
         if (size.toFixed(2) >= 6.0 && price >= 1.0) {
             const result = assertBet(currentBets[currentBets.length - 1], selectionId, params, condition)

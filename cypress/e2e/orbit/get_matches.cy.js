@@ -24,7 +24,10 @@ describe('Extract and Fill Data', () => {
           const $competitionLi = $competitionItems.eq(index);
           const competitionText = $competitionLi.text();
 
-          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Stuttgart') || competitionText.includes('Hertogenbosch') || competitionText.includes('WTA Nottingham 2024') || competitionText.includes('WTA Valencia 2024'))) {
+          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Halle') 
+          || competitionText.includes('ATP London') || competitionText.includes('Hertogenbosch') || competitionText.includes('ATP Stuttgart')
+         || competitionText.includes('WTA Berlin 2024') || competitionText.includes('WTA Birmingham 2024')
+         || competitionText.includes('WTA Nottingham 2024'))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -62,7 +65,7 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          if (data_event_id!='33337823')
+                          if (data_event_id!='33342042')
                           cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
                             const data_market_id = $rowDiv.attr('data-market-id');

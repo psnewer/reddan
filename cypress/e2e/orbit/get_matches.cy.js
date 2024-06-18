@@ -25,9 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Halle') 
-          || competitionText.includes('ATP London') || competitionText.includes('Hertogenbosch') || competitionText.includes('ATP Stuttgart')
-         || competitionText.includes('WTA Berlin 2024') || competitionText.includes('WTA Birmingham 2024')
-         || competitionText.includes('WTA Nottingham 2024'))) {
+          || competitionText.includes('WTA Berlin 2024') || competitionText.includes('WTA Birmingham 2024'))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载

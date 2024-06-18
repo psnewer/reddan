@@ -56,12 +56,13 @@ async function getJsonFiles(directory) {
         if (checkBets(params))
             await executor.execute(params.bet.strategy.name, params);
 
-        if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
+        if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown') || params.event.hasOwnProperty('hasBreakdown')) {
             if (!params.bet.hasOwnProperty('pre'))
                 params.bet.pre = {}
-            if (params.event.lastIsRunner_breakdown != params.bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != params.bet.pre.lastSet_breakdown) {
+            if (params.event.lastIsRunner_breakdown != params.bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != params.bet.pre.lastSet_breakdown || params.event.hasBreakdown != params.bet.pre.hasBreakdown) {
                 params.bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
                 params.bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+                params.bet.pre.hasBreakdown = params.event.hasBreakdown
                 await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
             }
         }

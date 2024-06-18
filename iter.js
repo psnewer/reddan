@@ -101,14 +101,15 @@ const util = require('util');
               const params = await getEventData(bet);
               if (checkBets(params))
                 await executor.execute(params.bet.strategy.name, params);
-              if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) {
+              if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown') || params.event.hasOwnProperty('hasBreakdown')) {
                 if (!bet.hasOwnProperty('pre')) {
                   _bet.pre = {}
                   bet.pre = {}
                 }
-                if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
+                if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown || params.event.hasBreakdown != bet.pre.hasBreakdown) {
                   _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
                   _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+                  _bet.pre.hasBreakdown = params.event.hasBreakdown
                   await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
                 }
               }

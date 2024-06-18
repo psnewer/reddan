@@ -139,7 +139,7 @@ class StrategyExecutor {
                     else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
                         params.bet.strategy.params[condition].oth = true
                     match = true
-                } else {
+                } else if ((params.bet.hasOwnProperty('pre') && !params.bet.pre.hasBreakdown) || !params.bet.hasOwnProperty('pre')) {
                     if (params.bet.strategy.params[condition].first_runner) {
                         if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
                             match = true
@@ -155,8 +155,9 @@ class StrategyExecutor {
                             match = true
                             params.bet.strategy.params[condition].oth = true
                         }
-
                     }
+                    if (!match)
+                        params.event.hasBreakdown = true
                 }
             }
         }

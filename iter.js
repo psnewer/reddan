@@ -106,17 +106,17 @@ const util = require('util');
                   _bet.pre = {}
                   bet.pre = {}
                 }
-                if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown) {
+                if ((params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) && (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown)) {
                   _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
                   _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+                  await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
                 }
-                if (params.event.hasBreakdown != bet.pre.hasBreakdown) {
+                if (params.event.hasOwnProperty('hasBreakdown') && params.event.hasBreakdown != bet.pre.hasBreakdown) {
                   _bet.pre.hasBreakdown = params.event.hasBreakdown
+                  await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
                 }
-                if (params.event.hasBrokendown != bet.pre.hasBrokendown) {
+                if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
                   _bet.pre.hasBrokendown = params.event.hasBrokendown
-                }
-                if (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown || params.event.hasBreakdown != bet.pre.hasBreakdown || params.event.hasBrokendown != bet.pre.hasBrokendown) {
                   await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
                 }
               }

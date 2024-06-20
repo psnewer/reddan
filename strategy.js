@@ -97,6 +97,7 @@ class StrategyExecutor {
 
     BreakdownNotMatch(params, condition) {
         let match = false
+        params.event.hasBrokendown = true
         if (params.event.score_home.length < params.bet.strategy.params[condition].until) {
             if (params.event.hasOwnProperty('lastIsRunner')) {
                 if (params.event.score_homeS > params.event.score_awayS) {
@@ -110,6 +111,11 @@ class StrategyExecutor {
                         match = true
                     else if (!params.event.lastIsRunner && params.bet.home == params.bet.runner)
                         match = true
+                }
+
+                if (match && params.bet.strategy.params[condition].hasOwnProperty('on')) {
+                    if (this.checkOnEnd(params, condition))
+                        match = false
                 }
 
                 if (!match) {
@@ -215,6 +221,17 @@ class StrategyExecutor {
             return true
     }
 
+    checkOnEnd(params, condition) {
+        let currentBets = params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0)
+        let first_bet = currentBets[0]
+        let last_bet = currentBets[currentBets.length - 1]
+        let first_bets = params.bet.currentBets.filter(item => item.selectionId == first_bet.selectionId && item.side == first_bet.side)
+        if (first_bet.selectionId != last_bet.selectionId || first_bet.side != last_bet.side)
+            if (first_bets.length == currentBets.length - 1 && first_bets.length > 1)
+                return true
+        return false
+    }
+
     loseSetsNotMatch(params, condition) {
         if (params.event.score_home.length <= params.bet.strategy.params[condition].until)
             if (!params.event.lastIsRunner)
@@ -267,7 +284,7 @@ class StrategyExecutor {
     }
 
     drawGamesNotMatch(params, condition) {
-        if (params.event.hasOwnProperty('lastIsRunner') && params.bet.hasOwnProperty('pre'))
+        if (params.event.hasOwnProperty('lastIsRunner') && params.bet.hasOwnProperty('pre')) {
             if (params.event.lastIsRunner == params.bet.pre.lastIsRunner_breakdown)
                 if (params.event.score_home.length + 1 == params.bet.pre.lastSet_breakdown) {
                     if (!params.bet.strategy.params[condition].hasOwnProperty('scale'))
@@ -277,6 +294,10 @@ class StrategyExecutor {
                         }
                     return true
                 }
+            if (params.bet.pre.hasBrokendown && params.event.score_home.length == 0)
+                if (params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0).length == 1)
+                    return true
+        }
         return false
     }
 
@@ -847,6 +868,8 @@ class StrategyExecutor {
                 return
             }
 
+            if (params.bet.strategy.params[condition].side == 'BACK')
+                price = 1.01
             if (!global.placing) {
                 global.placing = true
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)

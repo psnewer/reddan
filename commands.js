@@ -257,12 +257,16 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
                     "eachWayData": {},
                     "page": "event",
                     "persistenceType": "LAPSE",
+                    "timeInForce":"FILL_OR_KILL",
                     "placedUsingEnterKey": false
                 }
             ]
         },
         "responseTimeout": 30000
       }
+
+    const jsonString = JSON.stringify(payload.data);
+    payload.headers["content-length"] = Buffer.byteLength(jsonString, 'utf8');
 
     const cookies = await page.context().cookies();
     const updatedCookies = [];

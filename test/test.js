@@ -56,13 +56,14 @@ async function getJsonFiles(directory) {
         if (checkBets(params))
             await executor.execute(params.bet.strategy.name, params);
 
-        if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown') || params.event.hasOwnProperty('hasBreakdown')) {
+        if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown') || params.event.hasOwnProperty('hasBreakdown') || params.event.hasOwnProperty('hasBrokendown')) {
             if (!params.bet.hasOwnProperty('pre'))
                 params.bet.pre = {}
-            if (params.event.lastIsRunner_breakdown != params.bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != params.bet.pre.lastSet_breakdown || params.event.hasBreakdown != params.bet.pre.hasBreakdown) {
+            if (params.event.lastIsRunner_breakdown != params.bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != params.bet.pre.lastSet_brokendown || params.event.hasBreakdown != params.bet.pre.hasBreakdown || params.event.hasBrokendown != params.bet.pre.hasBrokendown) {
                 params.bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
                 params.bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
                 params.bet.pre.hasBreakdown = params.event.hasBreakdown
+                params.bet.pre.hasBrokendown = params.event.hasBrokendown
                 await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
             }
         }

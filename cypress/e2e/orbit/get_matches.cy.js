@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Halle') 
-          || competitionText.includes('WTA Berlin 2024') || competitionText.includes('WTA Birmingham 2024'))) {
+          || competitionText.includes('WTA Berlin 2024') || competitionText.includes('WTA Birmingham 2024') || competitionText.includes('ATP Queens'))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -108,14 +108,13 @@ describe('Extract and Fill Data', () => {
                                       "breakdown": {
                                         "until": 2,
                                         "side": "BACK",
-                                        "first_runner": true,
+                                        "first_runner": false,
                                         "first_oth": false,
-                                        "last_runner": true,
-                                        "last_oth": false
+                                        "on": false
                                       },
                                       "eitherLose": {
-                                        "first_runner": true,
-                                        "first_oth": true,
+                                        "first_runner": false,
+                                        "first_oth": false,
                                         "side": "BACK",
                                         "until": 1
                                       },
@@ -124,7 +123,8 @@ describe('Extract and Fill Data', () => {
                                         "scale": 0.0
                                       },
                                       "drawGames": {
-                                        "side": "BACK"
+                                        "side": "BACK",
+                                        "scale": 1.0
                                       }
                                     }
                                   },

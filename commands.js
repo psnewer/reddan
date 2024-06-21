@@ -127,9 +127,19 @@ async function getEventData(bet) {
                                 }
                                 let i = Number(event.Tr1) + Number(event.Tr2) + 1
                                 if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
-                                    params.event.score_homeS = event['Tr1S' + i]
-                                    params.event.score_awayS = event['Tr2S' + i]
-                                    params.event.Esrv = event.Esrv
+                                    if (params.bet.pre.Esrv != event.Esrv && (params.bet.pre.score_homeS != event['Tr1S' + i] || params.bet.pre.score_awayS != event['Tr2S' + i])) {
+                                        params.event.score_homeS = event['Tr1S' + i]
+                                        params.event.score_awayS = event['Tr2S' + i]
+                                        params.event.Esrv = event.Esrv
+                                        params.bet.pre.score_homeS = event['Tr1S' + i]
+                                        params.bet.pre.score_awayS = event['Tr2S' + i]
+                                        params.bet.pre.Esrv = event.Esrv
+                                    }
+                                    else if (params.bet.pre.hasOwnProperty(Esrv)) {
+                                        params.event.score_homeS = params.bet.pre.score_homeS
+                                        params.event.score_awayS = params.bet.pre.score_awayS
+                                        params.event.Esrv = params.bet.pre.Esrv
+                                    }
                                 }
                             }
                         }
@@ -257,13 +267,13 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
                     "eachWayData": {},
                     "page": "event",
                     "persistenceType": "LAPSE",
-                    "timeInForce":"FILL_OR_KILL",
+                    "timeInForce": "FILL_OR_KILL",
                     "placedUsingEnterKey": false
                 }
             ]
         },
         "responseTimeout": 30000
-      }
+    }
 
     const jsonString = JSON.stringify(payload.data);
     payload.headers["content-length"] = Buffer.byteLength(jsonString, 'utf8');
@@ -306,7 +316,7 @@ async function cancelBet(page, marketId, offerId, price, size, selectionId, hand
             "sec-ch-ua-mobile": '?0',
             "sec-ch-ua-platform": '"macOS"',
             "x-device": "DESKTOP"
-          },
+        },
         "url": "https://www.orbitxch.com/customer/api/cancelBets",
         "method": "POST",
         "resourceType": "xhr",

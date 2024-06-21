@@ -6,8 +6,10 @@ const { login, getEventData, currentBets, placeBet, cancelBet } = require('./com
 const util = require('util');
 
 (async () => {
-  const browser = await chromium.launch({ headless: true,
-    executablePath: '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'});
+  const browser = await chromium.launch({
+    headless: true,
+    executablePath: '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+  });
   const context = await browser.newContext();
   const page = await context.newPage();
 
@@ -101,24 +103,20 @@ const util = require('util');
               const params = await getEventData(bet);
               if (checkBets(params))
                 await executor.execute(params.bet.strategy.name, params);
-              if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown') || params.event.hasOwnProperty('hasBreakdown') || params.event.hasOwnProperty('hasBrokendown')) {
-                if (!bet.hasOwnProperty('pre')) {
-                  _bet.pre = {}
-                  bet.pre = {}
-                }
-                if ((params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) && (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown)) {
-                  _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
-                  _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
-                  await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
-                }
-                if (params.event.hasOwnProperty('hasBreakdown') && params.event.hasBreakdown != bet.pre.hasBreakdown) {
-                  _bet.pre.hasBreakdown = params.event.hasBreakdown
-                  await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
-                }
-                if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
-                  _bet.pre.hasBrokendown = params.event.hasBrokendown
-                  await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
-                }
+              if ((params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) && (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown)) {
+                _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
+                _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+              }
+              if (params.event.hasOwnProperty('hasBreakdown') && params.event.hasBreakdown != bet.pre.hasBreakdown) {
+                _bet.pre.hasBreakdown = params.event.hasBreakdown
+              }
+              if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
+                _bet.pre.hasBrokendown = params.event.hasBrokendown
+              }
+              if (params.event.hasOwnProperty('Esrv') && params.event.Esrv != bet.pre.Esrv) {
+                _bet.pre.Esrv = params.event.Esrv
+                _bet.pre.score_homeS = params.event.score_homeS
+                _bet.pre.score_awayS = params.event.score_awayS
               }
             } catch (error) {
               const subject = 'Test Failure';
@@ -140,6 +138,8 @@ const util = require('util');
         await Promise.all(promises);
         console.log(`Loop iteration ${i} completed`);
       }
+
+      await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
     }
   }
 

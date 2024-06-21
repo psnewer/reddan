@@ -50,22 +50,32 @@ async function getJsonFiles(directory) {
         const { params, target } = data;
         params.target = target
         params.output = {}
+        if (!params.bet.hasOwnProperty('pre'))
+            params.bet.pre = {}
 
         // 调用异步测试函数，传入 params
         console.log(file)
         if (checkBets(params))
             await executor.execute(params.bet.strategy.name, params);
 
-        if (params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown') || params.event.hasOwnProperty('hasBreakdown') || params.event.hasOwnProperty('hasBrokendown')) {
-            if (!params.bet.hasOwnProperty('pre'))
-                params.bet.pre = {}
-            if (params.event.lastIsRunner_breakdown != params.bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != params.bet.pre.lastSet_brokendown || params.event.hasBreakdown != params.bet.pre.hasBreakdown || params.event.hasBrokendown != params.bet.pre.hasBrokendown) {
-                params.bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
-                params.bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
-                params.bet.pre.hasBreakdown = params.event.hasBreakdown
-                params.bet.pre.hasBrokendown = params.event.hasBrokendown
-                await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
-            }
+        if ((params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) && (params.event.lastIsRunner_breakdown != params.bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != params.bet.pre.lastSet_breakdown)) {
+            params.bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
+            params.bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
+            await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
+        }
+        if (params.event.hasOwnProperty('hasBreakdown') && params.event.hasBreakdown != params.bet.pre.hasBreakdown) {
+            params.bet.pre.hasBreakdown = params.event.hasBreakdown
+            await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
+        }
+        if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != params.bet.pre.hasBrokendown) {
+            params.bet.pre.hasBrokendown = params.event.hasBrokendown
+            await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
+        }
+        if (params.event.hasOwnProperty('Esrv') && params.event.Esrv != params.bet.pre.Esrv) {
+            params.bet.pre.Esrv = params.event.Esrv
+            params.bet.pre.score_homeS = params.event.score_homeS
+            params.bet.pre.score_awayS = params.event.score_awayS
+            await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
         }
 
         // 检查实际输出和目标输出是否相等

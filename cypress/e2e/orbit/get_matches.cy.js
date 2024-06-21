@@ -113,7 +113,7 @@ describe('Extract and Fill Data', () => {
                                         "on": false
                                       },
                                       "eitherLose": {
-                                        "first_runner": false,
+                                        "first_runner": true,
                                         "first_oth": false,
                                         "side": "BACK",
                                         "until": 1
@@ -135,6 +135,7 @@ describe('Extract and Fill Data', () => {
                                   "data-market-id": data_market_id,
                                   "selectionId": selectionId,
                                   "oth_selectionId": oth_selectionId,
+                                  "pre": {}
                                 };
 
                                 // 将结果添加到数组中

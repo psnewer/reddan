@@ -121,8 +121,8 @@ function getEvent(score_sport, bet) {
     if (competition.length) {
       for (let compet of competition) {
         for (let e of compet.Events) {
-          let sim_home = getSimilar(false, bet.home, e.T1[0].Nm)
-          let sim_away = getSimilar(false, bet.away, e.T2[0].Nm)
+          let sim_home = e.T1.length == 1 ? getSimilar(false, bet.home, e.T1[0].Nm) : 0
+          let sim_away = e.T2.length == 1 ? getSimilar(false, bet.away, e.T2[0].Nm) : 0
           if (sim_home > 0 && sim_away > 0) {
             return e
           }

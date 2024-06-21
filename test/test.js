@@ -71,7 +71,7 @@ async function getJsonFiles(directory) {
             params.bet.pre.hasBrokendown = params.event.hasBrokendown
             await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
         }
-        if (params.event.hasOwnProperty('Esrv') && params.event.Esrv != params.bet.pre.Esrv) {
+        if (params.event.hasOwnProperty('Esrv')) {
             params.bet.pre.Esrv = params.event.Esrv
             params.bet.pre.score_homeS = params.event.score_homeS
             params.bet.pre.score_awayS = params.event.score_awayS

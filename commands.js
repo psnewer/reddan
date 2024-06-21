@@ -136,7 +136,7 @@ async function getEventData(bet) {
                                         params.bet.pre.score_awayS = event['Tr2S' + i]
                                         params.bet.pre.Esrv = event.Esrv
                                     }
-                                    else if (params.bet.pre.hasOwnProperty(Esrv)) {
+                                    else if (params.bet.pre.hasOwnProperty('Esrv')) {
                                         params.event.score_homeS = params.bet.pre.score_homeS
                                         params.event.score_awayS = params.bet.pre.score_awayS
                                         params.event.Esrv = params.bet.pre.Esrv

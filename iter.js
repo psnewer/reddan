@@ -113,7 +113,7 @@ const util = require('util');
               if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
                 _bet.pre.hasBrokendown = params.event.hasBrokendown
               }
-              if (params.event.hasOwnProperty('Esrv') && params.event.Esrv != bet.pre.Esrv) {
+              if (params.event.hasOwnProperty('Esrv')) {
                 _bet.pre.Esrv = params.event.Esrv
                 _bet.pre.score_homeS = params.event.score_homeS
                 _bet.pre.score_awayS = params.event.score_awayS

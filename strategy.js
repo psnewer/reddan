@@ -687,7 +687,12 @@ class StrategyExecutor {
         }
 
         if (CANCEL)
-            return true
+            return
+        if (params.bet.anchor) {
+            if (params.event.lastIsRunner)
+                if (parseInt(params.event.oth_win) >= 0)
+                    return
+        }
 
         if (!params.bet.strategy.params[condition].on) {
             if (params.event.lastIsRunner)

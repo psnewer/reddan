@@ -801,9 +801,9 @@ class StrategyExecutor {
         if (params.bet.strategy.params[condition].hasOwnProperty('rec'))
             rec = params.bet.strategy.params[condition].rec
 
-        let runner_thresh_back_odds = params.event.runner_thresh_odds ? 0.0 : params.event.runner_thresh_odds
+        let runner_thresh_back_odds = params.event.runner_thresh_odds ? 1.0 : params.event.runner_thresh_odds
         let runner_thresh_lay_odds = params.event.runner_thresh_odds ? params.event.runner_thresh_odds + rec : params.event.runner_thresh_odds
-        let oth_thresh_back_odds = params.event.oth_thresh_odds ? 0.0 : params.event.oth_thresh_odds
+        let oth_thresh_back_odds = params.event.oth_thresh_odds ? 1.0 : params.event.oth_thresh_odds
         let oth_thresh_lay_odds = params.event.oth_thresh_odds ? params.event.oth_thresh_odds + rec : params.event.oth_thresh_odds
 
         //找到当前赔率

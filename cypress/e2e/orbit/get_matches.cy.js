@@ -24,10 +24,10 @@ describe('Extract and Fill Data', () => {
           const $competitionLi = $competitionItems.eq(index);
           const competitionText = $competitionLi.text();
 
-          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (competitionText.includes('ATP Halle') 
-          || competitionText.includes('WTA Berlin 2024') || competitionText.includes('WTA Birmingham 2024') || competitionText.includes('ATP Queens')
-        || competitionText.includes('ATP Mallorca') || competitionText.includes('WTA Bad Homburg 2024')
-         || competitionText.includes('WTA Eastbourne 2024') || competitionText.includes('ATP Eastbourne'))) {
+          if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
+          competitionText.includes('ATP Mallorca') || competitionText.includes('WTA Bad Homburg 2024')
+           || competitionText.includes('WTA Eastbourne 2024') || competitionText.includes('ATP Eastbourne') 
+          || competitionText.includes("Women's Wimbledon 2024"))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -48,8 +48,8 @@ describe('Extract and Fill Data', () => {
                     
 
                     // 点击后等待子元素加载
-                    cy.wait(2000); // 根据需要调整等待时间
-                    cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 10000 });
+                    cy.wait(20000); // 根据需要调整等待时间
+                    // cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 10000 });
                     // 定义一个递归函数来处理 event 项的点击
                     function clickEvents(eventIndex) {
                       cy.get('body').then(($body) => {
@@ -103,7 +103,7 @@ describe('Extract and Fill Data', () => {
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : false,
+                                  "anchor" : true,
                                   "vol": 6,
                                   "strategy": {
                                     "name": "tennis_2",
@@ -111,13 +111,12 @@ describe('Extract and Fill Data', () => {
                                       "breakdown": {
                                         "until": 2,
                                         "side": "BACK",
-                                        "first_runner": false,
-                                        "first_oth": false,
-                                        "on": false
+                                        "first_runner": true,
+                                        "first_oth": false
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": false,
+                                        "first_oth": true,
                                         "side": "BACK",
                                         "until": 1
                                       },

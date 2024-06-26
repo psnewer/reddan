@@ -69,6 +69,8 @@ class StrategyExecutor {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS'))
             if (params.event.score_homeS > 0 || params.event.score_awayS > 0)
                 return true
+            else 
+                params.event.hasBrokendown = true
         return false
     }
 
@@ -294,9 +296,10 @@ class StrategyExecutor {
                         }
                     return true
                 }
-            if (params.bet.pre.hasBrokendown && params.event.score_home.length == 0)
+            if (params.bet.pre.hasBrokendown) {
                 if (params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0).length == 1)
                     return true
+            }
         }
         return false
     }

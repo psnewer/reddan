@@ -25,9 +25,8 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-          competitionText.includes('ATP Mallorca') || competitionText.includes('WTA Bad Homburg 2024')
-           || competitionText.includes('WTA Eastbourne 2024') || competitionText.includes('ATP Eastbourne') 
-          || competitionText.includes("Women's Wimbledon 2024"))) {
+            competitionText.includes('ATP Mallorca') || competitionText.includes('WTA Bad Homburg 2024')
+             || competitionText.includes('WTA Eastbourne 2024') || competitionText.includes('ATP Eastbourne'))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -103,7 +102,7 @@ describe('Extract and Fill Data', () => {
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : true,
+                                  "anchor" : false,
                                   "vol": 6,
                                   "strategy": {
                                     "name": "tennis_2",
@@ -111,6 +110,7 @@ describe('Extract and Fill Data', () => {
                                       "breakdown": {
                                         "until": 2,
                                         "side": "BACK",
+                                        "price": 1.6,
                                         "first_runner": true,
                                         "first_oth": false
                                       },

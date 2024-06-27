@@ -70,7 +70,7 @@ class StrategyExecutor {
             if (params.event.score_homeS > 0 || params.event.score_awayS > 0)
                 return true
             else 
-                params.event.hasBrokendown = true
+                params.event.hasBrokendown = false
         return false
     }
 
@@ -297,8 +297,10 @@ class StrategyExecutor {
                     return true
                 }
             if (params.bet.pre.hasBrokendown) {
-                if (params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0).length == 1)
+                if (params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0).length == 1) {
+                    params.bet.strategy.params[condition]['scale'] = 1.0
                     return true
+                }
             }
         }
         return false
@@ -693,7 +695,7 @@ class StrategyExecutor {
             return
         if (params.bet.anchor) {
             if (params.event.lastIsRunner)
-                if (parseInt(params.event.oth_win) >= 0)
+                if (parseInt(params.event.oth_win) >= -0.5 * params.bet.vol)
                     return
         }
 
@@ -778,7 +780,7 @@ class StrategyExecutor {
             }
         }
 
-        let rec = 0.5
+        let rec = 2.0
 
         let net_profit = 0.0
         let liability = 0.0
@@ -804,9 +806,9 @@ class StrategyExecutor {
         if (params.bet.strategy.params[condition].hasOwnProperty('rec'))
             rec = params.bet.strategy.params[condition].rec
 
-        let runner_thresh_back_odds = params.event.runner_thresh_odds ? 1.0 : params.event.runner_thresh_odds
+        let runner_thresh_back_odds = params.event.runner_thresh_odds ? params.event.runner_thresh_odds - rec : params.event.runner_thresh_odds
         let runner_thresh_lay_odds = params.event.runner_thresh_odds ? params.event.runner_thresh_odds + rec : params.event.runner_thresh_odds
-        let oth_thresh_back_odds = params.event.oth_thresh_odds ? 1.0 : params.event.oth_thresh_odds
+        let oth_thresh_back_odds = params.event.oth_thresh_odds ? params.event.oth_thresh_odds - rec : params.event.oth_thresh_odds
         let oth_thresh_lay_odds = params.event.oth_thresh_odds ? params.event.oth_thresh_odds + rec : params.event.oth_thresh_odds
 
         //找到当前赔率

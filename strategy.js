@@ -780,7 +780,7 @@ class StrategyExecutor {
             }
         }
 
-        let rec = 2.0
+        let rec = 0.5
 
         let net_profit = 0.0
         let liability = 0.0
@@ -806,10 +806,10 @@ class StrategyExecutor {
         if (params.bet.strategy.params[condition].hasOwnProperty('rec'))
             rec = params.bet.strategy.params[condition].rec
 
-        let runner_thresh_back_odds = params.event.runner_thresh_odds ? params.event.runner_thresh_odds - rec : params.event.runner_thresh_odds
-        let runner_thresh_lay_odds = params.event.runner_thresh_odds ? params.event.runner_thresh_odds + rec : params.event.runner_thresh_odds
-        let oth_thresh_back_odds = params.event.oth_thresh_odds ? params.event.oth_thresh_odds - rec : params.event.oth_thresh_odds
-        let oth_thresh_lay_odds = params.event.oth_thresh_odds ? params.event.oth_thresh_odds + rec : params.event.oth_thresh_odds
+        let runner_thresh_back_odds = params.event.runner_thresh_odds ? 1.0 + (params.event.runner_thresh_odds - 1.0) * (1 - rec) : params.event.runner_thresh_odds
+        let runner_thresh_lay_odds = params.event.runner_thresh_odds ? 1.0 + (params.event.runner_thresh_odds - 1.0) * (1 + rec) : params.event.runner_thresh_odds
+        let oth_thresh_back_odds = params.event.oth_thresh_odds ? 1.0 + (params.event.oth_thresh_odds - 1.0) * (1.0 - rec) : params.event.oth_thresh_odds
+        let oth_thresh_lay_odds = params.event.oth_thresh_odds ? 1.0 + (params.event.oth_thresh_odds - 1.0) * (1.0 + rec) : params.event.oth_thresh_odds
 
         //找到当前赔率
         let current_odds = 0
@@ -878,8 +878,8 @@ class StrategyExecutor {
                 return
             }
 
-            if (params.bet.strategy.params[condition].side == 'BACK')
-                price = 1.01
+            // if (params.bet.strategy.params[condition].side == 'BACK')
+            //     price = 1.01
             if (!global.placing) {
                 global.placing = true
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)

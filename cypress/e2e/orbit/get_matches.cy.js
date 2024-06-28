@@ -25,8 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes('ATP Mallorca') || competitionText.includes('WTA Bad Homburg 2024')
-             || competitionText.includes('WTA Eastbourne 2024') || competitionText.includes('ATP Eastbourne'))) {
+            competitionText.includes('Wimbledon 2024'))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载

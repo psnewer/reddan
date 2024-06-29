@@ -170,7 +170,7 @@ class StrategyExecutor {
             }
         }
         else if (params.event.score_home.length >= params.bet.strategy.params[condition].until) {
-            if (parseInt(params.event.runner_win) < 0) {
+            if (parseInt(params.event.runner_win) < -1.0) {
                 if (!params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
                         match = true
@@ -178,7 +178,7 @@ class StrategyExecutor {
                         match = true
                 }
             }
-            else if (parseInt(params.event.oth_win) < 0) {
+            else if (parseInt(params.event.oth_win) < -1.0) {
                 if (params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
                         match = true

@@ -25,8 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes('ATP Mallorca') || competitionText.includes('WTA Bad Homburg 2024')
-             || competitionText.includes('WTA Eastbourne 2024') || competitionText.includes('ATP Eastbourne'))) {
+            competitionText.includes("Men's Wimbledon 2024"))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -48,7 +47,7 @@ describe('Extract and Fill Data', () => {
 
                     // 点击后等待子元素加载
                     cy.wait(20000); // 根据需要调整等待时间
-                    // cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 10000 });
+                    cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 20000 });
                     // 定义一个递归函数来处理 event 项的点击
                     function clickEvents(eventIndex) {
                       cy.get('body').then(($body) => {
@@ -102,23 +101,23 @@ describe('Extract and Fill Data', () => {
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : false,
+                                  "anchor" : true,
                                   "vol": 6,
                                   "strategy": {
                                     "name": "tennis_2",
                                     "params": {
                                       "breakdown": {
-                                        "until": 2,
+                                        "until": 3,
                                         "side": "BACK",
-                                        "price": 1.6,
                                         "first_runner": true,
-                                        "first_oth": false
+                                        "first_oth": false,
+                                        "rec": 0
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
-                                        "until": 1
+                                        "until": 2
                                       },
                                       "eitherDraw": {
                                         "side": "BACK",
@@ -126,7 +125,8 @@ describe('Extract and Fill Data', () => {
                                       },
                                       "drawGames": {
                                         "side": "BACK",
-                                        "scale": 1.0
+                                        "scale": 1.0,
+                                        "rec": 0
                                       }
                                     }
                                   },

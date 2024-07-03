@@ -69,8 +69,10 @@ class StrategyExecutor {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS'))
             if (params.event.score_homeS > 0 || params.event.score_awayS > 0)
                 return true
-            else 
+            else {
                 params.event.hasBrokendown = false
+                params.event.hasBreakdown = false
+            }
         return false
     }
 

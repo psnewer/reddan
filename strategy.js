@@ -298,12 +298,12 @@ class StrategyExecutor {
                         }
                     return true
                 }
-            // if (params.bet.pre.hasBrokendown) {
-            //     if (params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0).length == 1) {
-            //         params.bet.strategy.params[condition]['scale'] = 1.0
-            //         return true
-            //     }
-            // }
+            if (params.bet.pre.hasBrokendown && params.event.score_home.length == 1) {
+                if (params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0).length == 1) {
+                    params.bet.strategy.params[condition]['scale'] = 1.0
+                    return true
+                }
+            }
         }
         return false
     }

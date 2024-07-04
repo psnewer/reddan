@@ -129,14 +129,14 @@ async function getEventData(bet) {
                                 if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
                                     if ((params.bet.pre.Esrv != event.Esrv && (params.bet.pre.score_homeS != event['Tr1S' + i] || params.bet.pre.score_awayS != event['Tr2S' + i]))
                                         || Math.abs(event['Tr1S' + i] + event['Tr2S' + i] - params.bet.pre.score_homeS - params.bet.pre.score_awayS) > 1) {
-                                        if (params.bet.pre.hasOwnProperty('Esrv') || (!params.event.score_home.length && (event['Tr1S' + i] + event['Tr2S' + i] <= 1))) {
+                                        // if (params.bet.pre.hasOwnProperty('Esrv') || (!params.event.score_home.length && (event['Tr1S' + i] + event['Tr2S' + i] <= 1))) {
                                             params.event.score_homeS = event['Tr1S' + i]
                                             params.event.score_awayS = event['Tr2S' + i]
                                             params.event.Esrv = event.Esrv
                                             params.bet.pre.score_homeS = event['Tr1S' + i]
                                             params.bet.pre.score_awayS = event['Tr2S' + i]
                                             params.bet.pre.Esrv = event.Esrv
-                                        }
+                                        // }
                                     }
                                     else if (params.bet.pre.hasOwnProperty('Esrv')) {
                                         params.event.score_homeS = params.bet.pre.score_homeS

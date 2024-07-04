@@ -63,7 +63,7 @@ const util = require('util');
     await executor.initialize();
 
     for (let i = 0; i < 600; i++) {
-      await page.waitForTimeout(6000);
+      await page.waitForTimeout(30000);
 
       global.placing = false
 

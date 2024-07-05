@@ -101,11 +101,6 @@ const util = require('util');
 
             try {
               const params = await getEventData(bet);
-              params.event.score_home = []
-              params.event.score_away = []
-              params.event.score_homeS = 3
-              params.event.score_awayS = 0
-              params.event.Esrv = 1
               if (checkBets(params))
                 await executor.execute(params.bet.strategy.name, params);
               if ((params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) && (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown)) {

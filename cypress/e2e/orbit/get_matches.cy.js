@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("Women's Wimbledon 2024"))) {
+            competitionText.includes("Men's Wimbledon 2024"))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -101,26 +101,28 @@ describe('Extract and Fill Data', () => {
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : true,
+                                  "anchor" : false,
                                   "vol": 6,
                                   "strategy": {
                                     "name": "tennis_2",
                                     "params": {
                                       "breakdown": {
-                                        "until": 2,
+                                        "until": 3,
                                         "side": "BACK",
                                         "first_runner": true,
-                                        "first_oth": false
+                                        "first_oth": false,
+                                        "rec": 0.0
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
-                                        "until": 1
+                                        "until": 2
                                       },
                                       "eitherDraw": {
                                         "side": "BACK",
-                                        "scale": 0.0
+                                        "scale": 0.0,
+                                        "rec": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

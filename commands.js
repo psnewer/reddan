@@ -44,11 +44,85 @@ async function login(page) {
 
 async function getEventData(bet) {
     //获取market_url、event_url
-
-    const event_market_url = 'https://ero.betfair.com/www/sports/exchange/readonly/v1/bymarket?_ak=nzIFcwyWhrlwYMrh&alt=json&currencyCode=GBP&locale=en_GB&marketIds=1.220997250&rollupLimit=10&rollupModel=STAKE&types=MARKET_STATE,RUNNER_STATE,RUNNER_EXCHANGE_PRICES_BEST'.replace(/(marketIds=)[^\&]+/, `$1${bet['data-market-id']}`);
     let params = { bet: bet, event: {} };
-    const response = await fetchData(event_market_url, { timeout: 20000 });
 
+    if (bet.sport === "Soccer") {
+        let event = getEvent(bet.score_soccer, bet)
+        if (event != null) {
+            if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
+                params.event.score_home = Number(event.Tr1);
+                params.event.score_away = Number(event.Tr2);
+                if (event.hasOwnProperty('Eps')) {
+                    params.event.timeElapsed = event.Eps
+                    if (/^\d+.*'$/.test(event.Eps))
+                        params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
+                }
+            }
+        }
+    }
+    else if (bet.sport === "Tennis") {
+        let event = getEvent(bet.score_tennis, bet)
+        if (event != null) {
+            if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
+                params.event.score_home = []
+                params.event.score_away = []
+                if (event.hasOwnProperty('Eps')) {
+                    params.event.timeElapsed = event.Eps
+                    if (/^S\d+$/.test(event.Eps)) {
+                        params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
+                        if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2)) {
+                            for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
+                                params.event.score_home.push(event['Tr1S' + i])
+                                params.event.score_away.push(event['Tr2S' + i])
+                            }
+                            let i = Number(event.Tr1) + Number(event.Tr2) + 1
+                            if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
+                                if ((params.bet.pre.Esrv != event.Esrv && (params.bet.pre.score_homeS != event['Tr1S' + i] || params.bet.pre.score_awayS != event['Tr2S' + i]))
+                                    || Math.abs(event['Tr1S' + i] + event['Tr2S' + i] - params.bet.pre.score_homeS - params.bet.pre.score_awayS) > 1) {
+                                    // if (params.bet.pre.hasOwnProperty('Esrv') || (!params.event.score_home.length && (event['Tr1S' + i] + event['Tr2S' + i] <= 1))) {
+                                    params.event.score_homeS = event['Tr1S' + i]
+                                    params.event.score_awayS = event['Tr2S' + i]
+                                    params.event.Esrv = event.Esrv
+                                    params.bet.pre.score_homeS = event['Tr1S' + i]
+                                    params.bet.pre.score_awayS = event['Tr2S' + i]
+                                    params.bet.pre.Esrv = event.Esrv
+                                    // }
+                                }
+                                else if (params.bet.pre.hasOwnProperty('Esrv')) {
+                                    params.event.score_homeS = params.bet.pre.score_homeS
+                                    params.event.score_awayS = params.bet.pre.score_awayS
+                                    params.event.Esrv = params.bet.pre.Esrv
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else if (bet.sport === "Basketball") {
+        let event = getEvent(bet.score_basketball, bet)
+        if (event != null) {
+            if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
+                params.event.score_home = Number(event.Tr1);
+                params.event.score_away = Number(event.Tr2);
+                if (event.hasOwnProperty('Eps')) {
+                    params.event.timeElapsed = event.Eps
+                    if (/^\dQ$/.test(event.Eps))
+                        params.event.timeElapsed = Number(event.Eps.match(/^\d/)[0]);
+                }
+            }
+        }
+    }
+
+    return params
+};
+
+async function getOddsData(params) {
+    //获取market_url、event_url
+
+    const event_market_url = 'https://ero.betfair.com/www/sports/exchange/readonly/v1/bymarket?_ak=nzIFcwyWhrlwYMrh&alt=json&currencyCode=GBP&locale=en_GB&marketIds=1.220997250&rollupLimit=10&rollupModel=STAKE&types=MARKET_STATE,RUNNER_STATE,RUNNER_EXCHANGE_PRICES_BEST'.replace(/(marketIds=)[^\&]+/, `$1${params.bet['data-market-id']}`);
+    const response = await fetchData(event_market_url, { timeout: 20000 });
 
     response.eventTypes.forEach(event => {
         event.eventNodes.forEach(eventNode => {
@@ -59,7 +133,7 @@ async function getEventData(bet) {
                             params.event.inplay = market.state.inplay
                             market.runners.forEach(runner => {
                                 if (runner.state.status === 'ACTIVE') {
-                                    if (Number(runner.selectionId) == Number(bet.selectionId)) {
+                                    if (Number(runner.selectionId) == Number(params.bet.selectionId)) {
                                         if (Number(runner.handicap) == Number(params.bet.handicap)) {
                                             if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
                                                 params.event.back_odds = runner.exchange.availableToBack[0].price
@@ -73,7 +147,7 @@ async function getEventData(bet) {
                                                 params.event.lay_odds_either = runner.exchange.availableToLay[0].price
                                         }
                                     }
-                                    else if (Number(runner.selectionId) == Number(bet.oth_selectionId)) {
+                                    else if (Number(runner.selectionId) == Number(params.bet.oth_selectionId)) {
                                         if (Number(runner.handicap) == Number(params.bet.oth_handicap)) {
                                             if (hasNestedProperty(runner, 'exchange', 'availableToBack', 0, 'price'))
                                                 params.event.oth_back_odds = runner.exchange.availableToBack[0].price
@@ -94,80 +168,7 @@ async function getEventData(bet) {
             }
         })
     })
-
-    if (Object.keys(params.event).some(key => key.includes('odds'))) {
-        if (bet.sport === "Soccer") {
-            let event = getEvent(bet.score_soccer, bet)
-            if (event != null) {
-                if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
-                    params.event.score_home = Number(event.Tr1);
-                    params.event.score_away = Number(event.Tr2);
-                    if (event.hasOwnProperty('Eps')) {
-                        params.event.timeElapsed = event.Eps
-                        if (/^\d+.*'$/.test(event.Eps))
-                            params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
-                    }
-                }
-            }
-        }
-        else if (bet.sport === "Tennis") {
-            let event = getEvent(bet.score_tennis, bet)
-            if (event != null) {
-                if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
-                    params.event.score_home = []
-                    params.event.score_away = []
-                    if (event.hasOwnProperty('Eps')) {
-                        params.event.timeElapsed = event.Eps
-                        if (/^S\d+$/.test(event.Eps)) {
-                            params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
-                            if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2)) {
-                                for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
-                                    params.event.score_home.push(event['Tr1S' + i])
-                                    params.event.score_away.push(event['Tr2S' + i])
-                                }
-                                let i = Number(event.Tr1) + Number(event.Tr2) + 1
-                                if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
-                                    if ((params.bet.pre.Esrv != event.Esrv && (params.bet.pre.score_homeS != event['Tr1S' + i] || params.bet.pre.score_awayS != event['Tr2S' + i]))
-                                        || Math.abs(event['Tr1S' + i] + event['Tr2S' + i] - params.bet.pre.score_homeS - params.bet.pre.score_awayS) > 1) {
-                                        // if (params.bet.pre.hasOwnProperty('Esrv') || (!params.event.score_home.length && (event['Tr1S' + i] + event['Tr2S' + i] <= 1))) {
-                                            params.event.score_homeS = event['Tr1S' + i]
-                                            params.event.score_awayS = event['Tr2S' + i]
-                                            params.event.Esrv = event.Esrv
-                                            params.bet.pre.score_homeS = event['Tr1S' + i]
-                                            params.bet.pre.score_awayS = event['Tr2S' + i]
-                                            params.bet.pre.Esrv = event.Esrv
-                                        // }
-                                    }
-                                    else if (params.bet.pre.hasOwnProperty('Esrv')) {
-                                        params.event.score_homeS = params.bet.pre.score_homeS
-                                        params.event.score_awayS = params.bet.pre.score_awayS
-                                        params.event.Esrv = params.bet.pre.Esrv
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else if (bet.sport === "Basketball") {
-            let event = getEvent(bet.score_basketball, bet)
-            if (event != null) {
-                if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
-                    params.event.score_home = Number(event.Tr1);
-                    params.event.score_away = Number(event.Tr2);
-                    if (event.hasOwnProperty('Eps')) {
-                        params.event.timeElapsed = event.Eps
-                        if (/^\dQ$/.test(event.Eps))
-                            params.event.timeElapsed = Number(event.Eps.match(/^\d/)[0]);
-                    }
-                }
-            }
-        }
-    }
-
-    return params
-};
+}
 
 async function currentBets(page) {
     let payload = {
@@ -360,4 +361,4 @@ async function cancelBet(page, marketId, offerId, price, size, selectionId, hand
     }
 };
 
-module.exports = { login, getEventData, currentBets, placeBet, cancelBet };
+module.exports = { login, getEventData, getOddsData, currentBets, placeBet, cancelBet };

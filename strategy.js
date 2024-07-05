@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const { countElementsGE, assertBet } = require('./utils.js');
-const { cancelBet, placeBet } = require('./commands.js');
+const { cancelBet, placeBet, getOddsData } = require('./commands.js');
 
 class StrategyExecutor {
 
@@ -26,8 +26,14 @@ class StrategyExecutor {
                 if (rule.hasOwnProperty('checktion')) {
                     for (let check of rule.checktion) {
                         // console.log(check)
-                        if (!this[check](params, rule.condition))
-                            return
+                        if (check === 'commission') {
+                            if(!(await this[check](params, rule.condition)))
+                                return
+                        }
+                        else {
+                            if (!this[check](params, rule.condition))
+                                return
+                        }
                     }
                 }
                 if (rule.action === 'placeBet')
@@ -42,7 +48,7 @@ class StrategyExecutor {
     // 条件判断函数
     notInPlay(params, condition) {
         if (params.hasOwnProperty('event'))
-            if ((params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) || params.event.inplay)
+            if ((params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')))
                 return false
         return true;
     }
@@ -668,10 +674,14 @@ class StrategyExecutor {
         return true
     }
 
-    commission(params, condition) {
-        if ((params.event.back_odds - 1.0) * (params.event.oth_back_odds - 1.0) > params.bet.strategy.params[condition].guarantee)
-            return true
-        return false
+    async commission(params, condition) {
+        if (!Object.keys(params.event).some(key => key.includes('back_odds'))) {
+            await params.bet.page.waitForTimeout(30000);
+            await getOddsData(params)
+            if ((params.event.back_odds - 1.0) * (params.event.oth_back_odds - 1.0) > params.bet.strategy.params[condition].guarantee)
+                return true
+            return false
+        }
     }
 
     // 动作函数
@@ -771,6 +781,10 @@ class StrategyExecutor {
             handicap = params.bet.oth_handicap
         }
 
+        if (!Object.keys(params.event).some(key => key.includes('back_odds'))) {
+            await params.bet.page.waitForTimeout(24000);
+            await getOddsData(params)
+        }
         //如果策略为either，纠正handicap，并纠正odds
         if (params.bet.strategy.params[condition].hasOwnProperty('handicap')) {
             if (Number(params.bet.strategy.params[condition].handicap) != Number(handicap)) {
@@ -880,8 +894,8 @@ class StrategyExecutor {
                 return
             }
 
-            // if (params.bet.strategy.params[condition].side == 'BACK')
-            //     price = 1.01
+            if (params.bet.strategy.params[condition].side == 'BACK')
+                price = 1.0 + (price - 1.0) * 0.8
             if (!global.placing) {
                 global.placing = true
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)

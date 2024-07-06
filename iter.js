@@ -103,6 +103,7 @@ const util = require('util');
               const params = await getEventData(bet);
               if (checkBets(params))
                 await executor.execute(params.bet.strategy.name, params);
+              
               if ((params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) && (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown)) {
                 _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
                 _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown

@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("Men's Wimbledon 2024"))) {
+            competitionText.includes("Women's Wimbledon 2024"))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -107,7 +107,7 @@ describe('Extract and Fill Data', () => {
                                     "name": "tennis_2",
                                     "params": {
                                       "breakdown": {
-                                        "until": 3,
+                                        "until": 2,
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
@@ -115,14 +115,13 @@ describe('Extract and Fill Data', () => {
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": false,
+                                        "first_oth": true,
                                         "side": "BACK",
-                                        "until": 2
+                                        "until": 1
                                       },
                                       "eitherDraw": {
                                         "side": "BACK",
-                                        "scale": 0.0,
-                                        "rec": 0.0
+                                        "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

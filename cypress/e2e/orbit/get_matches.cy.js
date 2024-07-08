@@ -111,13 +111,14 @@ describe('Extract and Fill Data', () => {
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
-                                        "rec": 0.0
+                                        "price": 1.6
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
                                         "first_oth": true,
                                         "side": "BACK",
-                                        "until": 1
+                                        "until": 1,
+                                        "price": 1.6
                                       },
                                       "eitherDraw": {
                                         "side": "BACK",

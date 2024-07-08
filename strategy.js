@@ -862,7 +862,7 @@ class StrategyExecutor {
             else if (params.bet.strategy.params[condition].side === 'LAY')
                 price = thresh_lay_odds - params.bet.strategy.params[condition].profit
         }
-        else if (params.bet.strategy.params[condition].hasOwnProperty('price')) {
+        else if (params.bet.strategy.params[condition].hasOwnProperty('price') && !currentBets.length) {
             if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
                 return
             else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])

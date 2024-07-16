@@ -267,10 +267,10 @@ class StrategyExecutor {
 
     eitherDrawNotMatch(params, condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
-            if (!params.bet.strategy.params[condition].hasOwnProperty('side')) {
-                return true
-            }
-            else {
+            // if (!params.bet.strategy.params[condition].hasOwnProperty('side')) {
+            //     return true
+            // }
+            // else {
                 if (!params.event.lastIsRunner) {
                     if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                         return true
@@ -283,7 +283,7 @@ class StrategyExecutor {
                     else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                         return true
                 }
-            }
+            // }
         return false
     }
 
@@ -884,7 +884,7 @@ class StrategyExecutor {
                 price = 1.0 + (price - 1.0) * 0.8
             if (!global.placing) {
                 global.placing = true
-                await params.bet.page.waitForTimeout(24000);
+                await params.bet.page.waitForTimeout(30000);
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

@@ -25,7 +25,8 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("Women's Wimbledon 2024"))) {
+            competitionText.includes("ATP Newport") || competitionText.includes("ATP Hamburg") || competitionText.includes("ATP Bastad") || competitionText.includes("ATP Gstaad")
+            || competitionText.includes("WTA Budapest 2024") || competitionText.includes("WTA Palermo 2024"))) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -46,8 +47,8 @@ describe('Extract and Fill Data', () => {
                     
 
                     // 点击后等待子元素加载
-                    cy.wait(20000); // 根据需要调整等待时间
-                    cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 20000 });
+                    cy.wait(10000); // 根据需要调整等待时间
+                    // cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 20000 });
                     // 定义一个递归函数来处理 event 项的点击
                     function clickEvents(eventIndex) {
                       cy.get('body').then(($body) => {
@@ -63,7 +64,7 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          if (!["33380040","33388706","33380282","33386955","1571065713"].includes(data_event_id))
+                          if (!["33380040","33388706","33380282","33386955","33398938"].includes(data_event_id))
                           cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
                             const data_market_id = $rowDiv.attr('data-market-id');
@@ -94,14 +95,14 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                const result =   {
+                                const result =               {
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : false,
+                                  "anchor" : true,
                                   "vol": 6,
                                   "strategy": {
                                     "name": "tennis_2",
@@ -121,8 +122,6 @@ describe('Extract and Fill Data', () => {
                                         "price": 1.6
                                       },
                                       "eitherDraw": {
-                                        "side": "BACK",
-                                        "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",
@@ -138,7 +137,7 @@ describe('Extract and Fill Data', () => {
                                   "selectionId": selectionId,
                                   "oth_selectionId": oth_selectionId,
                                   "pre": {}
-                                };
+                                }
 
                                 // 将结果添加到数组中
                                 results.push(result);

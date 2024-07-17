@@ -103,7 +103,7 @@ describe('Extract and Fill Data', () => {
                                   "market": "Match Odds",
                                   "runner": runner,
                                   "anchor" : true,
-                                  "vol": 6,
+                                  "vol": 10,
                                   "strategy": {
                                     "name": "tennis_2",
                                     "params": {
@@ -122,8 +122,7 @@ describe('Extract and Fill Data', () => {
                                         "price": 1.6
                                       },
                                       "eitherDraw": {
-                                        "side": "BACK",
-                                        "scale": 0.0
+
                                       },
                                       "drawGames": {
                                         "side": "BACK",

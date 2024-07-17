@@ -687,6 +687,7 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
+                        params.bet.pre.cancelled = true
                         await cancelBet(params.bet.page, placed.marketId, placed.offerId, Number(placed.price), Number(placed.size), placed.selectionId, placed.handicap)
                     }
                 }
@@ -880,11 +881,13 @@ class StrategyExecutor {
                 return
             }
 
-            // if (params.bet.strategy.params[condition].side == 'BACK')
-            //     price = 1.0 + (price - 1.0) * 0.8
+            if (params.bet.pre.cancelled)
+                price = 1.0 + (price - 1.0) * 0.8
             if (!global.placing) {
                 global.placing = true
-                // await params.bet.page.waitForTimeout(30000);
+                if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)))
+                    await params.bet.page.waitForTimeout(15000);
+                params.bet.pre.cancelled = false
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

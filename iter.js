@@ -119,6 +119,9 @@ const util = require('util');
                 _bet.pre.score_homeS = params.event.score_homeS
                 _bet.pre.score_awayS = params.event.score_awayS
               }
+              if (bet.pre.hasOwnProperty('cancelled')) {
+                _bet.pre.cancelled = bet.pre.cancelled
+              }
             } catch (error) {
               const subject = 'Test Failure';
               const text = `A test has failed: Navigate match events and place bets`;

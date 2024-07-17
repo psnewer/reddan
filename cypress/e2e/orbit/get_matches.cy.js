@@ -122,6 +122,8 @@ describe('Extract and Fill Data', () => {
                                         "price": 1.6
                                       },
                                       "eitherDraw": {
+                                        "side": "BACK",
+                                        "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

@@ -880,11 +880,11 @@ class StrategyExecutor {
                 return
             }
 
-            if (params.bet.strategy.params[condition].side == 'BACK')
-                price = 1.0 + (price - 1.0) * 0.8
+            // if (params.bet.strategy.params[condition].side == 'BACK')
+            //     price = 1.0 + (price - 1.0) * 0.8
             if (!global.placing) {
                 global.placing = true
-                await params.bet.page.waitForTimeout(30000);
+                // await params.bet.page.waitForTimeout(30000);
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

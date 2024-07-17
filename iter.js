@@ -63,7 +63,7 @@ const util = require('util');
     await executor.initialize();
 
     for (let i = 0; i < 600; i++) {
-      await page.waitForTimeout(6000);
+      await page.waitForTimeout(15000);
 
       global.placing = false
 
@@ -103,7 +103,7 @@ const util = require('util');
               const params = await getEventData(bet);
               if (checkBets(params))
                 await executor.execute(params.bet.strategy.name, params);
-              
+
               if ((params.event.hasOwnProperty('lastIsRunner_breakdown') && params.event.hasOwnProperty('lastSet_breakdown')) && (params.event.lastIsRunner_breakdown != bet.pre.lastIsRunner_breakdown || params.event.lastSet_breakdown != bet.pre.lastSet_breakdown)) {
                 _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
                 _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown

@@ -42,7 +42,7 @@ describe('Extract and Fill Data', () => {
                   const $groupLi = groupItems.eq(index);
                   const groupText = $groupLi.text();
 
-                  if (!groupText.includes('Double')) {
+                  if (!groupText.includes('Double') && !groupText.includes('ATP')) {
                     cy.wrap($groupLi).click();
                     
 
@@ -95,14 +95,15 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                const result =               {
+                                const result =                           {
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : true,
+                                  "anchor" : false,
+                                  "dash": true,
                                   "vol": 10,
                                   "strategy": {
                                     "name": "tennis_2",
@@ -111,18 +112,19 @@ describe('Extract and Fill Data', () => {
                                         "until": 2,
                                         "side": "BACK",
                                         "first_runner": true,
-                                        "first_oth": false,
+                                        "first_oth": true,
                                         "price": 1.6
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
                                         "until": 1,
                                         "price": 1.6
                                       },
                                       "eitherDraw": {
-
+                                          "side": "BACK",
+                                          "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

@@ -71,10 +71,19 @@ async function getJsonFiles(directory) {
             params.bet.pre.hasBrokendown = params.event.hasBrokendown
             await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
         }
+        if (params.event.hasOwnProperty('hasDrawGames') && params.event.hasDrawGames != params.bet.pre.hasDrawGames) {
+            params.bet.pre.hasDrawGames = params.event.hasDrawGames
+            await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
+        }
+
         if (params.event.hasOwnProperty('Esrv')) {
             params.bet.pre.Esrv = params.event.Esrv
             params.bet.pre.score_homeS = params.event.score_homeS
             params.bet.pre.score_awayS = params.event.score_awayS
+            await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
+        }
+        if (params.bet.pre.hasOwnProperty('cancelled')) {
+            params.bet.pre.cancelled = params.bet.pre.cancelled
             await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
         }
 

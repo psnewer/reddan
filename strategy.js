@@ -60,8 +60,11 @@ class StrategyExecutor {
 
     drawGames(params, condition) {
         if (this.inSets(params, condition))
-            if (!this.breakdown(params, condition))
+            if (!this.breakdown(params, condition)) {
+                if (params.bet.pre.hasBrokendown)
+                    params.event.hasDrawGames = true
                 return true
+            }
         return false
     }
 
@@ -253,7 +256,13 @@ class StrategyExecutor {
                     if (!this.loseSets(params, condition))
                         return true
                 }
-            } else return true
+            } else {
+                if (params.bet.dash) {
+                    if (!params.bet.pre.hasDrawGames)
+                        return true
+                } else 
+                    return true
+            } 
         }
         return false
     }
@@ -459,13 +468,17 @@ class StrategyExecutor {
                     const away_squence = params.event.score_away.slice(0, set)
                     if (params.bet.runner.includes(params.bet.home)) {
                         if (countElementsGE(home_squence, away_squence) == 0)
-                            if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1])
+                            if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1]) {
+                                params.event.hasDrawGames = false
                                 return true;
+                            }
                     }
                     else if (params.bet.runner.includes(params.bet.away)) {
                         if (countElementsGE(away_squence, home_squence) == 0)
-                            if (params.event.score_away[params.event.score_away.length - 1] > params.event.score_home[params.event.score_home.length - 1])
+                            if (params.event.score_away[params.event.score_away.length - 1] > params.event.score_home[params.event.score_home.length - 1]) {
+                                params.event.hasDrawGames = false
                                 return true;
+                            }
                     }
                 }
             }
@@ -599,9 +612,11 @@ class StrategyExecutor {
                     const home_squence_pre = params.event.score_home.slice(0, set - 1)
                     const away_squence_pre = params.event.score_away.slice(0, set - 1)
                     if (countElementsGE(away_squence, home_squence) == 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0) {
+                        params.event.hasDrawGames = false
                         return true
                     }
                     else if (countElementsGE(home_squence, away_squence) == 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0) {
+                        params.event.hasDrawGames = false
                         return true
                     }
                 }

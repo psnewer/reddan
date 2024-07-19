@@ -63,7 +63,7 @@ const util = require('util');
     await executor.initialize();
 
     for (let i = 0; i < 600; i++) {
-      await page.waitForTimeout(15000);
+      await page.waitForTimeout(10000);
 
       global.placing = false
 
@@ -113,6 +113,9 @@ const util = require('util');
               }
               if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
                 _bet.pre.hasBrokendown = params.event.hasBrokendown
+              }
+              if (params.event.hasOwnProperty('hasDrawGames') && params.event.hasDrawGames != bet.pre.hasDrawGames) {
+                _bet.pre.hasDrawGames = params.event.hasDrawGames
               }
               if (params.event.hasOwnProperty('Esrv')) {
                 _bet.pre.Esrv = params.event.Esrv

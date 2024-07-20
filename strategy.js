@@ -898,7 +898,7 @@ class StrategyExecutor {
                     params.bet.strategy.params[condition]['price'] = 1.0 + (params.bet.pre.oth_origin_odds - 1.0) * (1.0 - params.bet.strategy.params[condition].profit)
             }
         }
-        if (params.bet.strategy.params[condition].hasOwnProperty('price') && !currentBets.length) {
+        if (params.bet.strategy.params[condition].hasOwnProperty('price') && currentBets.length <= 1 && this.breakdown(params, condition)) {
             if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
                 return
             else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])

@@ -63,7 +63,7 @@ const util = require('util');
     await executor.initialize();
 
     for (let i = 0; i < 600; i++) {
-      await page.waitForTimeout(10000);
+      await page.waitForTimeout(6000);
 
       global.placing = false
 
@@ -121,6 +121,8 @@ const util = require('util');
                 _bet.pre.Esrv = params.event.Esrv
                 _bet.pre.score_homeS = params.event.score_homeS
                 _bet.pre.score_awayS = params.event.score_awayS
+                _bet.pre.origin_odds = bet.pre.origin_odds
+                _bet.pre.oth_origin_odds = bet.pre.oth_origin_odds
               }
               if (bet.pre.hasOwnProperty('cancelled')) {
                 _bet.pre.cancelled = bet.pre.cancelled

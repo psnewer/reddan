@@ -26,7 +26,7 @@ describe('Extract and Fill Data', () => {
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
             competitionText.includes("ATP Newport") || competitionText.includes("ATP Hamburg") || competitionText.includes("ATP Bastad") || competitionText.includes("ATP Gstaad")
-            || competitionText.includes("WTA Budapest 2024") || competitionText.includes("WTA Palermo 2024"))) {
+            )) {
             cy.wrap($competitionLi).click();
 
             // 点击后等待子元素加载
@@ -95,7 +95,7 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                const result =                           {
+                                const result =                          {
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,

@@ -80,6 +80,8 @@ async function getJsonFiles(directory) {
             params.bet.pre.Esrv = params.event.Esrv
             params.bet.pre.score_homeS = params.event.score_homeS
             params.bet.pre.score_awayS = params.event.score_awayS
+            params.bet.pre.origin_odds = params.bet.pre.origin_odds
+            params.bet.pre.oth_origin_odds = params.bet.pre.oth_origin_odds
             await fs.writeFile('../cypress/e2e/orbit/data/bets.json', JSON.stringify(params.bet, null, 2), 'utf8')
         }
         if (params.bet.pre.hasOwnProperty('cancelled')) {

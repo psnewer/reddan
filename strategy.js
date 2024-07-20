@@ -62,7 +62,7 @@ class StrategyExecutor {
         if (this.inSets(params, condition))
             if (!this.breakdown(params, condition)) {
                 if (params.bet.pre.hasBrokendown)
-                    params.event.hasDrawGames = true
+                    params.bet.pre.hasDrawGames = true
                 return true
             }
         return false
@@ -431,7 +431,7 @@ class StrategyExecutor {
             }
             if (match)
                 if (Math.abs(params.event.score_home[params.event.score_home.length - 1] - params.event.score_away[params.event.score_away.length - 1]) == 1)
-                    params.event.hasDrawGames = true
+                    params.bet.pre.hasDrawGames = true
             return match
         }
         else if (params.bet.sport === "Soccer") {
@@ -490,7 +490,7 @@ class StrategyExecutor {
                 }
             }
             if (match)
-                params.event.hasDrawGames = false
+                params.bet.pre.hasDrawGames = false
             return match
         }
         else if (params.bet.sport === "Soccer") {
@@ -573,7 +573,7 @@ class StrategyExecutor {
             }
             if (match)
                 if (Math.abs(params.event.score_home[params.event.score_home.length - 1] - params.event.score_away[params.event.score_away.length - 1]) == 1)
-                    params.event.hasDrawGames = true
+                    params.bet.pre.hasDrawGames = true
             return match
         }
         else if (params.bet.sport === "Soccer") {
@@ -632,7 +632,7 @@ class StrategyExecutor {
                 }
             }
             if (match)
-                params.event.hasDrawGames = false
+                params.bet.pre.hasDrawGames = false
             return match
         }
         else if (params.bet.sport === "Soccer") {

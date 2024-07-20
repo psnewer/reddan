@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Newport") || competitionText.includes("ATP Hamburg") || competitionText.includes("ATP Bastad") || competitionText.includes("ATP Gstaad")
+            competitionText.includes("ATP Umag") || competitionText.includes("WTA Prague 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -103,7 +103,7 @@ describe('Extract and Fill Data', () => {
                                   "market": "Match Odds",
                                   "runner": runner,
                                   "anchor" : false,
-                                  "dash": true,
+                                  "dash": false,
                                   "vol": 10,
                                   "strategy": {
                                     "name": "tennis_2",
@@ -112,12 +112,12 @@ describe('Extract and Fill Data', () => {
                                         "until": 2,
                                         "side": "BACK",
                                         "first_runner": true,
-                                        "first_oth": true,
-                                        "price": 1.6
+                                        "first_oth": false,
+                                        "profit": 0.5
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": false,
+                                        "first_oth": true,
                                         "side": "BACK",
                                         "until": 1,
                                         "price": 1.6
@@ -141,7 +141,6 @@ describe('Extract and Fill Data', () => {
                                   "oth_selectionId": oth_selectionId,
                                   "pre": {}
                                 }
-
                                 // 将结果添加到数组中
                                 results.push(result);
                           });

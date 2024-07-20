@@ -114,8 +114,8 @@ const util = require('util');
               if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
                 _bet.pre.hasBrokendown = params.event.hasBrokendown
               }
-              if (params.event.hasOwnProperty('hasDrawGames') && params.event.hasDrawGames != bet.pre.hasDrawGames) {
-                _bet.pre.hasDrawGames = params.event.hasDrawGames
+              if (bet.pre.hasOwnProperty('hasDrawGames')) {
+                _bet.pre.hasDrawGames = bet.pre.hasDrawGames
               }
               if (params.event.hasOwnProperty('Esrv')) {
                 _bet.pre.Esrv = params.event.Esrv

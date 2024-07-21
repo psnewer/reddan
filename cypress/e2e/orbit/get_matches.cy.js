@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Umag") || competitionText.includes("WTA Prague 2024")
+            competitionText.includes("ATP Umag") || competitionText.includes("ATP Kitzbuhel 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -95,15 +95,15 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                const result =                          {
+                                const result =             {
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : false,
-                                  "dash": false,
+                                  "anchor" : true,
+                                  "dash": true,
                                   "vol": 10,
                                   "strategy": {
                                     "name": "tennis_2",
@@ -112,19 +112,17 @@ describe('Extract and Fill Data', () => {
                                         "until": 2,
                                         "side": "BACK",
                                         "first_runner": true,
-                                        "first_oth": false,
-                                        "profit": 0.5
+                                        "first_oth": true,
+                                        "price": 1.6
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
                                         "until": 1,
                                         "price": 1.6
                                       },
                                       "eitherDraw": {
-                                          "side": "BACK",
-                                          "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

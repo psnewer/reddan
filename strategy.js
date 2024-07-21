@@ -145,14 +145,14 @@ class StrategyExecutor {
                                 params.bet.strategy.params[condition].on = true
                         }
                 }
-            } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0) {
+            } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0 && !params.bet.pre.hasDrawGames) {
                 if (!(params.bet.strategy.params[condition].first_runner || params.bet.strategy.params[condition].first_oth)) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
                         params.bet.strategy.params[condition].oth = true
                     else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
                         params.bet.strategy.params[condition].oth = true
                     match = true
-                } else if (!params.bet.pre.hasBreakdown && !params.bet.pre.hasDrawGames) {
+                } else if (!params.bet.pre.hasBreakdown) {
                     if (params.bet.strategy.params[condition].first_runner) {
                         if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
                             match = true

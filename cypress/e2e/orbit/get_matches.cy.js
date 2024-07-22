@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Umag") || competitionText.includes("ATP Kitzbuhel 2024")
+            competitionText.includes("WTA Iasi 2024") || competitionText.includes("WTA Prague 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -64,7 +64,7 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          if (!["33380040","33388706","33380282","33386955","33398938"].includes(data_event_id))
+                          if (!["33431487"].includes(data_event_id))
                           cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
                             const data_market_id = $rowDiv.attr('data-market-id');
@@ -95,7 +95,7 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                const result =             {
+                                const result =  {
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,
@@ -103,7 +103,7 @@ describe('Extract and Fill Data', () => {
                                   "market": "Match Odds",
                                   "runner": runner,
                                   "anchor" : true,
-                                  "dash": true,
+                                  "dash": false,
                                   "vol": 10,
                                   "strategy": {
                                     "name": "tennis_2",
@@ -112,12 +112,12 @@ describe('Extract and Fill Data', () => {
                                         "until": 2,
                                         "side": "BACK",
                                         "first_runner": true,
-                                        "first_oth": true,
-                                        "price": 1.6
+                                        "first_oth": false,
+                                        "profit": 0.5
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": false,
+                                        "first_oth": true,
                                         "side": "BACK",
                                         "until": 1,
                                         "price": 1.6

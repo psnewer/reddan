@@ -903,6 +903,7 @@ class StrategyExecutor {
                 return
             else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
                 return
+            price = params.bet.strategy.params[condition]['price']
         }
 
         if (parseInt(size) > 2.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')

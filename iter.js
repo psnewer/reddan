@@ -124,6 +124,9 @@ const util = require('util');
                 _bet.pre.origin_odds = bet.pre.origin_odds
                 _bet.pre.oth_origin_odds = bet.pre.oth_origin_odds
               }
+              if (bet.pre.hasOwnProperty('num_bets')) {
+                _bet.pre.num_bets = bet.pre.num_bets
+              }
               if (bet.pre.hasOwnProperty('cancelled')) {
                 _bet.pre.cancelled = bet.pre.cancelled
               }

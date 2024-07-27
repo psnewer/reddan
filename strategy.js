@@ -903,7 +903,7 @@ class StrategyExecutor {
                 return
             else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
                 return
-            price = params.bet.strategy.params[condition]['price']
+            price = 1.01
         }
 
         if (parseInt(size) > 2.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')
@@ -918,7 +918,7 @@ class StrategyExecutor {
             }
 
             if (params.bet.pre.cancelled)
-                price = 1.0 + (price - 1.0) * 0.8
+                price = 1.01
             if (!global.placing) {
                 global.placing = true
                 if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)))

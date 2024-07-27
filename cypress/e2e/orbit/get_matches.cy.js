@@ -12,7 +12,7 @@ describe('Extract and Fill Data', () => {
     cy.wait(2000); // 根据需要调整等待时间
 
     // 点击包含 "Tennis" 的 li 元素
-    cy.get('li[data-test-collapse="_ITEM"][datatype="sport"]').contains('Tennis').click();
+    cy.get('li[data-test-collapse="_ITEM"][datatype="sport"]').contains(/^Tennis$/).click()
 
     // 确保页面部分加载完成
     cy.wait(2000); // 根据需要调整等待时间
@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("WTA Iasi 2024") || competitionText.includes("WTA Prague 2024")
+            competitionText.includes("Men's Singles Olympics 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -42,7 +42,7 @@ describe('Extract and Fill Data', () => {
                   const $groupLi = groupItems.eq(index);
                   const groupText = $groupLi.text();
 
-                  if (!groupText.includes('Double') && !groupText.includes('ATP')) {
+                  if (!groupText.includes('Double')) {
                     cy.wrap($groupLi).click();
                     
 
@@ -95,7 +95,7 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                const result =  {
+                                let result = {
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,
@@ -113,14 +113,13 @@ describe('Extract and Fill Data', () => {
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
-                                        "profit": 0.5
+                                        "profit": 1.0
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
-                                        "until": 1,
-                                        "price": 1.6
+                                        "until": 1
                                       },
                                       "eitherDraw": {
                                       },
@@ -138,6 +137,12 @@ describe('Extract and Fill Data', () => {
                                   "selectionId": selectionId,
                                   "oth_selectionId": oth_selectionId,
                                   "pre": {}
+                                }
+                                if (Math.min(homeOdds,awayOdds) < 1.4) {
+                                  if (result.strategy.params.breakdown.hasOwnProperty('profit')) {
+                                      delete result.strategy.params.breakdown.profit
+                                      result.strategy.params.breakdown.price = 1.6
+                                  }
                                 }
                                 // 将结果添加到数组中
                                 results.push(result);

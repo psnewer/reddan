@@ -148,6 +148,10 @@ function getEvent(score_sport, bet) {
 
 function checkBets(params) {
   let currentBets = params.bet.currentBets.filter(item => Number(item.sizeMatched) > 0.0)
+  if (!params.bet.pre.hasOwnProperty('num_bets') || params.bet.pre.num_bets <= currentBets.length)
+    params.bet.pre.num_bets = currentBets.length
+  else 
+    return false
 
   params.event.runner_win = 0.0
   params.event.oth_win = 0.0

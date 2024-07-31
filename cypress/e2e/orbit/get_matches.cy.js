@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("Men's Singles Olympics 2024")
+            competitionText.includes("WTA Washington 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -95,14 +95,14 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                let result = {
+                                let result ={
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : true,
+                                  "anchor" : false,
                                   "dash": false,
                                   "vol": 10,
                                   "strategy": {
@@ -113,11 +113,11 @@ describe('Extract and Fill Data', () => {
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
-                                        "profit": 1.0
+                                        "profit": 0.5
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": false,
+                                        "first_oth": true,
                                         "side": "BACK",
                                         "until": 1
                                       },

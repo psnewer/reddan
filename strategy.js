@@ -291,6 +291,8 @@ class StrategyExecutor {
                         return true
                     else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
                         return true
+                    else if (params.bet.anchor)
+                        return true
                 }
                 else {
                     if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)

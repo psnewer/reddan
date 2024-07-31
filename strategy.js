@@ -282,16 +282,21 @@ class StrategyExecutor {
 
     eitherDrawNotMatch(params, condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
-            // if (!params.bet.strategy.params[condition].hasOwnProperty('side')) {
-            //     return true
-            // }
-            // else {
+            if (params.bet.draw_anchor) {
+                if (!params.event.lastIsRunner)
+                    return true
+                else {
+                    if (parseInt(params.event.oth_win) < -1.0) {
+                        params.bet.strategy.params[condition]['scale'] = 0.0
+                        return true
+                    }
+                }
+            }
+            else {
                 if (!params.event.lastIsRunner) {
                     if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                         return true
                     else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
-                        return true
-                    else if (params.bet.anchor)
                         return true
                 }
                 else {
@@ -300,7 +305,7 @@ class StrategyExecutor {
                     else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                         return true
                 }
-            // }
+            }
         return false
     }
 

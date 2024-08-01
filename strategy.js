@@ -282,7 +282,7 @@ class StrategyExecutor {
 
     eitherDrawNotMatch(params, condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
-            if (params.bet.draw_anchor) {
+            if (params.bet.anchor) {
                 if (!params.event.lastIsRunner)
                     return true
                 else {
@@ -732,7 +732,7 @@ class StrategyExecutor {
             return
         if (params.bet.anchor) {
             if (params.event.lastIsRunner)
-                if (parseInt(params.event.oth_win) >= -0.5 * params.bet.vol)
+                if (parseInt(params.event.oth_win) >= -0.5 * params.bet.vol && parseInt(params.event.runner_win) >= params.bet.vol)
                     return
         }
 

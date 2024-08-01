@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("WTA Washington 2024")
+            competitionText.includes("WTA Washington 2024") || competitionText.includes("Women's Singles Olympics 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -122,6 +122,8 @@ describe('Extract and Fill Data', () => {
                                         "until": 1
                                       },
                                       "eitherDraw": {
+                                          "side": "BACK",
+                                          "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

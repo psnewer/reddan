@@ -283,8 +283,10 @@ class StrategyExecutor {
     eitherDrawNotMatch(params, condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
             if (params.bet.anchor) {
-                if (!params.event.lastIsRunner)
+                if (!params.event.lastIsRunner) {
+                    params.bet.strategy.params[condition]['scale'] = 1.0
                     return true
+                }
                 else {
                     if (parseInt(params.event.oth_win) < -1.0) {
                         params.bet.strategy.params[condition]['scale'] = 0.0

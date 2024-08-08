@@ -266,9 +266,9 @@ class StrategyExecutor {
                 if (params.bet.dash) {
                     if (!params.bet.pre.hasDrawGames)
                         return true
-                } else 
+                } else
                     return true
-            } 
+            }
         }
         return false
     }
@@ -493,7 +493,7 @@ class StrategyExecutor {
                     }
                     else if (params.bet.runner.includes(params.bet.away)) {
                         if (countElementsGE(away_squence, home_squence) == 0)
-                            if (params.event.score_away[params.event.score_away.length - 1] > params.event.score_home[params.event.score_home.length - 1]) 
+                            if (params.event.score_away[params.event.score_away.length - 1] > params.event.score_home[params.event.score_home.length - 1])
                                 match = true;
                     }
                 }
@@ -575,7 +575,7 @@ class StrategyExecutor {
                     }
                     else if (countElementsGE(away_squence, home_squence) > 0) {
                         if (params.bet.runner.includes(params.bet.away))
-                            params.bet.strategy.params[condition]['oth'] = true 
+                            params.bet.strategy.params[condition]['oth'] = true
                         match = true
                     }
                 }
@@ -634,7 +634,7 @@ class StrategyExecutor {
                     const away_squence = params.event.score_away.slice(0, set)
                     const home_squence_pre = params.event.score_home.slice(0, set - 1)
                     const away_squence_pre = params.event.score_away.slice(0, set - 1)
-                    if (countElementsGE(away_squence, home_squence) == 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0)  
+                    if (countElementsGE(away_squence, home_squence) == 0 && countElementsGE(away_squence_pre, home_squence_pre) < 0)
                         match = true
                     else if (countElementsGE(home_squence, away_squence) == 0 && countElementsGE(home_squence_pre, away_squence_pre) < 0)
                         match = true
@@ -707,7 +707,7 @@ class StrategyExecutor {
     async commission(params, condition) {
         if (!params.bet.strategy.params[condition].hasOwnProperty('guarantee'))
             params.bet.strategy.params[condition]['guarantee'] = 0.96
-        
+
         if ((params.event.back_odds - 1.0) * (params.event.oth_back_odds - 1.0) > params.bet.strategy.params[condition].guarantee)
             return true
         return false
@@ -910,12 +910,15 @@ class StrategyExecutor {
                     params.bet.strategy.params[condition]['price'] = 1.0 + (params.bet.pre.oth_origin_odds - 1.0) * (1.0 - params.bet.strategy.params[condition].profit)
             }
         }
-        if (params.bet.strategy.params[condition].hasOwnProperty('price') && currentBets.length <= 1 && this.breakdown(params, condition) && !params.event.score_away.length) {
-            if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
-                return
-            else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
-                return
-            price = 1.01
+        if (params.bet.strategy.params[condition].hasOwnProperty('price')) {
+            if ((currentBets.length <= 1 && this.breakdown(params, condition) && !params.event.score_away.length) || this.notInPlay(params, condition)) {
+                if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
+                    return
+                else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
+                    return
+                if (currentBets.length <= 1 && this.breakdown(params, condition) && !params.event.score_away.length)
+                    price = 1.01
+            }
         }
 
         if (parseInt(size) > 2.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')

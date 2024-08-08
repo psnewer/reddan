@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("WTA Washington 2024") || competitionText.includes("Women's Singles Olympics 2024")
+            competitionText.includes("ATP Montreal 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -64,7 +64,7 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          if (!["33461692"].includes(data_event_id))
+                          if (!["33466312"].includes(data_event_id))
                           cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
                             const data_market_id = $rowDiv.attr('data-market-id');
@@ -108,16 +108,19 @@ describe('Extract and Fill Data', () => {
                                   "strategy": {
                                     "name": "tennis_2",
                                     "params": {
+                                      "notInPlay": {
+                                          "price": 1.3
+                                      },
                                       "breakdown": {
                                         "until": 2,
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
-                                        "profit": 0.5
+                                        "profit": 1.0
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
                                         "until": 1
                                       },

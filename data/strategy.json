@@ -193,11 +193,6 @@
             "action": "placeBet"
         },
         {
-            "condition": "notMatchOne",
-            "checktion":["commission"],
-            "action": "placeBet"
-        },
-        {
             "condition": "breakdown",
             "checktion":["BreakdownNotMatch"],
             "action": "placeBet"

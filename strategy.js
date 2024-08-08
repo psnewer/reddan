@@ -705,6 +705,9 @@ class StrategyExecutor {
     }
 
     async commission(params, condition) {
+        if (!params.bet.strategy.params[condition].hasOwnProperty('guarantee'))
+            params.bet.strategy.params[condition]['guarantee'] = 0.96
+        
         if ((params.event.back_odds - 1.0) * (params.event.oth_back_odds - 1.0) > params.bet.strategy.params[condition].guarantee)
             return true
         return false

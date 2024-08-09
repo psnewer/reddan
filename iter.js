@@ -8,7 +8,7 @@ const util = require('util');
 (async () => {
   const browser = await chromium.launch({
     headless: true,
-    executablePath: '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+    executablePath: '/usr/bin/google-chrome'
   });
   const context = await browser.newContext();
   const page = await context.newPage();

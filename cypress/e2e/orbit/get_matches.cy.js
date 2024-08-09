@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Montreal 2024")
+            competitionText.includes("WTA Toronto 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -102,7 +102,7 @@ describe('Extract and Fill Data', () => {
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : false,
+                                  "anchor" : true,
                                   "dash": false,
                                   "vol": 10,
                                   "strategy": {
@@ -116,17 +116,15 @@ describe('Extract and Fill Data', () => {
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
-                                        "profit": 1.0
+                                        "profit": 0.5
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": false,
+                                        "first_oth": true,
                                         "side": "BACK",
                                         "until": 1
                                       },
                                       "eitherDraw": {
-                                          "side": "LAY",
-                                          "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

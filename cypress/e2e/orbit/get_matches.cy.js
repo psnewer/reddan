@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("WTA Toronto 2024")
+            competitionText.includes("Men's US Open 2024")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -64,7 +64,7 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          if (!["33466312"].includes(data_event_id))
+                          if (!["33518296"].includes(data_event_id))
                           cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
                             const data_market_id = $rowDiv.attr('data-market-id');
@@ -95,14 +95,14 @@ describe('Extract and Fill Data', () => {
                                 }
 
                                 // 创建目标对象
-                                let result ={
+                                let result =   {
                                   "sport": "Tennis",
                                   "competition": competitionText,
                                   "home": homeName,
                                   "away": awayName,
                                   "market": "Match Odds",
                                   "runner": runner,
-                                  "anchor" : true,
+                                  "anchor" : false,
                                   "dash": false,
                                   "vol": 10,
                                   "strategy": {
@@ -112,7 +112,7 @@ describe('Extract and Fill Data', () => {
                                           "price": 1.3
                                       },
                                       "breakdown": {
-                                        "until": 2,
+                                        "until": 3,
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
@@ -120,11 +120,13 @@ describe('Extract and Fill Data', () => {
                                       },
                                       "eitherLose": {
                                         "first_runner": true,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
-                                        "until": 1
+                                        "until": 3
                                       },
                                       "eitherDraw": {
+                                          "side": "LAY",
+                                          "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

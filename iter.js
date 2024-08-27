@@ -62,7 +62,7 @@ const util = require('util');
     const executor = new StrategyExecutor('./data/strategy.json');
     await executor.initialize();
 
-    for (let i = 0; i < 600; i++) {
+    for (let i = 0; i < 300; i++) {
       await page.waitForTimeout(6000);
 
       global.placing = false
@@ -126,6 +126,8 @@ const util = require('util');
               }
               if (bet.pre.hasOwnProperty('num_bets')) {
                 _bet.pre.num_bets = bet.pre.num_bets
+                if (params.event.placed)
+                  _bet.pre.num_bets += 1
               }
               if (bet.pre.hasOwnProperty('cancelled')) {
                 _bet.pre.cancelled = bet.pre.cancelled

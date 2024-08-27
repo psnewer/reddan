@@ -916,7 +916,7 @@ class StrategyExecutor {
                     return
                 else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
                     return
-                if (currentBets.length <= 1 && this.breakdown(params, condition) && !params.event.score_away.length)
+                if (currentBets.length == 1 && this.breakdown(params, condition) && !params.event.score_away.length)
                     price = 1.01
             }
         }
@@ -932,13 +932,14 @@ class StrategyExecutor {
                 return
             }
 
-            if (params.bet.pre.cancelled)
+            if (params.bet.pre.cancelled && currentBets.length)
                 price = 1.01
             if (!global.placing) {
                 global.placing = true
                 if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)))
                     await params.bet.page.waitForTimeout(15000);
                 params.bet.pre.cancelled = false
+                params.event.placed = true
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

@@ -256,10 +256,15 @@ class StrategyExecutor {
         if (params.event.score_home.length <= params.bet.strategy.params[condition].until) {
             if (params.event.hasOwnProperty('lastIsRunner')) {
                 if (!params.event.lastIsRunner) {
-                    if (this.loseSets(params, condition))
+                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                         return true
-                } else {
-                    if (!this.loseSets(params, condition))
+                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
+                        return true
+                }
+                else {
+                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
+                        return true
+                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                         return true
                 }
             } else {

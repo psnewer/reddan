@@ -175,7 +175,7 @@ class StrategyExecutor {
             }
         }
         else if (params.event.score_home.length >= params.bet.strategy.params[condition].until) {
-            if (parseInt(params.event.runner_win) < -1.0) {
+            if (Math.trunc(params.event.runner_win) < -1.0) {
                 if (!params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
                         match = true
@@ -183,7 +183,7 @@ class StrategyExecutor {
                         match = true
                 }
             }
-            else if (parseInt(params.event.oth_win) < -1.0) {
+            else if (Math.trunc(params.event.oth_win) < -1.0) {
                 if (params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
                         match = true
@@ -256,15 +256,10 @@ class StrategyExecutor {
         if (params.event.score_home.length <= params.bet.strategy.params[condition].until) {
             if (params.event.hasOwnProperty('lastIsRunner')) {
                 if (!params.event.lastIsRunner) {
-                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                    if (this.loseSets(params, condition))
                         return true
-                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
-                        return true
-                }
-                else {
-                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
-                        return true
-                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                } else {
+                    if (!this.loseSets(params, condition))
                         return true
                 }
             } else {
@@ -272,6 +267,19 @@ class StrategyExecutor {
                     if (!params.bet.pre.hasDrawGames)
                         return true
                 } else
+                    return true
+            }
+        } else {
+            if (Math.trunc(params.event.runner_win) < -1.0) {
+                if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                    return true
+                else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
+                    return true
+            }
+            else if(Math.trunc(params.event.oth_win) < -1.0){
+                if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
+                    return true
+                else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                     return true
             }
         }
@@ -293,7 +301,7 @@ class StrategyExecutor {
                     return true
                 }
                 else {
-                    if (parseInt(params.event.oth_win) < -1.0) {
+                    if (Math.trunc(params.event.oth_win) < -1.0) {
                         params.bet.strategy.params[condition]['scale'] = 0.0
                         return true
                     }
@@ -742,7 +750,7 @@ class StrategyExecutor {
             return
         if (params.bet.anchor) {
             if (params.event.lastIsRunner)
-                if (parseInt(params.event.oth_win) >= -0.5 * params.bet.vol && parseInt(params.event.runner_win) >= params.bet.vol)
+                if (Math.trunc(params.event.oth_win) >= -0.5 * params.bet.vol && Math.trunc(params.event.runner_win) >= params.bet.vol)
                     return
         }
 
@@ -750,7 +758,7 @@ class StrategyExecutor {
             if (params.event.lastIsRunner)
                 params.bet.strategy.params[condition].oth = true
 
-            if (parseInt(params.event.runner_win) > 0 || parseInt(params.event.oth_win) > 0) {
+            if (Math.trunc(params.event.runner_win) > 0 || Math.trunc(params.event.oth_win) > 0) {
                 params.bet.strategy.params[condition]['oth'] = false
                 if (params.bet.strategy.params[condition].hasOwnProperty('side')) {
                     if (params.event.runner_side == params.bet.strategy.params[condition].side) {
@@ -926,7 +934,7 @@ class StrategyExecutor {
             }
         }
 
-        if (parseInt(size) > 2.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')
+        if (Math.trunc(size) > 2.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')
             size = 6.0
         if (size.toFixed(2) >= 6.0 && price >= 1.0) {
             const result = assertBet(currentBets[currentBets.length - 1], selectionId, params, condition)

@@ -332,8 +332,8 @@ async function cancelBet(page, marketId, offerId, price, size, selectionId, hand
                 {
                     "price": price,
                     "size": size,
-                    "selectionId": selectionId,
-                    "handicap": handicap,
+                    "selectionId": Number(selectionId),
+                    "handicap": Number(handicap),
                     "offerId": offerId,
                     "betType": "EXCHANGE"
                 }
@@ -364,4 +364,85 @@ async function cancelBet(page, marketId, offerId, price, size, selectionId, hand
     }
 };
 
-module.exports = { login, getEventData, getOddsData, currentBets, placeBet, cancelBet };
+async function editBet(page, marketId, offerId, side, price, size, sizeRemaining, selectionId, handicap) {
+    let payload = {
+        "headers": {
+            "host": "www.orbitxch.com",
+            "connection": "keep-alive",
+            "sec-ch-ua": "\"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"114\"",
+            "x-csrf-token": "dd4d6b52-9b01-4ade-9fa8-3bb70d5d0731",
+            "sec-ch-ua-mobile": "?0",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/13.5.0 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36",
+            "content-type": "application/json",
+            "access-control-allow-origin": "*",
+            "accept": "application/json, text/plain, */*",
+            "access-control-allow-credentials": "true",
+            "x-device": "DESKTOP",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "origin": "https://www.orbitxch.com",
+            "sec-fetch-site": "same-origin",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "referer": "https://www.orbitxch.com/customer/inplay/highlights",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "zh-CN",
+            "cookie": "CSRF-TOKEN=dd4d6b52-9b01-4ade-9fa8-3bb70d5d0731; BIAB_CUSTOMER=aGVoYWk2MnxleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpJVXpJMU5pSjkuZXlKbGVIQWlPakUzTWpVMU5qSXdORGNzSW1saGRDSTZNVGN5TlRVeU5qQTBOeXdpWVdOamIzVnVkRWxrSWpvaWFHVm9ZV2syTWlJc0luTjBZWFIxY3lJNkltRmpkR2wyWlNJc0luQnZiR2xqYVdWeklqcGJJakU1SWl3aU5UUWlMQ0k0TlNJc0lqRXdOU0lzSWpJd0lpd2lNVEEzSWl3aU1UQTRJaXdpTVRFd0lpd2lNVEV6SWl3aU1USTVJaXdpTVRNd0lpd2lNVE14SWl3aU1UTXpJbDBzSW1GalkxUjVjR1VpT2lKQ1NVRkNJaXdpYkc5bloyVmtTVzVCWTJOdmRXNTBTV1FpT2lKb1pXaGhhVFl5SWl3aWMzVmlYMk52WDJSdmJXRnBibk1pT201MWJHd3NJbXhsZG1Wc0lqb2lRa2xCUWlJc0ltTjFjbkpsYm1ONUlqb2lSVlZTSW4wLjhFa2d6UjYyU2R1YTMyb3NIYVRydUx4SjJvMXNwcFVkWkpvQVd2NXF6c0V8fHhRTlhsbWhBeXAwUVU3TkgyN2ExbmNOTWxKWT0=; BIAB_AN=5075fc6e-cc80-46a3-9c1e-d35ca9453e7a; _gid=GA1.2.1309088736.1725526043; _ga=GA1.2.2049928919.1725526042; _ga_R0X6ZP423B=GS1.1.1725526042.1.0.1725526045.0.0.0; BIAB_LANGUAGE=en; BIAB_TZ=-480; COLLAPSE-LEFT_PANEL_COLLAPSE_GROUP-SPORT_COLLAPSE=true; BIAB_SHOW_TOOLTIPS=false; BIAB_LOGIN_POP_UP_SHOWN=true; AWSALB=i5pvKdB2PC8AskwDH5E0AD9fgZAhl6lK7kQzuC79I//Dl6cxRx/IRzVI26PH6perUE9n+EjO/7dskPYrcB5t2Vfl9P7AvyF5NLHxK89XeGvkihdENoexWRv7X1/c; AWSALBCORS=i5pvKdB2PC8AskwDH5E0AD9fgZAhl6lK7kQzuC79I//Dl6cxRx/IRzVI26PH6perUE9n+EjO/7dskPYrcB5t2Vfl9P7AvyF5NLHxK89XeGvkihdENoexWRv7X1/c"
+        },
+        "url": "https://www.orbitxch.com/customer/api/editBets",
+        "method": "POST",
+        "httpVersion": "1.1",
+        "resourceType": "xhr",
+        "query": {},
+        "data": {
+            [marketId]: [
+                {
+                    "price": price,
+                    "size": size,
+                    "side": side,
+                    "selectionId": Number(selectionId),
+                    "handicap": Number(handicap),
+                    "offerId": offerId,
+                    "sizeRemaining": sizeRemaining,
+                    "persistenceType": "LAPSE",
+                    "betType": "EXCHANGE",
+                    "netPLBetslipEnabled": false,
+                    "netPLMarketPageEnabled": false,
+                    "quickStakesEnabled": true,
+                    "confirmBetsEnabled": false,
+                    "applicationType": "WEB",
+                    "mobile": false,
+                    "isEachWay": false,
+                    "eachWayData": {},
+                    "pageData": {}
+                }
+            ]
+        },
+        "responseTimeout": 30000
+    }
+
+    const jsonString = JSON.stringify(payload.data);
+    payload.headers["content-length"] = Buffer.byteLength(jsonString, 'utf8');
+
+    const cookies = await page.context().cookies();
+    const updatedCookies = [];
+    const cookieNames = payload.headers.cookie.split('; ').map(cookie => cookie.split('=')[0]);
+    cookieNames.forEach(cookieName => {
+        const cookie = cookies.find(cookie => cookie.name === cookieName)
+        if (cookie) {
+            updatedCookies.push(`${cookie.name}=${cookie.value}`);
+            if (cookie.name === 'CSRF-TOKEN') {
+                payload.headers["x-csrf-token"] = cookie.value;
+            }
+        }
+
+    });
+    const cookieString = updatedCookies.join('; ')
+    payload.headers.cookie = cookieString;
+
+    const response = await axios(payload);
+    if (response.status == 200) {
+        await page.waitForTimeout(30000);
+    }
+};
+
+module.exports = { login, getEventData, getOddsData, currentBets, placeBet, cancelBet, editBet };

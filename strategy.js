@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 const { countElementsGE, assertBet } = require('./utils.js');
-const { cancelBet, placeBet, getOddsData } = require('./commands.js');
+const { cancelBet, placeBet, editBet } = require('./commands.js');
 
 class StrategyExecutor {
 
@@ -733,7 +733,7 @@ class StrategyExecutor {
         let currentBets = params.bet.currentBets
         for (const placed of currentBets) {
             if (placed.marketId === params.bet['data-market-id']) {
-                if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                if (Number(placed.sizeMatched) == 0) {
                     CANCEL = true
                     // console.log('CANCEL')
                     // return
@@ -741,6 +741,16 @@ class StrategyExecutor {
                         global.placing = true
                         params.bet.pre.cancelled = true
                         await cancelBet(params.bet.page, placed.marketId, placed.offerId, Number(placed.price), Number(placed.size), placed.selectionId, placed.handicap)
+                    }
+                }
+                else if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                    CANCEL = true
+                    // console.log('CANCEL')
+                    // return
+                    if (!global.placing) {
+                        global.placing = true
+                        let price = placed.side == "BACK"? 1.01 : Math.trunc(placed.price + 1.0)
+                        await editBet(params.bet.page, placed.marketId, placed.offerId, placed.side, Number(price), Number(placed.size), Number(placed.sizeRemaining), placed.selectionId, placed.handicap)
                     }
                 }
             }
@@ -862,9 +872,9 @@ class StrategyExecutor {
             rec = params.bet.strategy.params[condition].rec
 
         let runner_thresh_back_odds = params.event.runner_thresh_odds ? 1.0 + (params.event.runner_thresh_odds - 1.0) * (1 - rec) : params.event.runner_thresh_odds
-        let runner_thresh_lay_odds = params.event.runner_thresh_odds ? 1.0 + (params.event.runner_thresh_odds - 1.0) * (1 + rec) : params.event.runner_thresh_odds
+        let runner_thresh_lay_odds = params.event.runner_thresh_odds ? 1.0 + (params.event.runner_thresh_odds - 1.0) * (1 + 0.0) : params.event.runner_thresh_odds
         let oth_thresh_back_odds = params.event.oth_thresh_odds ? 1.0 + (params.event.oth_thresh_odds - 1.0) * (1.0 - rec) : params.event.oth_thresh_odds
-        let oth_thresh_lay_odds = params.event.oth_thresh_odds ? 1.0 + (params.event.oth_thresh_odds - 1.0) * (1.0 + rec) : params.event.oth_thresh_odds
+        let oth_thresh_lay_odds = params.event.oth_thresh_odds ? 1.0 + (params.event.oth_thresh_odds - 1.0) * (1.0 + 0.0) : params.event.oth_thresh_odds
 
         //找到当前赔率
         let current_odds = 0
@@ -929,7 +939,7 @@ class StrategyExecutor {
                     return
                 else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
                     return
-                if (currentBets.length == 1 && this.breakdown(params, condition) && !params.event.score_away.length)
+                if (currentBets.length == 1 && this.breakdown(params, condition) && !params.event.score_away.length && params.bet.strategy.params[condition].side == 'BACK')
                     price = 1.01
             }
         }
@@ -945,7 +955,7 @@ class StrategyExecutor {
                 return
             }
 
-            if (params.bet.pre.cancelled && currentBets.length)
+            if (params.bet.pre.cancelled && currentBets.length && params.bet.strategy.params[condition].side == 'BACK')
                 price = 1.01
             if (!global.placing) {
                 global.placing = true

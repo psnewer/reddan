@@ -1,3 +1,5 @@
+import { getSimilar } from '../../../utils.js'
+
 function getHandicap(runner,home,away) {
     let handicap = ''
     if (runner.includes(home))
@@ -26,4 +28,29 @@ function getOth(home, away, runner) {
     return oth_runner;
   }
 
-export default {getHandicap, getOth}
+  function isCompetition(cand, competition) {
+
+    let sim_1 = getSimilar(false, competition, cand)
+    let sim_2 = getSimilar(true, competition, cand)
+    if (sim_2 > 0 && sim_2 > 0) 
+        return true
+  
+    return false
+  }
+  
+  function isTeam(c_home, c_away, home, away) {
+  
+    let sim_home = getSimilar(false, home, c_home)
+    let sim_away = getSimilar(false, away, c_away)
+    if (sim_home > 0 && sim_away > 0) 
+        return true
+  
+    sim_home = getSimilar(true, home, c_home)
+    sim_away = getSimilar(true, away, c_away)
+    if (sim_home > 0 && sim_away > 0) 
+        return true
+  
+      return false
+  }
+
+export default {getHandicap, getOth, isCompetition, isTeam}

@@ -71,7 +71,7 @@ const util = require('util');
 
       let currentDate = formatDate(new Date());
       const event_tennis_url = `https://prod-public-api.livescore.com/v1/api/app/date/tennis/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
-      // const event_soccer_url = `https://prod-public-api.livescore.com/v1/api/app/date/soccer/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
+      const event_soccer_url = `https://prod-public-api.livescore.com/v1/api/app/date/soccer/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
       // const event_basketball_url = `https://prod-public-api.livescore.com/v1/api/app/date/basketball/${currentDate}/8?countryCode=CN&locale=en&MD=1`;
 
       const betIds = JSON.parse(await fs.readFile('./cypress/e2e/orbit/data/bets.json', 'utf8'));
@@ -79,8 +79,8 @@ const util = require('util');
       if (global.currentBets !== '') {
 
         const [score_tennis] = await Promise.all([
-          fetchData(event_tennis_url)
-          // fetchData(event_soccer_url),
+          fetchData(event_tennis_url),
+          fetchData(event_soccer_url)
           // fetchData(event_basketball_url)
         ]);
 

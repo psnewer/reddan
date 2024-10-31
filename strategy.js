@@ -49,8 +49,9 @@ class StrategyExecutor {
 
     isStop(params, condition) {
         if (params.hasOwnProperty('event'))
-            if (Object.keys(params.event).some(key => key.includes('odds')))
-                return false;
+            if (params.event.hasOwnProperty('timeElapsed'))
+                if (/^\d.*\d$/.test(params.event.timeElapsed))
+                    return false;
         return true
     }
 
@@ -416,6 +417,13 @@ class StrategyExecutor {
     isDraw(params, condition) {
         if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
             if (params.event.score_home == params.event.score_away)
+                return true
+        return false
+    }
+
+    hasGoal(params, condition) {
+        if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away'))
+            if (params.event.score_home > 0 && params.event.score_away > 0)
                 return true
         return false
     }
@@ -809,7 +817,7 @@ class StrategyExecutor {
                 }
             }
         }
-
+       
         if (params.event.hasOwnProperty('runner_handicap'))
             if (params.bet.strategy.params[condition]['oth']) {
                 if (params.event.runner_side == params.bet.strategy.params[condition].side) {
@@ -820,10 +828,10 @@ class StrategyExecutor {
                 }
             } else {
                 if (params.event.runner_side == params.bet.strategy.params[condition].side) {
-                    params.bet.strategy.params[condition].handicap = params.event.runner_handicap
+                    params.bet.strategy.params[condition].handicap = -params.event.runner_handicap
                 }
                 else if (params.event.runner_side != params.bet.strategy.params[condition].side) {
-                    params.bet.strategy.params[condition].handicap = -params.event.runner_handicap
+                    params.bet.strategy.params[condition].handicap = params.event.runner_handicap
                 }
             }
 
@@ -833,7 +841,7 @@ class StrategyExecutor {
             selectionId = params.bet.oth_selectionId
             handicap = params.bet.oth_handicap
         }
-
+        
         //如果策略为either，纠正handicap，并纠正odds
         if (params.bet.strategy.params[condition].hasOwnProperty('handicap')) {
             if (Number(params.bet.strategy.params[condition].handicap) != Number(handicap)) {
@@ -849,7 +857,7 @@ class StrategyExecutor {
 
         let net_profit = 0.0
         let liability = 0.0
-
+        
         if (params.bet.strategy.params[condition].oth) {
             if (params.bet.strategy.params[condition].side === 'LAY') {
                 net_profit = params.event.oth_win
@@ -867,7 +875,7 @@ class StrategyExecutor {
                 liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
             }
         }
-
+        
         if (params.bet.strategy.params[condition].hasOwnProperty('rec'))
             rec = params.bet.strategy.params[condition].rec
 

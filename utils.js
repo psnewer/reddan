@@ -301,4 +301,4 @@ async function sendEmail({ subject, text, html }) {
   }
 }
 
-module.exports = { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail, checkBets };
+module.exports = { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail, checkBets, getSimilar };

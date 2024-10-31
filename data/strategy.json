@@ -58,6 +58,27 @@
             "action": "placeBet"
         }
     ],
+    "soccer_TAW": [
+        {
+            "condition": "notInPlay",
+            "checktion":["notPlaceOne"],
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["isDraw"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "ending",
+            "action": "break"
+        },
+        {
+            "condition": "isDraw",
+            "checktion":["hasGoal","notMatchTwo"],
+            "action": "placeBet"
+        }
+    ],
     "basketball_1": [
         {
             "condition": "notInPlay",

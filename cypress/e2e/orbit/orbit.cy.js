@@ -1,5 +1,5 @@
 import { getHandicap, getOth, isCompetition, isTeam } from './utils.js';
-const matches = require('/Users/miller/leisu/res/predict/predict.json')
+const matches = require('../../../../leisu/res/predict/predict.json')
 const filters = require('./data/templates.json')
 
 describe('Login to www.orbitxch.com', function () {
@@ -86,7 +86,7 @@ describe('Login to www.orbitxch.com', function () {
                       }
                     }).then(() => {
                       // 获取 runner 的 selection ID
-                      cy.contains('span', filter.runner)
+                      cy.contains('span', new RegExp(`^${filter.runner}$`))
                         .closest('div.runnerRow')
                         .find('[data-selection-id]').first()
                         .invoke('attr', 'data-selection-id')
@@ -95,7 +95,7 @@ describe('Login to www.orbitxch.com', function () {
                         });
 
                       // 获取 oth_runner 的 selection ID
-                      cy.contains('span', filter.oth_runner)
+                      cy.contains('span', new RegExp(`^${filter.oth_runner}$`))
                         .closest('div.runnerRow')
                         .find('[data-selection-id]').first()
                         .invoke('attr', 'data-selection-id')
@@ -103,7 +103,7 @@ describe('Login to www.orbitxch.com', function () {
                           filter.oth_selectionId = dataSelectionId;
                         });
                     }).then(() => {
-                      if (filter.selectionId && filter.oth_selectionId && filter['data_event_id']) {
+                      if (filter.selectionId && filter.oth_selectionId && filter['data-event-id']) {
                         filter.competition = competition
                         arry.push(filter);
                       }

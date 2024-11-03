@@ -96,7 +96,7 @@ const util = require('util');
               return a.matchedDate - b.matchedDate;
             });
             bet.score_tennis = score_tennis;
-            // bet.score_soccer = score_soccer;
+            bet.score_soccer = score_soccer;
             // bet.score_basketball = score_basketball;
 
             try {

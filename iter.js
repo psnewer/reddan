@@ -78,7 +78,7 @@ const util = require('util');
       const _betIds = JSON.parse(JSON.stringify(betIds));
       if (global.currentBets !== '') {
 
-        const [score_tennis] = await Promise.all([
+        const [score_tennis,score_soccer] = await Promise.all([
           fetchData(event_tennis_url),
           fetchData(event_soccer_url)
           // fetchData(event_basketball_url)

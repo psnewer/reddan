@@ -1,0 +1,54 @@
+{
+    "VS_TAW": {
+      "sport": "Soccer",
+      "competition": "",
+      "home": "",
+      "away": "",
+      "market": "Asian Handicap",
+      "runner": "",
+      "vol": 10,
+      "strategy": {
+        "name": "soccer_TAW",
+        "params": {
+          "ending": {
+            "time_to": 90
+          },
+          "notMatchOne": {},
+          "isDraw": {}
+        }
+      },
+      "oth_runner": "",
+      "handicap": 0.5,
+      "oth_handicap": -0.5,
+      "data-event-id": "",
+      "data-market-id": "",
+      "selectionId": "",
+      "oth_selectionId": "",
+      "pre": {}
+    },
+    "VS_TAWDRAW": {
+      "sport": "Soccer",
+      "competition": "",
+      "home": "",
+      "away": "",
+      "market": "Asian Handicap",
+      "runner": "",
+      "vol": 10,
+      "strategy": {
+        "name": "soccer_TAW",
+        "params": {
+          "ending": {
+            "time_to": 90
+          }
+        }
+      },
+      "oth_runner": "",
+      "handicap": 0,
+      "oth_handicap": 0,
+      "data-event-id": "",
+      "data-market-id": "",
+      "selectionId": "",
+      "oth_selectionId": "",
+      "pre": {}
+    }
+  }

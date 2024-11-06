@@ -12,11 +12,9 @@ describe('Login to www.orbitxch.com', function () {
     //遍历每场比赛，找到比赛ID，供直接request请求比赛数据使用。
     // const arry = [];
     matches.forEach((match) => {
-
       cy.contains('Soccer').click();
 
       let market = 'Asian Handicap'
-      let filter
       let foundCompetition = false;
       // Step 2: 点击 'Soccer' 按钮后，处理 competition 列表项
       cy.get('[data-test-collapse="_ITEM"][datatype="competition"]').each(($li) => {
@@ -27,7 +25,7 @@ describe('Login to www.orbitxch.com', function () {
         if (isCompetition(competition, match.league)) {
           foundCompetition = true;
           cy.wrap($li).click();  // 点击符合条件的 li 项
-
+   
           // Step 3: 进入 competition 页面后，遍历 rowsContainer
           let foundTeam = false;
           cy.get('div.rowsContainer [role="row"]').each(($row) => {
@@ -38,36 +36,38 @@ describe('Login to www.orbitxch.com', function () {
             // 检查是否满足 isTeam 的条件
             if (isTeam(c_home, c_away, match.home_team, match.away_team)) {
               if (foundTeam) return false;
-              cy.wrap($row).invoke('attr', 'data-event-id').then((dataEventId) => {
-                filter['data-event-id'] = dataEventId;
-              });
+              
+              let filter
               if (match.team == match.home_team) {
                 if (match.filter == 'VS_TAW') {
-                  filter = filters['VS_TAW']
+                  filter = structuredClone(filters['VS_TAW'])
                   filter.runner = c_away + ' +0.5'
                   filter.oth_runner = c_home + ' -0.5'
                 }
                 else if (match.filter == 'VS_TAWDRAW') {
-                  filter = filters['VS_TAWDRAW']
+                  filter = structuredClone(filters['VS_TAWDRAW'])
                   filter.runner = c_away + ' 0'
                   filter.oth_runner = c_home + ' 0'
                 }
               } else {
                 if (match.filter == 'VS_TAW') {
-                  filter = filters['VS_TAW']
+                  filter = structuredClone(filters['VS_TAW'])
                   filter.runner = c_home + ' +0.5'
                   filter.oth_runner = c_away + ' -0.5'
                 }
                 else if (match.filter == 'VS_TAWDRAW') {
-                  filter = filters['VS_TAWDRAW']
+                  filter = structuredClone(filters['VS_TAWDRAW'])
                   filter.runner = c_home + ' 0'
                   filter.oth_runner = c_away + ' 0'
                 }
               }
               filter.home = c_home;
               filter.away = c_away;
+              cy.wrap($row).invoke('attr', 'data-event-id').then((dataEventId) => {
+                filter['data-event-id'] = dataEventId;
+              });
               titleElements[0].click();
-
+              
               // Step 4: 点击后弹出页面中执行 data-sport-id 查找
               cy.contains(market, { timeout: 40000 })
                 .closest('[data-sport-id]')
@@ -86,7 +86,8 @@ describe('Login to www.orbitxch.com', function () {
                       }
                     }).then(() => {
                       // 获取 runner 的 selection ID
-                      cy.contains('span', new RegExp(`^${filter.runner}$`))
+                      const escapedRunner = filter.runner.replace(/[.*+?^${}()|[\]\\-]/g, '\\$&');
+                      cy.contains('span', new RegExp(`^${escapedRunner}$`))
                         .closest('div.runnerRow')
                         .find('[data-selection-id]').first()
                         .invoke('attr', 'data-selection-id')
@@ -95,7 +96,8 @@ describe('Login to www.orbitxch.com', function () {
                         });
 
                       // 获取 oth_runner 的 selection ID
-                      cy.contains('span', new RegExp(`^${filter.oth_runner}$`))
+                      const escapedothRunner = filter.oth_runner.replace(/[.*+?^${}()|[\]\\-]/g, '\\$&');
+                      cy.contains('span', new RegExp(`^${escapedothRunner}$`))
                         .closest('div.runnerRow')
                         .find('[data-selection-id]').first()
                         .invoke('attr', 'data-selection-id')

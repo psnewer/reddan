@@ -32,7 +32,7 @@ function getOth(home, away, runner) {
 
     let sim_1 = getSimilar(false, competition, cand)
     let sim_2 = getSimilar(true, competition, cand)
-    if (sim_2 > 0 && sim_2 > 0) 
+    if (sim_1 > 0 || sim_2 > 1) 
         return true
   
     return false

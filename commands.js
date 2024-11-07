@@ -34,7 +34,7 @@ async function login(page) {
     filePath = './data/profile.json'
     const json = JSON.parse(await fs.readFile(filePath, 'utf8'));
 
-    await page.goto('http://www.orbitxch.com', { timeout: 20000 });
+    await page.goto('https://www.orbitexch.com', { timeout: 20000 });
     await page.type('input[name=username]', json['username']);
     await page.type('input[name=password]', json['password']);
     await page.click('button[type="submit"]'); // 注意：根据实际情况替换为正确的表单提交方法

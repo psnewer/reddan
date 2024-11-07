@@ -11,7 +11,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on('task', {
         saveToFile: (data) => {
-          const filePath = path.join(__dirname, 'cypress/e2e/orbit/data', 'bets.json');
+          const filePath = path.join(__dirname, 'cypress/e2e/orbit/data', 'cands.json');
           fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
           return null; // task needs to return something
         }

@@ -758,7 +758,7 @@ class StrategyExecutor {
                     if (!global.placing) {
                         global.placing = true
                         let price = placed.side == "BACK"? 1.01 : Math.trunc(placed.price + 1.0)
-                        await editBet(params.bet.page, placed.marketId, placed.offerId, placed.side, Number(price), Number(placed.size), Number(placed.sizeRemaining), placed.selectionId, placed.handicap)
+                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.size), Number(placed.sizeRemaining), Number(placed.selectionId), placed.handicap)
                     }
                 }
             }

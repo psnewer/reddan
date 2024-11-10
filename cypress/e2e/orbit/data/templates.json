@@ -39,7 +39,9 @@
         "params": {
           "ending": {
             "time_to": 90
-          }
+          },
+          "notMatchOne": {},
+          "isDraw": {}
         }
       },
       "oth_runner": "",

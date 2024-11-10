@@ -333,8 +333,8 @@ async function cancelBet(page, marketId, offerId, price, size, selectionId, hand
                 {
                     "price": price,
                     "size": size,
-                    "selectionId": Number(selectionId),
-                    "handicap": Number(handicap),
+                    "selectionId": selectionId,
+                    "handicap": handicap,
                     "offerId": offerId,
                     "betType": "EXCHANGE"
                 }

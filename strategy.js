@@ -50,7 +50,7 @@ class StrategyExecutor {
     isStop(params, condition) {
         if (params.hasOwnProperty('event'))
             if (params.event.hasOwnProperty('timeElapsed'))
-                if (/^\d.*\d$/.test(params.event.timeElapsed))
+                if (/^\d(\d.*)?\d$/.test(params.event.timeElapsed))
                     return false;
         return true
     }
@@ -748,7 +748,7 @@ class StrategyExecutor {
                     if (!global.placing) {
                         global.placing = true
                         params.bet.pre.cancelled = true
-                        await cancelBet(params.bet.page, placed.marketId, placed.offerId, Number(placed.price), Number(placed.size), placed.selectionId, placed.handicap)
+                        await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), placed.handicap)
                     }
                 }
                 else if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {

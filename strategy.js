@@ -50,7 +50,7 @@ class StrategyExecutor {
     isStop(params, condition) {
         if (params.hasOwnProperty('event'))
             if (params.event.hasOwnProperty('timeElapsed'))
-                if (/^\d(\d.*)?\d$/.test(params.event.timeElapsed))
+                if (/^\d+/.test(params.event.timeElapsed))
                     return false;
         return true
     }

@@ -1,4 +1,4 @@
-import { getHandicap, getOth, isCompetition, isTeam } from './utils.js';
+import { isCompetition, isTeam } from './utils.js';
 const matches = require('../../../../leisu/res/predict/predict.json')
 const filters = require('./data/templates.json')
 

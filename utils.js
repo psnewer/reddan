@@ -2,9 +2,6 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs').promises;
 const axios = require('axios');
-const { SocksProxyAgent } = require('socks-proxy-agent');
-const proxyUrl = 'socks5h://127.0.0.1:1080';
-const agent = new SocksProxyAgent(proxyUrl);
 
 function getHandicap(runner, home, away) {
   let handicap = ''
@@ -258,7 +255,7 @@ async function assertBet(currentBet, selectionId, params, condition) {
 }
 
 async function fetchData(url) {
-  const response = await axios.get(url, { timeout: 20000});
+  const response = await axios.get(url, { timeout: 20000 });
   return response.data; // 直接返回解析后的 JSON 数据
 }
 

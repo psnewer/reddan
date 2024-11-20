@@ -747,8 +747,8 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        params.bet.pre.cancelled = true
-                        await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), placed.handicap)
+                        let price = placed.side == "BACK"? 1.01 : Math.trunc(placed.price + 1.0)
+                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.size), Number(placed.sizeRemaining), Number(placed.selectionId), placed.handicap)
                     }
                 }
                 else if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {

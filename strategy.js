@@ -747,7 +747,7 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK"? 1.01 : Math.trunc(Number(placed.price) + 1.0)
+                        let price = placed.side == "BACK"? 1.01 : Math.ceil(Number(placed.price))
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.size), Number(placed.sizeRemaining), Number(placed.selectionId), placed.handicap)
                     }
                 }
@@ -757,7 +757,7 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK"? 1.01 : Math.trunc(Number(placed.price) + 1.0)
+                        let price = placed.side == "BACK"? 1.01 : Math.ceil(Number(placed.price))
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.size), Number(placed.sizeRemaining), Number(placed.selectionId), placed.handicap)
                     }
                 }

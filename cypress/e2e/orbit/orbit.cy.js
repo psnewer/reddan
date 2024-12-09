@@ -49,6 +49,16 @@ describe('Login to www.orbitxch.com', function () {
                   filter.runner = c_away + ' 0'
                   filter.oth_runner = c_home + ' 0'
                 }
+                else if (match.filter == 'VS_RAW') {
+                  filter = structuredClone(filters['VS_TAW'])
+                  filter.runner = c_home + ' +0.5'
+                  filter.oth_runner = c_away + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWDRAW') {
+                  filter = structuredClone(filters['VS_TAWDRAW'])
+                  filter.runner = c_home + ' 0'
+                  filter.oth_runner = c_away + ' 0'
+                }
               } else {
                 if (match.filter == 'VS_TAW') {
                   filter = structuredClone(filters['VS_TAW'])
@@ -59,6 +69,16 @@ describe('Login to www.orbitxch.com', function () {
                   filter = structuredClone(filters['VS_TAWDRAW'])
                   filter.runner = c_home + ' 0'
                   filter.oth_runner = c_away + ' 0'
+                }
+                else if (match.filter == 'VS_RAW') {
+                  filter = structuredClone(filters['VS_TAW'])
+                  filter.runner = c_away + ' +0.5'
+                  filter.oth_runner = c_home + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWDRAW') {
+                  filter = structuredClone(filters['VS_TAWDRAW'])
+                  filter.runner = c_away + ' 0'
+                  filter.oth_runner = c_home + ' 0'
                 }
               }
               filter.home = c_home;

@@ -9,10 +9,15 @@ with open('cypress/e2e/orbit/data/cands.json', 'r') as f1, open('cypress/e2e/orb
 # 统计 j1 中每个 (home, away) 组合出现的次数
 home_away_counts = Counter((item["home"], item["away"]) for item in j1)
 
-# 仅保留 j1 中不重复的 (home, away) 项
+# 仅保留 j1 中那些 (home, away) 相等且 selectionId 相等的项
 filtered_j1 = [
     item for item in j1 
-    if home_away_counts[(item["home"], item["away"])] == 1
+    if home_away_counts[(item["home"], item["away"])] == 1 or 
+    all(
+        other_item["selectionId"] == item["selectionId"] 
+        for other_item in j1 
+        if other_item["home"] == item["home"] and other_item["away"] == item["away"]
+    )
 ]
 
 # 将 j2 转换为字典形式，以便查找和替换

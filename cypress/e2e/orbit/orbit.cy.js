@@ -44,6 +44,11 @@ describe('Login to www.orbitxch.com', function () {
                   filter.runner = c_away + ' +0.5'
                   filter.oth_runner = c_home + ' -0.5'
                 }
+                else if (match.filter == 'VS_TAWTAW') {
+                  filter = structuredClone(filters['VS_TAWTAW'])
+                  filter.runner = c_away + ' +0.5'
+                  filter.oth_runner = c_home + ' -0.5'
+                }
                 else if (match.filter == 'VS_TAWDRAW') {
                   filter = structuredClone(filters['VS_TAWDRAW'])
                   filter.runner = c_away + ' 0'
@@ -51,6 +56,11 @@ describe('Login to www.orbitxch.com', function () {
                 }
                 else if (match.filter == 'VS_RAW') {
                   filter = structuredClone(filters['VS_TAW'])
+                  filter.runner = c_home + ' +0.5'
+                  filter.oth_runner = c_away + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWRAW') {
+                  filter = structuredClone(filters['VS_TAWTAW'])
                   filter.runner = c_home + ' +0.5'
                   filter.oth_runner = c_away + ' -0.5'
                 }
@@ -65,6 +75,11 @@ describe('Login to www.orbitxch.com', function () {
                   filter.runner = c_home + ' +0.5'
                   filter.oth_runner = c_away + ' -0.5'
                 }
+                else if (match.filter == 'VS_TAWTAW') {
+                  filter = structuredClone(filters['VS_TAWTAW'])
+                  filter.runner = c_home + ' +0.5'
+                  filter.oth_runner = c_away + ' -0.5'
+                }
                 else if (match.filter == 'VS_TAWDRAW') {
                   filter = structuredClone(filters['VS_TAWDRAW'])
                   filter.runner = c_home + ' 0'
@@ -72,6 +87,11 @@ describe('Login to www.orbitxch.com', function () {
                 }
                 else if (match.filter == 'VS_RAW') {
                   filter = structuredClone(filters['VS_TAW'])
+                  filter.runner = c_away + ' +0.5'
+                  filter.oth_runner = c_home + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWRAW') {
+                  filter = structuredClone(filters['VS_TAWTAW'])
                   filter.runner = c_away + ' +0.5'
                   filter.oth_runner = c_home + ' -0.5'
                 }

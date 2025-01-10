@@ -6,7 +6,7 @@ describe('Extract and Fill Data', () => {
     const results = [];
 
     // 访问指定的网站
-    cy.visit('https://www.orbitxch.com');
+    cy.visit('https://www.orbitexch.com');
 
     // 确保页面加载完成
     cy.wait(2000); // 根据需要调整等待时间
@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Shanghai 2024")
+            competitionText.includes("ATP Next Gen Finals 2024")
             )) {
             cy.wrap($competitionLi).click();
 

@@ -6,7 +6,7 @@
       "away": "",
       "market": "Asian Handicap",
       "runner": "",
-      "vol": 10,
+      "vol": 7,
       "strategy": {
         "name": "soccer_TAW",
         "params": {
@@ -26,6 +26,33 @@
       "oth_selectionId": "",
       "pre": {}
     },
+    "VS_TAWTAW": {
+      "sport": "Soccer",
+      "competition": "",
+      "home": "",
+      "away": "",
+      "market": "Asian Handicap",
+      "runner": "",
+      "vol": 7,
+      "strategy": {
+        "name": "soccer_TAWTAW",
+        "params": {
+          "ending": {
+            "time_to": 90
+          },
+          "notMatchOne": {},
+          "notMatchTwo": {}
+        }
+      },
+      "oth_runner": "",
+      "handicap": 0.5,
+      "oth_handicap": -0.5,
+      "data-event-id": "",
+      "data-market-id": "",
+      "selectionId": "",
+      "oth_selectionId": "",
+      "pre": {}
+    },
     "VS_TAWDRAW": {
       "sport": "Soccer",
       "competition": "",
@@ -33,7 +60,7 @@
       "away": "",
       "market": "Asian Handicap",
       "runner": "",
-      "vol": 10,
+      "vol": 7,
       "strategy": {
         "name": "soccer_TAW",
         "params": {

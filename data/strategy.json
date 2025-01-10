@@ -79,6 +79,26 @@
             "action": "placeBet"
         }
     ],
+    "soccer_TAWTAW": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "ending",
+            "action": "break"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["loseSet","notTimeElapseTo"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchTwo",
+            "checktion":["winSet","notTimeElapseTo"],
+            "action": "placeBet"
+        }
+    ],
     "basketball_1": [
         {
             "condition": "notInPlay",

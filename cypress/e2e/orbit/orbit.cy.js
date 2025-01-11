@@ -123,6 +123,7 @@ describe('Login to www.orbitxch.com', function () {
                       // 根据 market 判断是否需要点击 'Show all'
                       if (market.includes('Handicap')) {
                         cy.contains('span', 'Show all').click();
+                        cy.wait(1000);
                       }
                     }).then(() => {
                       // 获取 runner 的 selection ID

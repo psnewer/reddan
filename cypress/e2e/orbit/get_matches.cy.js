@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Next Gen Finals 2024")
+            competitionText.includes("Men's Australian Open 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -47,7 +47,7 @@ describe('Extract and Fill Data', () => {
                     
 
                     // 点击后等待子元素加载
-                    cy.wait(10000); // 根据需要调整等待时间
+                    cy.wait(20000); // 根据需要调整等待时间
                     // cy.get('[class*="scrollableContent"]').scrollTo('bottom', { duration: 20000 });
                     // 定义一个递归函数来处理 event 项的点击
                     function clickEvents(eventIndex) {
@@ -116,7 +116,7 @@ describe('Extract and Fill Data', () => {
                                         "side": "BACK",
                                         "first_runner": true,
                                         "first_oth": false,
-                                        "profit": 1.0
+                                        "price": 1.6
                                       },
                                       "eitherLose": {
                                         "first_runner": true,

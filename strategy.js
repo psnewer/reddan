@@ -748,6 +748,8 @@ class StrategyExecutor {
                     if (!global.placing) {
                         global.placing = true
                         let price = placed.side == "BACK"? 1.01 : Math.ceil(Number(placed.price))
+                        if (!currentBets.length)
+                            price = placed.side == "BACK"? Math.max(1.7, price) : price
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
@@ -758,6 +760,8 @@ class StrategyExecutor {
                     if (!global.placing) {
                         global.placing = true
                         let price = placed.side == "BACK"? 1.01 : Math.ceil(Number(placed.price))
+                        if (!currentBets.length)
+                            price = placed.side == "BACK"? Math.max(1.7, price) : price
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
@@ -952,9 +956,9 @@ class StrategyExecutor {
             }
         }
 
-        if (Math.trunc(size) > 2.0 && size.toFixed(2) < 6.0 && params.bet.strategy.params[condition].side == 'BACK')
-            size = 6.0
-        if (size.toFixed(2) >= 6.0 && price >= 1.0) {
+        if (Math.trunc(size) > 2.0 && size.toFixed(2) < 7.0 && params.bet.strategy.params[condition].side == 'BACK')
+            size = 7.0
+        if (size.toFixed(2) >= 7.0 && price >= 1.0) {
             const result = assertBet(currentBets[currentBets.length - 1], selectionId, params, condition)
             if (!result) return;
 

@@ -1,4 +1,4 @@
-import { getSimilar } from '../../../utils.js'
+const { getSimilar } = require('../../../utils.js');
 
 function isCompetition(cand, competition) {
 
@@ -25,4 +25,4 @@ function isTeam(c_home, c_away, home, away) {
       return false
   }
 
-export default {isCompetition, isTeam}
+  module.exports = { isCompetition, isTeam };

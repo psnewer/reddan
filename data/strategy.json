@@ -90,12 +90,12 @@
         },
         {
             "condition": "notMatchOne",
-            "checktion":["loseSet","notTimeElapseTo"],
+            "checktion":["loseSets","loseSetsNotMatch"],
             "action": "placeBet"
         },
         {
             "condition": "notMatchTwo",
-            "checktion":["winSet","notTimeElapseTo"],
+            "checktion":["drawSets","drawSetsNotMatch"],
             "action": "placeBet"
         }
     ],

@@ -122,7 +122,7 @@ async function runTest() {
 
   // Save the data to a file (local storage)
   const filePath = path.join(__dirname, 'data', 'cands.json');
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+  fs.writeFileSync(filePath, JSON.stringify(arry, null, 2), 'utf8');
 
   // Close the browser
   await browser.close();

@@ -2,6 +2,7 @@ const { isCompetition, isTeam } = require('./utils.js');
 const matches = require('../../../../leisu/res/predict/predict.json');
 const filters = require('./data/templates.json');
 const fs = require('fs');
+const path = require('path');
 const { chromium } = require('playwright');
 
 async function runTest() {

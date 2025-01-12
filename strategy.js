@@ -241,15 +241,21 @@ class StrategyExecutor {
     }
 
     loseSetsNotMatch(params, condition) {
-        if (params.event.score_home.length <= params.bet.strategy.params[condition].until)
-            if (!params.event.lastIsRunner) {
-                if (!params.bet.dash) {
-                    return true
-                } else {
-                    if (!params.bet.pre.hasDrawGames)
+        if (params.bet.sport === "Tennis") {
+            if (params.event.score_home.length <= params.bet.strategy.params[condition].until)
+                if (!params.event.lastIsRunner) {
+                    if (!params.bet.dash) {
                         return true
+                    } else {
+                        if (!params.bet.pre.hasDrawGames)
+                            return true
+                    }
                 }
-            }
+        }
+        else if (params.bet.sport === "Soccer") {
+            if (!params.event.lastIsRunner)
+                return true
+        }
         return false
     }
 

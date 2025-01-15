@@ -16,6 +16,7 @@ const util = require('util');
   const ret = await login(page);
   await page.reload();
 
+  global.reset = false
   global.currentBets = ''; // 初始化全局变量来存储 WebSocket 响应
 
   page.on('response', async response => {
@@ -154,6 +155,8 @@ const util = require('util');
       }
 
       await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
+      if (global.reset)
+        process.exit(1)
     }
   }
 

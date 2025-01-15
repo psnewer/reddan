@@ -48,24 +48,68 @@ async function runTest() {
 
               let filter;
               // Set filter based on match criteria
-              if (match.team === match.home_team) {
-                filter = match.filter === 'VS_TAW' ? structuredClone(filters['VS_TAW']) :
-                  match.filter === 'VS_TAWTAW' ? structuredClone(filters['VS_TAWTAW']) :
-                    match.filter === 'VS_TAWDRAW' ? structuredClone(filters['VS_TAWDRAW']) :
-                      match.filter === 'VS_RAW' ? structuredClone(filters['VS_TAW']) :
-                        match.filter === 'VS_RAWRAW' ? structuredClone(filters['VS_TAWTAW']) :
-                          structuredClone(filters['VS_TAWDRAW']);
-                filter.runner = c_away + ' +0.5';
-                filter.oth_runner = c_home + ' -0.5';
+              if (match.team == match.home_team) {
+                if (match.filter == 'VS_TAW') {
+                  filter = filters['VS_TAW']
+                  filter.runner = c_away + ' +0.5'
+                  filter.oth_runner = c_home + ' -0.5'
+                }
+                else if (match.filter == 'VS_TAWDRAW') {
+                  filter = filters['VS_TAWDRAW']
+                  filter.runner = c_away + ' 0'
+                  filter.oth_runner = c_home + ' 0'
+                }
+                else if (match.filter == 'VS_RAW') {
+                  filter = filters['VS_TAW']
+                  filter.runner = c_home + ' +0.5'
+                  filter.oth_runner = c_away + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWDRAW') {
+                  filter = filters['VS_TAWDRAW']
+                  filter.runner = c_home + ' 0'
+                  filter.oth_runner = c_away + ' 0'
+                }
+                else if (match.filter == 'VS_TAWTAW') {
+                  filter = filters['VS_TAWTAW']
+                  filter.runner = c_away + ' +0.5'
+                  filter.oth_runner = c_home + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWRAW') {
+                  filter = filters['VS_TAWTAW']
+                  filter.runner = c_home + ' +0.5'
+                  filter.oth_runner = c_away + ' -0.5'
+                }
               } else {
-                filter = match.filter === 'VS_TAW' ? structuredClone(filters['VS_TAW']) :
-                  match.filter === 'VS_TAWTAW' ? structuredClone(filters['VS_TAWTAW']) :
-                    match.filter === 'VS_TAWDRAW' ? structuredClone(filters['VS_TAWDRAW']) :
-                      match.filter === 'VS_RAW' ? structuredClone(filters['VS_TAW']) :
-                        match.filter === 'VS_RAWRAW' ? structuredClone(filters['VS_TAWTAW']) :
-                          structuredClone(filters['VS_TAWDRAW']);
-                filter.runner = c_home + ' +0.5';
-                filter.oth_runner = c_away + ' -0.5';
+                if (match.filter == 'VS_TAW') {
+                  filter = filters['VS_TAW']
+                  filter.runner = c_home + ' +0.5'
+                  filter.oth_runner = c_away + ' -0.5'
+                }
+                else if (match.filter == 'VS_TAWDRAW') {
+                  filter = filters['VS_TAWDRAW']
+                  filter.runner = c_home + ' 0'
+                  filter.oth_runner = c_away + ' 0'
+                }
+                else if (match.filter == 'VS_RAW') {
+                  filter = filters['VS_TAW']
+                  filter.runner = c_away + ' +0.5'
+                  filter.oth_runner = c_home + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWDRAW') {
+                  filter = filters['VS_TAWDRAW']
+                  filter.runner = c_away + ' 0'
+                  filter.oth_runner = c_home + ' 0'
+                }
+                else if (match.filter == 'VS_TAWTAW') {
+                  filter = filters['VS_TAWTAW']
+                  filter.runner = c_home + ' +0.5'
+                  filter.oth_runner = c_away + ' -0.5'
+                }
+                else if (match.filter == 'VS_RAWRAW') {
+                  filter = filters['VS_TAWTAW']
+                  filter.runner = c_away + ' +0.5'
+                  filter.oth_runner = c_home + ' -0.5'
+                }
               }
 
               // Save home and away

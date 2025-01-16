@@ -2,6 +2,9 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs').promises;
 const axios = require('axios');
+const { SocksProxyAgent } = require('socks-proxy-agent'); // 使用解构导入
+const proxyUrl = 'socks5h://127.0.0.1:7890';
+const proxyAgent = new SocksProxyAgent(proxyUrl).SocksProxyAgent;
 
 function getHandicap(runner, home, away) {
   let handicap = ''
@@ -232,35 +235,35 @@ async function assertBet(currentBet, selectionId, params, condition) {
   // }
 
 
-  if (res) {
-    if (params.bet.strategy.params[condition].side == 'BACK') {
-      if (!((params.event.oth_back_odds > 1.01 && params.event.oth_back_odds < 99) && (params.event.back_odds > 1.01 && params.event.back_odds < 99)))
-        res = false
-    }
-    else if (params.bet.strategy.params[condition].side == 'LAY') {
-      if (!((params.event.oth_lay_odds > 1.01 && params.event.oth_lay_odds < 99) && (params.event.lay_odds > 1.01 && params.event.lay_odds < 99)))
-        res = false
-    }
+  // if (res) {
+  //   if (params.bet.strategy.params[condition].side == 'BACK') {
+  //     if (!((params.event.oth_back_odds > 1.01 && params.event.oth_back_odds < 99) && (params.event.back_odds > 1.01 && params.event.back_odds < 99)))
+  //       res = false
+  //   }
+  //   else if (params.bet.strategy.params[condition].side == 'LAY') {
+  //     if (!((params.event.oth_lay_odds > 1.01 && params.event.oth_lay_odds < 99) && (params.event.lay_odds > 1.01 && params.event.lay_odds < 99)))
+  //       res = false
+  //   }
 
-    if (!res) {
-      let _params = JSON.stringify(params)
-      try {
-        const response = await sendEmail({
-          subject: 'Odds Confict',
-          html: `<p>${_params}</p>`
-        });
-        console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
+  //   if (!res) {
+  //     let _params = JSON.stringify(params)
+  //     try {
+  //       const response = await sendEmail({
+  //         subject: 'Odds Confict',
+  //         html: `<p>${_params}</p>`
+  //       });
+  //       console.log(response);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  // }
 
   return res
 }
 
 async function fetchData(url) {
-  const response = await axios.get(url, { timeout: 20000 });
+  const response = await axios.get(url, { timeout: 20000, httpAgent: proxyAgent, httpsAgent: proxyAgent });
   return response.data; // 直接返回解析后的 JSON 数据
 }
 

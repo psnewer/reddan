@@ -11,12 +11,15 @@ home_away_counts = Counter((item["home"], item["away"]) for item in j1)
 
 # 仅保留 j1 中那些 (home, away) 相等且 selectionId 相等的项
 filtered_j1 = [
-    item for item in j1 
-    if home_away_counts[(item["home"], item["away"])] == 1 or 
-    all(
-        other_item["selectionId"] == item["selectionId"] 
-        for other_item in j1 
-        if other_item["home"] == item["home"] and other_item["away"] == item["away"]
+    item for item in j1
+    if home_away_counts[(item["home"], item["away"])] == 1 or
+    (
+        # 只取第一个满足条件的元素
+        (first_item := next(
+            (other_item for other_item in j1
+             if other_item["home"] == item["home"] and other_item["away"] == item["away"]),
+            None
+        )) is not None and first_item["selectionId"] == item["selectionId"]
     )
 ]
 

@@ -40,7 +40,7 @@
           "ending": {
             "time_to": 90
           },
-          "notMatchOne": {},
+          "notMatchOne": {"until": 1},
           "notMatchTwo": {}
         }
       },

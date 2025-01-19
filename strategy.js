@@ -253,6 +253,9 @@ class StrategyExecutor {
                 }
         }
         else if (params.bet.sport === "Soccer") {
+            if (params.bet.strategy.params[condition].hasOwnProperty('until'))
+                if (Number(params.event.score_home) + Number(params.event.score_away) > params.bet.strategy.params[condition].until)
+                    return false
             if (!params.event.lastIsRunner)
                 return true
         }

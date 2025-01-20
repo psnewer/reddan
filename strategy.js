@@ -789,7 +789,7 @@ class StrategyExecutor {
             if (params.event.lastIsRunner)
                 params.bet.strategy.params[condition].oth = true
 
-            if (Math.trunc(params.event.runner_win) > 0 || Math.trunc(params.event.oth_win) > 0) {
+            if (params.event.runner_win > 0 || params.event.oth_win > 0) {
                 params.bet.strategy.params[condition]['oth'] = false
                 if (params.bet.strategy.params[condition].hasOwnProperty('side')) {
                     if (params.event.runner_side == params.bet.strategy.params[condition].side) {

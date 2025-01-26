@@ -153,7 +153,7 @@ function checkBets(params) {
   let currentBets = params.bet.currentBets.filter(item => Number(item.sizeRemaining) == 0.0)
   if (!params.bet.pre.hasOwnProperty('num_bets') || params.bet.pre.num_bets <= params.bet.currentBets.length)
     params.bet.pre.num_bets = currentBets.length
-  else if (params.bet.pre.num_bets > params.bet.currentBets.length && (/^\d/.test(params.event.Eps) || /\d$/.test(params.event.Eps))) {
+  else if (params.bet.pre.num_bets > params.bet.currentBets.length && (/^\d/.test(params.event.timeElapsed) || /\d$/.test(params.event.timeElapsed))) {
     params.bet.pre.num_bets = 0
     global.reset = true
     return false

@@ -286,7 +286,7 @@ class StrategyExecutor {
                 else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
                     return true
             }
-            else if(Math.trunc(params.event.oth_win) < -1.0){
+            else if (Math.trunc(params.event.oth_win) < -1.0) {
                 if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
                     return true
                 else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
@@ -318,19 +318,41 @@ class StrategyExecutor {
                 }
             }
             else {
-                if (!params.event.lastIsRunner) {
-                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
-                        return true
-                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
-                        return true
+                if (params.event.score_home.length <= params.bet.strategy.params[condition].until) {
+                    if (!params.event.lastIsRunner) {
+                        if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                            return true
+                        else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
+                            return true
+                    }
+                    else {
+                        if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
+                            return true
+                        else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                            return true
+                    }
                 }
                 else {
-                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
-                        return true
-                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
-                        return true
+                    if (Math.trunc(params.event.runner_win) < -1.0) {
+                        if (!params.event.lastIsRunner) {
+                            if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                                return true
+                            else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
+                                return true
+                        }
+                    }
+                    else if (Math.trunc(params.event.oth_win) < -1.0) {
+                        if (params.event.lastIsRunner) {
+                            if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
+                                return true
+                            else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                                return true
+                        }
+                    }
+
                 }
             }
+
         return false
     }
 
@@ -756,9 +778,9 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK"? 1.01 : Math.ceil(Number(placed.price))
+                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
                         if (!currentBets.length)
-                            price = placed.side == "BACK"? Math.max(1.7, price) : price
+                            price = placed.side == "BACK" ? Math.max(1.7, price) : price
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
@@ -768,9 +790,9 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK"? 1.01 : Math.ceil(Number(placed.price))
+                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
                         if (!currentBets.length)
-                            price = placed.side == "BACK"? Math.max(1.7, price) : price
+                            price = placed.side == "BACK" ? Math.max(1.7, price) : price
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
@@ -830,7 +852,7 @@ class StrategyExecutor {
                 }
             }
         }
-       
+
         if (params.event.hasOwnProperty('runner_handicap'))
             if (params.bet.strategy.params[condition]['oth']) {
                 if (params.event.runner_side == params.bet.strategy.params[condition].side) {
@@ -854,7 +876,7 @@ class StrategyExecutor {
             selectionId = params.bet.oth_selectionId
             handicap = params.bet.oth_handicap
         }
-        
+
         //如果策略为either，纠正handicap，并纠正odds
         if (params.bet.strategy.params[condition].hasOwnProperty('handicap')) {
             if (Number(params.bet.strategy.params[condition].handicap) != Number(handicap)) {
@@ -870,7 +892,7 @@ class StrategyExecutor {
 
         let net_profit = 0.0
         let liability = 0.0
-        
+
         if (params.bet.strategy.params[condition].oth) {
             if (params.bet.strategy.params[condition].side === 'LAY') {
                 net_profit = params.event.oth_win
@@ -888,7 +910,7 @@ class StrategyExecutor {
                 liability = params.event.runner_win > 0.0 ? 0.0 : Math.abs(params.event.runner_win)
             }
         }
-        
+
         if (params.bet.strategy.params[condition].hasOwnProperty('rec'))
             rec = params.bet.strategy.params[condition].rec
 

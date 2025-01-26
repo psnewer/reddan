@@ -125,6 +125,9 @@ describe('Extract and Fill Data', () => {
                                         "until": 1
                                       },
                                       "eitherDraw": {
+                                        "until": 0,
+                                        "side": "LAY",
+                                        "scale": 0.0
                                       },
                                       "drawGames": {
                                         "side": "BACK",

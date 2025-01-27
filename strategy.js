@@ -781,7 +781,7 @@ class StrategyExecutor {
                         let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
                         if (!currentBets.length)
                             price = placed.side == "BACK" ? Math.max(1.7, price) : price
-                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
+                        // await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
                 else if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
@@ -793,7 +793,7 @@ class StrategyExecutor {
                         let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
                         if (!currentBets.length)
                             price = placed.side == "BACK" ? Math.max(1.7, price) : price
-                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
+                        // await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
             }

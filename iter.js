@@ -155,8 +155,10 @@ const util = require('util');
       }
 
       await fs.writeFile('./cypress/e2e/orbit/data/bets.json', JSON.stringify(_betIds, null, 2), 'utf8')
-      if (global.reset)
+      if (global.reset) {
+        await page.waitForTimeout(60000);
         process.exit(1)
+      }
     }
   }
 

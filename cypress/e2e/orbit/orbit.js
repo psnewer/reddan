@@ -1,6 +1,7 @@
 const { isCompetition, isTeam } = require('./utils.js');
 const matches = require('../../../../leisu/res/predict/predict.json');
 const filters = require('./data/templates.json');
+const cands = require('../../../../leisu/src/db/predict_cand.json');
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
@@ -70,9 +71,13 @@ async function runTest() {
                   filter.oth_runner = c_away + ' 0'
                 }
                 else if (match.filter == 'VS_TAWTAW') {
-                  filter = structuredClone(filters['VS_TAWTAW'])
-                  filter.runner = c_away + ' +0.5'
-                  filter.oth_runner = c_home + ' -0.5'
+                  const cand = cands[match.league].filter(item => item.team == match.away_team)
+                  const fish = cand.length ? cand[0].fish : false
+                  if (!fish) {
+                    filter = structuredClone(filters['VS_TAWTAW'])
+                    filter.runner = c_away + ' +0.5'
+                    filter.oth_runner = c_home + ' -0.5'
+                  }
                 }
                 else if (match.filter == 'VS_RAWRAW') {
                   filter = structuredClone(filters['VS_TAWTAW'])
@@ -101,9 +106,13 @@ async function runTest() {
                   filter.oth_runner = c_home + ' 0'
                 }
                 else if (match.filter == 'VS_TAWTAW') {
-                  filter = structuredClone(filters['VS_TAWTAW'])
-                  filter.runner = c_home + ' +0.5'
-                  filter.oth_runner = c_away + ' -0.5'
+                  const cand = cands[match.league].filter(item => item.team == match.home_team)
+                  const fish = cand.length ? cand[0].fish : false
+                  if (!fish) {
+                    filter = structuredClone(filters['VS_TAWTAW'])
+                    filter.runner = c_home + ' +0.5'
+                    filter.oth_runner = c_away + ' -0.5'
+                  }
                 }
                 else if (match.filter == 'VS_RAWRAW') {
                   filter = structuredClone(filters['VS_TAWTAW'])

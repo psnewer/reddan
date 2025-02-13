@@ -121,6 +121,8 @@ async function runTest() {
                 }
               }
 
+              if (!filter)
+                continue
               // Save home and away
               filter.home = c_home;
               filter.away = c_away;

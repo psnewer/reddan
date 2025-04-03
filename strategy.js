@@ -309,10 +309,9 @@ class StrategyExecutor {
             params.bet.strategy.params[condition]['price'] = 1.5
             params.bet.strategy.params[condition]['oth'] = true
         } else {
-            params.bet.strategy.params[condition]['side'] = 'LAY'
             params.bet.strategy.params[condition]['oth'] = false
         }
-        return false
+        return true
     }
 
     eitherDrawNotMatch(params, condition) {
@@ -783,15 +782,15 @@ class StrategyExecutor {
         // 首先判断currentBets中是否已经place,如果place则cancel
         let currentBets = params.bet.currentBets
         for (const placed of currentBets) {
-            if (placed.marketId in params.bet['data-market-id']) {
+            if (params.bet['data-market-id'].includes(placed.marketId)) {
                 if (Number(placed.sizeMatched) == 0) {
                     CANCEL = true
                     // console.log('CANCEL')
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        // params.bet.pre.cancelled = true
-                        // await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
+                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price) + 0.1)
+                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
                 else if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
@@ -800,10 +799,8 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
-                        // if (!currentBets.length)
-                        //     price = placed.side == "BACK" ? Math.max(1.7, price) : price
-                        // await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
+                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price) + 0.1)
+                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
             }
@@ -862,8 +859,8 @@ class StrategyExecutor {
                 }
             }
         }
-
-        if (params.event.hasOwnProperty('runner_handicap'))
+      
+        if (params.event.hasOwnProperty('runner_handicap') && params.bet.market != 'Hybrid')
             if (params.bet.strategy.params[condition]['oth']) {
                 if (params.event.runner_side == params.bet.strategy.params[condition].side) {
                     params.bet.strategy.params[condition].handicap = -params.event.runner_handicap
@@ -1013,7 +1010,7 @@ class StrategyExecutor {
             if (!result) return;
 
             if (process.argv.includes('--test')) {
-                params.output = { 'action': 'PLACE', 'price': price, 'size': size, 'selectionId': selectionId, 'handicap': handicap, 'side': params.bet.strategy.params[condition].side }
+                params.output = { 'action': 'PLACE', 'price': price, 'size': size, 'selectionId': selectionId, 'handicap': handicap, 'side': params.bet.strategy.params[condition].side, 'maketId': data_market_id }
                 return
             }
 

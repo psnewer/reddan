@@ -86,12 +86,12 @@ async function runTest() {
               await row.locator('p[title]').first().click();
 
               let market = 'Match Odds';
-              let marketLocator = await page.locator(`a:has-text("${market}")`);
+              let marketLocator = await page.locator(`a:has-text("${market}")`).first();
 
               // 获取该 <a> 元素的 'data-sport-id' 属性值
               let sportId = await marketLocator.getAttribute('data-sport-id');
 
-              filter['data-market-id'].append(sportId);
+              filter['data-market-id'].push(sportId);
               await page.locator(`text=${market}`).first().click();
 
               // Ensure URL contains sport ID
@@ -106,12 +106,12 @@ async function runTest() {
               }
 
               market = 'Goal Lines';
-              marketLocator = await page.locator(`a:has-text("${market}")`);
+              marketLocator = await page.locator(`a:has-text("${market}")`).first();
 
               // 获取该 <a> 元素的 'data-sport-id' 属性值
               sportId = await marketLocator.getAttribute('data-sport-id');
 
-              filter['data-market-id'].append(sportId);
+              filter['data-market-id'].push(sportId);
               await page.locator(`text=${market}`).first().click();
 
               // Ensure URL contains sport ID

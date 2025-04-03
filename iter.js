@@ -92,7 +92,7 @@ const util = require('util');
             let bet = betIds[i]
             let _bet = _betIds[i]
             bet.page = page;
-            bet.currentBets = global.currentBets.filter(item => item.marketId === bet['data-market-id']);
+            bet.currentBets = global.currentBets.filter(item => item.marketId in bet['data-market-id']);
             bet.currentBets.sort((a, b) => {
               return a.matchedDate - b.matchedDate;
             });

@@ -303,6 +303,18 @@ class StrategyExecutor {
         return false
     }
 
+    drawORo3(params, condition) {
+        if (params.event.timeElapsed <= 45) {
+            params.bet.strategy.params[condition]['side'] = 'BACK'
+            params.bet.strategy.params[condition]['price'] = 1.5
+            params.bet.strategy.params[condition]['oth'] = true
+        } else {
+            params.bet.strategy.params[condition]['side'] = 'LAY'
+            params.bet.strategy.params[condition]['oth'] = false
+        }
+        return false
+    }
+
     eitherDrawNotMatch(params, condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
             if (params.bet.anchor) {
@@ -771,7 +783,7 @@ class StrategyExecutor {
         // 首先判断currentBets中是否已经place,如果place则cancel
         let currentBets = params.bet.currentBets
         for (const placed of currentBets) {
-            if (placed.marketId === params.bet['data-market-id']) {
+            if (placed.marketId in params.bet['data-market-id']) {
                 if (Number(placed.sizeMatched) == 0) {
                     CANCEL = true
                     // console.log('CANCEL')
@@ -870,9 +882,11 @@ class StrategyExecutor {
 
         let selectionId = params.bet.selectionId
         let handicap = params.bet.handicap
+        let data_market_id = params.bet['data-market-id'][0]
         if (params.bet.strategy.params[condition]['oth']) {
             selectionId = params.bet.oth_selectionId
             handicap = params.bet.oth_handicap
+            data_market_id = params.bet['data-market-id'][1]
         }
 
         //如果策略为either，纠正handicap，并纠正odds
@@ -1011,7 +1025,7 @@ class StrategyExecutor {
                     await params.bet.page.waitForTimeout(15000);
                 params.bet.pre.cancelled = false
                 params.event.placed = true
-                await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
+                await placeBet(params.bet.page, data_market_id, Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 
         }

@@ -95,7 +95,7 @@
         },
         {
             "condition": "notMatchTwo",
-            "checktion":["drawSets","drawSetsNotMatch"],
+            "checktion":["drawSets","drawSetsNotMatch","drawORo3"],
             "action": "placeBet"
         }
     ],

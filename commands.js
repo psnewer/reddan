@@ -132,7 +132,7 @@ async function getOddsData(params) {
             if (eventNode.eventId === Number(params.bet['data-event-id'])) {
                 eventNode.marketNodes.forEach(market => {
                     if (market.isMarketDataVirtual)
-                        if (Number(market.marketId) === Number(params.bet['data-market-id'])) {
+                        if (Number(market.marketId) in Number(params.bet['data-market-id'])) {
                             params.event.inplay = market.state.inplay
                             market.runners.forEach(runner => {
                                 if (runner.state.status === 'ACTIVE') {

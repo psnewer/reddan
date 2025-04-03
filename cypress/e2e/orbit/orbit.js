@@ -19,7 +19,6 @@ async function runTest() {
     try {
       await page.locator('text=Soccer').first().click(); // Click 'Soccer'
 
-      let market = 'Asian Handicap';
       let foundCompetition = false;
 
       // Loop through each competition
@@ -50,74 +49,26 @@ async function runTest() {
               let filter;
               // Set filter based on match criteria
               if (match.team == match.home_team) {
-                if (match.filter == 'VS_TAW') {
-                  filter = structuredClone(filters['VS_TAW'])
-                  filter.runner = c_away + ' +0.5'
-                  filter.oth_runner = c_home + ' -0.5'
-                }
-                else if (match.filter == 'VS_TAWDRAW') {
-                  filter = structuredClone(filters['VS_TAWDRAW'])
-                  filter.runner = c_away + ' 0'
-                  filter.oth_runner = c_home + ' 0'
-                }
-                else if (match.filter == 'VS_RAW') {
-                  filter = structuredClone(filters['VS_TAW'])
-                  filter.runner = c_home + ' +0.5'
-                  filter.oth_runner = c_away + ' -0.5'
-                }
-                else if (match.filter == 'VS_RAWDRAW') {
-                  filter = structuredClone(filters['VS_TAWDRAW'])
-                  filter.runner = c_home + ' 0'
-                  filter.oth_runner = c_away + ' 0'
-                }
-                else if (match.filter == 'VS_TAWTAW') {
-                  const cand = cands[match.league].filter(item => item.team == match.away_team)
-                  const fish = cand.length ? cand[0].fish : false
-                  if (!fish) {
+                if (match.filter == 'VS_TAWTAW') {
                     filter = structuredClone(filters['VS_TAWTAW'])
-                    filter.runner = c_away + ' +0.5'
-                    filter.oth_runner = c_home + ' -0.5'
-                  }
+                    filter.runner = c_away
+                    filter.oth_runner = c_home
                 }
                 else if (match.filter == 'VS_RAWRAW') {
                   filter = structuredClone(filters['VS_TAWTAW'])
-                  filter.runner = c_home + ' +0.5'
-                  filter.oth_runner = c_away + ' -0.5'
+                  filter.runner = c_home
+                  filter.oth_runner = c_away
                 }
               } else {
-                if (match.filter == 'VS_TAW') {
-                  filter = structuredClone(filters['VS_TAW'])
-                  filter.runner = c_home + ' +0.5'
-                  filter.oth_runner = c_away + ' -0.5'
-                }
-                else if (match.filter == 'VS_TAWDRAW') {
-                  filter = structuredClone(filters['VS_TAWDRAW'])
-                  filter.runner = c_home + ' 0'
-                  filter.oth_runner = c_away + ' 0'
-                }
-                else if (match.filter == 'VS_RAW') {
-                  filter = structuredClone(filters['VS_TAW'])
-                  filter.runner = c_away + ' +0.5'
-                  filter.oth_runner = c_home + ' -0.5'
-                }
-                else if (match.filter == 'VS_RAWDRAW') {
-                  filter = structuredClone(filters['VS_TAWDRAW'])
-                  filter.runner = c_away + ' 0'
-                  filter.oth_runner = c_home + ' 0'
-                }
-                else if (match.filter == 'VS_TAWTAW') {
-                  const cand = cands[match.league].filter(item => item.team == match.home_team)
-                  const fish = cand.length ? cand[0].fish : false
-                  if (!fish) {
+                if (match.filter == 'VS_TAWTAW') {
                     filter = structuredClone(filters['VS_TAWTAW'])
-                    filter.runner = c_home + ' +0.5'
-                    filter.oth_runner = c_away + ' -0.5'
-                  }
+                    filter.runner = c_home
+                    filter.oth_runner = c_away
                 }
                 else if (match.filter == 'VS_RAWRAW') {
                   filter = structuredClone(filters['VS_TAWTAW'])
-                  filter.runner = c_away + ' +0.5'
-                  filter.oth_runner = c_home + ' -0.5'
+                  filter.runner = c_away
+                  filter.oth_runner = c_home
                 }
               }
 
@@ -134,35 +85,49 @@ async function runTest() {
               // Click home team to open the selection options
               await row.locator('p[title]').first().click();
 
-              const marketLocator = await page.locator(`a:has-text("${market}")`);
+              let market = 'Match Odds';
+              let marketLocator = await page.locator(`a:has-text("${market}")`);
 
               // 获取该 <a> 元素的 'data-sport-id' 属性值
-              const sportId = await marketLocator.getAttribute('data-sport-id');
+              let sportId = await marketLocator.getAttribute('data-sport-id');
 
-              filter['data-market-id'] = sportId;
+              filter['data-market-id'].append(sportId);
               await page.locator(`text=${market}`).first().click();
 
               // Ensure URL contains sport ID
-              const url = page.url();
+              let url = page.url();
               if (url.includes(sportId)) {
                 // Get selection ID for runner
-                const escapedRunner = filter.runner.replace(/(\s?[+-]?\d+(\.\d+)?)/, '').trim();
+                const escapedRunner = 'The Draw';
                 const selectedLocator = await page.locator(`span:has-text("${escapedRunner}")`).nth(0);
                 const grandParentDivLocator = await selectedLocator.locator('xpath=ancestor::div[3]');
                 const firstBetContentLocator = await grandParentDivLocator.locator('div[data-selection-id]').first();
                 filter.selectionId = await firstBetContentLocator.getAttribute('data-selection-id');
+              }
 
-                const escapedOthRunner = filter.oth_runner.replace(/(\s?[+-]?\d+(\.\d+)?)/, '').trim();
+              market = 'Goal Lines';
+              marketLocator = await page.locator(`a:has-text("${market}")`);
+
+              // 获取该 <a> 元素的 'data-sport-id' 属性值
+              sportId = await marketLocator.getAttribute('data-sport-id');
+
+              filter['data-market-id'].append(sportId);
+              await page.locator(`text=${market}`).first().click();
+
+              // Ensure URL contains sport ID
+              url = page.url();
+              if (url.includes(sportId)) {
+                const escapedOthRunner = 'Over';
                 const oth_selectedLocator = await page.locator(`span:has-text("${escapedOthRunner}")`).nth(0);
                 const oth_grandParentDivLocator = await oth_selectedLocator.locator('xpath=ancestor::div[3]');
                 const oth_firstBetContentLocator = await oth_grandParentDivLocator.locator('div[data-selection-id]').first();
                 filter.oth_selectionId = await oth_firstBetContentLocator.getAttribute('data-selection-id');
-
-                if (filter.selectionId && filter.oth_selectionId && filter['data-event-id']) {
-                  filter.competition = competition;
-                  arry.push(filter);
-                }
               }
+
+              if (filter.selectionId && filter.oth_selectionId && filter['data-event-id']) {
+                filter.competition = competition;
+                arry.push(filter);
+              } 
             }
           }
         }

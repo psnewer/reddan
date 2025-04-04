@@ -275,8 +275,8 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
                     "eachWayData": {},
                     "page": "event",
                     "persistenceType": "LAPSE",
-                    "timeInForce": "FILL_OR_KILL",
-                    "placedUsingEnterKey": false
+                    "placedUsingEnterKey": false,
+                    "fillOrKill": true
                 }
             ]
         },

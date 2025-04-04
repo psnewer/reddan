@@ -4,6 +4,7 @@ const StrategyExecutor = require('./strategy.js');
 const { getHandicap, hasNestedProperty, getOth, countElementsGE, formatDate, getEvent, assertBet, fetchData, parseBet, sendEmail, checkBets } = require('./utils.js');
 const { login, getEventData, currentBets, placeBet, cancelBet } = require('./commands.js');
 const util = require('util');
+const { CANCELLED } = require('dns');
 
 (async () => {
   const browser = await chromium.launch({
@@ -92,7 +93,7 @@ const util = require('util');
             let bet = betIds[i]
             let _bet = _betIds[i]
             bet.page = page;
-            bet.currentBets = global.currentBets.filter(item => bet['data-market-id'].includes(item.marketId));
+            bet.currentBets = global.currentBets.filter(item => bet['data-market-id'].includes(item.marketId) && !['LAPSED','CANCELLED','VOIDED'].includes(item['offerState']));
             bet.currentBets.sort((a, b) => {
               return a.matchedDate - b.matchedDate;
             });

@@ -789,8 +789,7 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
-                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
+                        await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
                 else if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
@@ -799,7 +798,7 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
+                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price)+0.1)
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
@@ -1022,7 +1021,7 @@ class StrategyExecutor {
                     await params.bet.page.waitForTimeout(15000);
                 params.bet.pre.cancelled = false
                 params.event.placed = true
-                price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
+                // price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
                 await placeBet(params.bet.page, data_market_id, Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

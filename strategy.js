@@ -789,6 +789,7 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
+                        params.bet.pre.cancelled = true
                         await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }

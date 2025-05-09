@@ -43,7 +43,8 @@ class StrategyExecutor {
     notInPlay(params, condition) {
         if (params.hasOwnProperty('event'))
             if ((params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')))
-                return false
+                if (params.event.inplay)
+                    return false
         return true;
     }
 

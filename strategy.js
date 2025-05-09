@@ -305,7 +305,7 @@ class StrategyExecutor {
     }
 
     drawORo3(params, condition) {
-        if (params.event.timeElapsed <= 0 || params.event.timeElapsed == 'HT') {
+        if (params.event.timeElapsed < 0) {
             params.bet.strategy.params[condition]['side'] = 'BACK'
             params.bet.strategy.params[condition]['price'] = 1.5
             params.bet.strategy.params[condition]['oth'] = true

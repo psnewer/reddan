@@ -31,7 +31,7 @@
       "competition": "",
       "home": "",
       "away": "",
-      "market": "Hybrid",
+      "market": "Asian Handicap",
       "runner": "",
       "vol": 7,
       "strategy": {
@@ -40,15 +40,15 @@
           "ending": {
             "time_to": 90
           },
-          "notMatchOne": {"until": 1, "price": 3.0},
+          "notMatchOne": {"until": 1, "price": 2.0},
           "notMatchTwo": {}
         }
       },
       "oth_runner": "",
-      "handicap": 0,
-      "oth_handicap": 3,
+      "handicap": 0.5,
+      "oth_handicap": -0.5,
       "data-event-id": "",
-      "data-market-id": [],
+      "data-market-id": "",
       "selectionId": "",
       "oth_selectionId": "",
       "pre": {}

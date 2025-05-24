@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("Men's Australian Open 2025")
+            competitionText.includes("Men's Roland Garros 2025")
             )) {
             cy.wrap($competitionLi).click();
 

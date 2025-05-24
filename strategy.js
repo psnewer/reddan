@@ -783,7 +783,7 @@ class StrategyExecutor {
         // 首先判断currentBets中是否已经place,如果place则cancel
         let currentBets = params.bet.currentBets
         for (const placed of currentBets) {
-            if (params.bet['data-market-id'].includes(placed.marketId)) {
+            if (placed.marketId === params.bet['data-market-id']) {
                 if (Number(placed.sizeMatched) == 0) {
                     CANCEL = true
                     // console.log('CANCEL')
@@ -860,7 +860,7 @@ class StrategyExecutor {
                 }
             }
         }
-      
+     
         if (params.event.hasOwnProperty('runner_handicap') && params.bet.market != 'Hybrid')
             if (params.bet.strategy.params[condition]['oth']) {
                 if (params.event.runner_side == params.bet.strategy.params[condition].side) {
@@ -880,11 +880,9 @@ class StrategyExecutor {
 
         let selectionId = params.bet.selectionId
         let handicap = params.bet.handicap
-        let data_market_id = params.bet['data-market-id'][0]
         if (params.bet.strategy.params[condition]['oth']) {
             selectionId = params.bet.oth_selectionId
             handicap = params.bet.oth_handicap
-            data_market_id = params.bet['data-market-id'][1]
         }
 
         //如果策略为either，纠正handicap，并纠正odds
@@ -928,7 +926,7 @@ class StrategyExecutor {
         let runner_thresh_lay_odds = params.event.runner_thresh_odds ? 1.0 + (params.event.runner_thresh_odds - 1.0) * (1 + 0.0) : params.event.runner_thresh_odds
         let oth_thresh_back_odds = params.event.oth_thresh_odds ? 1.0 + (params.event.oth_thresh_odds - 1.0) * (1.0 - rec) : params.event.oth_thresh_odds
         let oth_thresh_lay_odds = params.event.oth_thresh_odds ? 1.0 + (params.event.oth_thresh_odds - 1.0) * (1.0 + 0.0) : params.event.oth_thresh_odds
-
+        
         //找到当前赔率
         let current_odds = 0
         if (params.bet.strategy.params[condition].oth) {
@@ -1003,15 +1001,15 @@ class StrategyExecutor {
                     return
             }
         }
-
+        
         if (Math.trunc(size) > 2.0 && size.toFixed(2) < 7.0 && params.bet.strategy.params[condition].side == 'BACK')
             size = 7.0
         if (size.toFixed(2) >= 7.0 && price >= 1.0) {
             const result = assertBet(currentBets[currentBets.length - 1], selectionId, params, condition)
             if (!result) return;
-
+            
             if (process.argv.includes('--test')) {
-                params.output = { 'action': 'PLACE', 'price': price, 'size': size, 'selectionId': selectionId, 'handicap': handicap, 'side': params.bet.strategy.params[condition].side, 'maketId': data_market_id }
+                params.output = { 'action': 'PLACE', 'price': price, 'size': size, 'selectionId': selectionId, 'handicap': handicap, 'side': params.bet.strategy.params[condition].side, 'maketId': params.bet['data-market-id'] }
                 return
             }
 
@@ -1024,7 +1022,7 @@ class StrategyExecutor {
                 params.bet.pre.cancelled = false
                 params.event.placed = true
                 // price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
-                await placeBet(params.bet.page, data_market_id, Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
+                await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 
         }

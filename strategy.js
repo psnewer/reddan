@@ -987,12 +987,19 @@ class StrategyExecutor {
         if (params.bet.strategy.params[condition].hasOwnProperty('price')) {
             if (params.bet.sport === "Tennis") {
                 if ((currentBets.length <= 1 && this.breakdown(params, condition) && !params.event.score_away.length) || this.notInPlay(params, condition)) {
-                    if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
+                    if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price']){
                         return
+                    }
                     else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
                         return
                     if (currentBets.length == 1 && this.breakdown(params, condition) && !params.event.score_away.length && params.bet.strategy.params[condition].side == 'BACK')
                         price = 1.01
+                } else {
+                    if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price']){
+                        return
+                    }
+                    else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
+                        return
                 }
             } else if (params.bet.sport === "Soccer") {
                 if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])

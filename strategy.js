@@ -786,17 +786,17 @@ class StrategyExecutor {
         let currentBets = params.bet.currentBets
         for (const placed of currentBets) {
             if (placed.marketId === params.bet['data-market-id']) {
-                if (Number(placed.sizeMatched) == 0) {
-                    CANCEL = true
-                    // console.log('CANCEL')
-                    // return
-                    if (!global.placing) {
-                        global.placing = true
-                        params.bet.pre.cancelled = true
-                        await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
-                    }
-                }
-                else if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                // if (Number(placed.sizeMatched) == 0) {
+                //     CANCEL = true
+                //     // console.log('CANCEL')
+                //     // return
+                //     if (!global.placing) {
+                //         global.placing = true
+                //         params.bet.pre.cancelled = true
+                //         await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
+                //     }
+                // }
+                if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
                     CANCEL = true
                     // console.log('CANCEL')
                     // return

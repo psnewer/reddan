@@ -1032,7 +1032,7 @@ class StrategyExecutor {
                     await params.bet.page.waitForTimeout(15000);
                 params.bet.pre.cancelled = false
                 params.event.placed = true
-                // price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
+                price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

@@ -122,6 +122,17 @@ class StrategyExecutor {
                         match = true
                 }
 
+                if (match && params.event.score_home.length + 1 == params.bet.strategy.params[condition].until) {
+                    if (params.bet.anchor == 1) {
+                        if (params.event.lastIsRunner)
+                            match = false
+                    }
+                    else if (params.bet.anchor == 0) {
+                        if (params.bet.pre.hasDrawGames)
+                            match = false
+                    }
+                } 
+
                 if (match && params.bet.strategy.params[condition].hasOwnProperty('on')) {
                     if (this.checkOnEnd(params, condition))
                         match = false
@@ -805,7 +816,7 @@ class StrategyExecutor {
                     if (!global.placing) {
                         global.placing = true
                         let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price)+0.1)
-                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price), Number(placed.sizePlaced), Number(placed.sizeRemaining), Number(placed.selectionId), Number(placed.handicap))
+                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(placed.sizePlaced.toFixed(2)), Number(placed.sizeRemaining.toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
             }
@@ -813,11 +824,11 @@ class StrategyExecutor {
 
         if (CANCEL)
             return
-        if (params.bet.anchor) {
-            if (params.event.lastIsRunner)
-                if (Math.trunc(params.event.oth_win) >= -0.5 * params.bet.vol && Math.trunc(params.event.runner_win) >= params.bet.vol)
-                    return
-        }
+        // if (params.bet.anchor) {
+        //     if (params.event.lastIsRunner)
+        //         if (Math.trunc(params.event.oth_win) >= -0.5 * params.bet.vol && Math.trunc(params.event.runner_win) >= params.bet.vol)
+        //             return
+        // }
 
         if (!params.bet.strategy.params[condition].on) {
             if (params.event.lastIsRunner)
@@ -974,7 +985,7 @@ class StrategyExecutor {
                 size = size > net_profit ? net_profit : size
             }
         }
-        if (params.bet.strategy.params[condition].hasOwnProperty('profit')) {
+        if (params.bet.strategy.params[condition].hasOwnProperty('profit') && !currentBets.length) {
             if (params.bet.strategy.params[condition].side === 'BACK') {
                 if (!params.bet.strategy.params[condition].oth)
                     params.bet.strategy.params[condition]['price'] = 1.0 + (params.bet.pre.origin_odds - 1.0) * (1.0 + params.bet.strategy.params[condition].profit)

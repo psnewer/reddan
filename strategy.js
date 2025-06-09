@@ -124,7 +124,7 @@ class StrategyExecutor {
 
                 if (match && params.event.score_home.length + 1 == params.bet.strategy.params[condition].until) {
                     if (params.bet.anchor == 1) {
-                        if (params.event.lastIsRunner && Math.trunc(params.event.oth_win) < -1.0)
+                        if (params.event.lastIsRunner && Math.trunc(params.event.oth_win) >= 0)
                             match = false
                     }
                     else if (params.bet.anchor == 0) {

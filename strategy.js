@@ -328,58 +328,42 @@ class StrategyExecutor {
 
     eitherDrawNotMatch(params, condition) {
         if (params.event.hasOwnProperty('lastIsRunner'))
-            if (params.bet.anchor) {
-                if (!params.event.lastIsRunner) {
-                    params.bet.strategy.params[condition]['scale'] = 1.0
+            if (params.event.score_home.length <= params.bet.strategy.params[condition].until) {
+                if (!params.event.lastIsRunner && !params.bet.strategy.params[condition].hasOwnProperty('side'))
                     return true
+                if (!params.event.lastIsRunner) {
+                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                        return true
+                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
+                        return true
                 }
                 else {
-                    if (Math.trunc(params.event.oth_win) < -1.0) {
-                        params.bet.strategy.params[condition]['scale'] = 0.0
+                    if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
                         return true
-                    }
+                    else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
+                        return true
                 }
             }
             else {
-                if (params.event.score_home.length <= params.bet.strategy.params[condition].until) {
-                    if (!params.event.lastIsRunner && !params.bet.strategy.params[condition].hasOwnProperty('side'))
-                        return true
+                params.bet.strategy.params[condition]['side'] = 'LAY'
+                params.bet.strategy.params[condition]['scale'] = 0.0
+                if (Math.trunc(params.event.runner_win) < -1.0) {
                     if (!params.event.lastIsRunner) {
                         if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                             return true
                         else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
                             return true
                     }
-                    else {
+                }
+                else if (Math.trunc(params.event.oth_win) < -1.0) {
+                    if (params.event.lastIsRunner) {
                         if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
                             return true
                         else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
                             return true
                     }
                 }
-                else {
-                    params.bet.strategy.params[condition]['side'] = 'LAY'
-                    params.bet.strategy.params[condition]['scale'] = 0.0
-                    if (Math.trunc(params.event.runner_win) < -1.0) {
-                        if (!params.event.lastIsRunner) {
-                            if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
-                                return true
-                            else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.home == params.bet.runner)
-                                return true
-                        }
-                    }
-                    else if (Math.trunc(params.event.oth_win) < -1.0) {
-                        if (params.event.lastIsRunner) {
-                            if (params.event.score_home[params.event.score_home.length - 1] > params.event.score_away[params.event.score_home.length - 1] && params.bet.home == params.bet.runner)
-                                return true
-                            else if (params.event.score_home[params.event.score_home.length - 1] < params.event.score_away[params.event.score_away.length - 1] && params.bet.away == params.bet.runner)
-                                return true
-                        }
-                    }
-
-                }
             }
-
         return false
     }
 

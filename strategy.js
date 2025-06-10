@@ -128,7 +128,7 @@ class StrategyExecutor {
                             match = false
                     }
                     else if (params.bet.anchor == 0) {
-                        if (params.bet.pre.hasDrawGames)
+                        if (params.bet.pre.hasDrawGames && Math.trunc(params.event.oth_win) >= 0)
                             match = false
                     }
                 } 
@@ -158,7 +158,7 @@ class StrategyExecutor {
                                 params.bet.strategy.params[condition].on = true
                         }
                 }
-            } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0 && !params.bet.pre.hasDrawGames) {
+            } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0 && !(params.bet.pre.hasDrawGames && params.bet.dash)) {
                 if (!(params.bet.strategy.params[condition].first_runner || params.bet.strategy.params[condition].first_oth)) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
                         params.bet.strategy.params[condition].oth = true

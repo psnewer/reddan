@@ -799,7 +799,7 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price)+0.1)
+                        let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
                         await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(placed.sizePlaced.toFixed(2)), Number(placed.sizeRemaining.toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
@@ -1027,7 +1027,7 @@ class StrategyExecutor {
                     await params.bet.page.waitForTimeout(15000);
                 params.bet.pre.cancelled = false
                 params.event.placed = true
-                price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
+                // price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

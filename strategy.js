@@ -77,6 +77,7 @@ class StrategyExecutor {
             else {
                 params.event.hasBrokendown = false
                 params.event.hasBreakdown = false
+                params.bet.pre.hasDrawGames = false
             }
         return false
     }
@@ -259,7 +260,7 @@ class StrategyExecutor {
                     if (!params.bet.dash) {
                         return true
                     } else {
-                        if (!params.bet.pre.hasDrawGames)
+                        if (!params.bet.pre.hasDrawGames && (Math.abs(params.event.score_home[params.event.score_home.length - 1] - params.event.score_away[params.event.score_away.length - 1]) > 1))
                             return true
                     }
                 }
@@ -286,7 +287,7 @@ class StrategyExecutor {
                 }
             } else {
                 if (params.bet.dash) {
-                    if (!params.bet.pre.hasDrawGames)
+                    if (!params.bet.pre.hasDrawGames && (Math.abs(params.event.score_home[params.event.score_home.length - 1] - params.event.score_away[params.event.score_away.length - 1]) > 1))
                         return true
                 } else
                     return true
@@ -501,9 +502,6 @@ class StrategyExecutor {
                     }
                 }
             }
-            if (match)
-                if (Math.abs(params.event.score_home[params.event.score_home.length - 1] - params.event.score_away[params.event.score_away.length - 1]) == 1)
-                    params.bet.pre.hasDrawGames = true
             return match
         }
         else if (params.bet.sport === "Soccer") {
@@ -561,8 +559,6 @@ class StrategyExecutor {
                     }
                 }
             }
-            if (match)
-                params.bet.pre.hasDrawGames = false
             return match
         }
         else if (params.bet.sport === "Soccer") {
@@ -643,9 +639,6 @@ class StrategyExecutor {
                     }
                 }
             }
-            if (match)
-                if (Math.abs(params.event.score_home[params.event.score_home.length - 1] - params.event.score_away[params.event.score_away.length - 1]) == 1)
-                    params.bet.pre.hasDrawGames = true
             return match
         }
         else if (params.bet.sport === "Soccer") {
@@ -703,8 +696,6 @@ class StrategyExecutor {
                         match = true
                 }
             }
-            if (match)
-                params.bet.pre.hasDrawGames = false
             return match
         }
         else if (params.bet.sport === "Soccer") {

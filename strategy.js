@@ -791,7 +791,7 @@ class StrategyExecutor {
                     if (!global.placing) {
                         global.placing = true
                         let price = placed.side == "BACK" ? 1.01 : Math.ceil(Number(placed.price))
-                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(placed.size.toFixed(2)), Number(placed.sizeRemaining.toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
+                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.size).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
             }

@@ -117,7 +117,7 @@ const { CANCELLED } = require('dns');
                 _bet.pre.hasDrawGames = bet.pre.hasDrawGames
               }
               if (bet.pre.hasOwnProperty('DrawGames')) {
-                _bet.pre.hasDrawGames = bet.pre.DrawGames
+                _bet.pre.DrawGames = bet.pre.DrawGames
               }
               if (params.event.hasOwnProperty('Esrv')) {
                 _bet.pre.Esrv = params.event.Esrv

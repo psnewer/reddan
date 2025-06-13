@@ -63,8 +63,10 @@ class StrategyExecutor {
     drawGames(params, condition) {
         if (this.inSets(params, condition))
             if (!this.breakdown(params, condition)) {
-                if (params.bet.pre.hasBrokendown)
+                if (params.bet.pre.hasBrokendown) {
                     params.bet.pre.hasDrawGames = true
+                    params.bet.pre.DrawGames = true
+                }
                 return true
             }
         return false
@@ -76,8 +78,7 @@ class StrategyExecutor {
                 return true
             else {
                 params.event.hasBrokendown = false
-                params.event.hasBreakdown = false
-                params.bet.pre.hasDrawGames = false
+                params.bet.pre.DrawGames = false
             }
         return false
     }
@@ -129,7 +130,7 @@ class StrategyExecutor {
                             match = false
                     }
                     else if (params.bet.anchor == 0) {
-                        if (params.bet.pre.hasDrawGames && Math.trunc(params.event.oth_win) >= 0)
+                        if (params.bet.pre.DrawGames && Math.trunc(params.event.oth_win) >= 0)
                             match = false
                     }
                 } 
@@ -166,7 +167,7 @@ class StrategyExecutor {
                     else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
                         params.bet.strategy.params[condition].oth = true
                     match = true
-                } else if (!params.bet.pre.hasBreakdown) {
+                } else {
                     if (params.bet.strategy.params[condition].first_runner) {
                         if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
                             match = true
@@ -183,8 +184,6 @@ class StrategyExecutor {
                             params.bet.strategy.params[condition].oth = true
                         }
                     }
-                    if (!match)
-                        params.event.hasBreakdown = true
                 }
             }
         }

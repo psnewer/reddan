@@ -110,14 +110,14 @@ const { CANCELLED } = require('dns');
                 _bet.pre.lastIsRunner_breakdown = params.event.lastIsRunner_breakdown
                 _bet.pre.lastSet_breakdown = params.event.lastSet_breakdown
               }
-              if (params.event.hasOwnProperty('hasBreakdown') && params.event.hasBreakdown != bet.pre.hasBreakdown) {
-                _bet.pre.hasBreakdown = params.event.hasBreakdown
-              }
               if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
                 _bet.pre.hasBrokendown = params.event.hasBrokendown
               }
               if (bet.pre.hasOwnProperty('hasDrawGames')) {
                 _bet.pre.hasDrawGames = bet.pre.hasDrawGames
+              }
+              if (bet.pre.hasOwnProperty('DrawGames')) {
+                _bet.pre.hasDrawGames = bet.pre.DrawGames
               }
               if (params.event.hasOwnProperty('Esrv')) {
                 _bet.pre.Esrv = params.event.Esrv

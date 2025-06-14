@@ -65,7 +65,7 @@ const { CANCELLED } = require('dns');
     await executor.initialize();
 
     for (let i = 0; i < 300; i++) {
-      await page.waitForTimeout(7000);
+      await page.waitForTimeout(15000);
 
       global.placing = false
 

@@ -973,23 +973,12 @@ class StrategyExecutor {
                     params.bet.strategy.params[condition]['price'] = 1.0 + (params.bet.pre.oth_origin_odds - 1.0) * (1.0 - params.bet.strategy.params[condition].profit)
             }
         }
-        if (params.bet.strategy.params[condition].hasOwnProperty('price')) {
+        if (params.bet.strategy.params[condition].hasOwnProperty('price') && !currentBets.length) {
             if (params.bet.sport === "Tennis") {
-                if ((currentBets.length <= 1 && this.breakdown(params, condition) && !params.event.score_away.length) || this.notInPlay(params, condition)) {
-                    if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price']){
-                        return
-                    }
-                    else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
-                        return
-                    if (currentBets.length == 1 && this.breakdown(params, condition) && !params.event.score_away.length && params.bet.strategy.params[condition].side == 'BACK')
-                        price = 1.01
-                } else {
-                    if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price']){
-                        return
-                    }
-                    else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
-                        return
-                }
+                if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
+                    return
+                else if (params.bet.strategy.params[condition].side == 'LAY' && price > params.bet.strategy.params[condition]['price'])
+                    return
             } else if (params.bet.sport === "Soccer") {
                 if (params.bet.strategy.params[condition].side == 'BACK' && price < params.bet.strategy.params[condition]['price'])
                     return

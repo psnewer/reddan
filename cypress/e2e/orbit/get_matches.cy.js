@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP 's-Hertogenbosch 2025") || competitionText.includes("ATP Stuttgart 2025")
+            competitionText.includes("WTA London 2025") || competitionText.includes("WTA 's-Hertogenbosch 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -82,7 +82,7 @@ describe('Extract and Fill Data', () => {
                             let awaySelectionId = awayDiv.attr('data-selection-id');
 
                                 let runner,oth_runner,selectionId,oth_selectionId;
-                                if (homeOdds <= awayOdds) {
+                                if (homeOdds >= awayOdds) {
                                   runner = homeName;
                                   oth_runner = awayName;
                                   selectionId = homeSelectionId;
@@ -106,24 +106,31 @@ describe('Extract and Fill Data', () => {
                                   "dash": true,
                                   "vol": 10,
                                   "strategy": {
-                                    "name": "tennis_11",
+                                    "name": "tennis_2",
                                     "params": {
                                       "notInPlay": {
                                         "price": 1.3
                                       },
-                                      "loseHang": {
-                                        "rec": 1.0,
-                                        "set": 3,
-                                        "side": "BACK"
-                                      },
-                                      "loseSets": {
-                                        "set": 1,
-                                        "until": 1,
+                                      "breakdown": {
+                                        "until": 2,
                                         "side": "BACK",
-                                        "price": 1.7
+                                        "first_runner": true,
+                                        "first_oth": true,
+                                        "profit": 1.0
                                       },
-                                      "drawSets": {
-                                        "side": "BACK"
+                                      "eitherLose": {
+                                        "first_runner": false,
+                                        "first_oth": true,
+                                        "side": "BACK",
+                                        "until": 1
+                                      },
+                                      "eitherDraw": {
+                                        "until": 2,
+                                        "scale": 0
+                                      },
+                                      "drawGames": {
+                                        "side": "BACK",
+                                        "scale": 1
                                       }
                                     }
                                   },
@@ -136,12 +143,12 @@ describe('Extract and Fill Data', () => {
                                   "oth_selectionId": oth_selectionId,
                                   "pre": {}
                                 }
-                                // if (Math.min(homeOdds,awayOdds) < 1.4) {
-                                //   if (result.strategy.params.breakdown.hasOwnProperty('profit')) {
-                                //       delete result.strategy.params.breakdown.profit
-                                //       result.strategy.params.breakdown.price = 1.6
-                                //   }
-                                // }
+                                if (Math.min(homeOdds,awayOdds) < 1.4) {
+                                  if (result.strategy.params.breakdown.hasOwnProperty('profit')) {
+                                      delete result.strategy.params.breakdown.profit
+                                      result.strategy.params.breakdown.price = 1.6
+                                  }
+                                }
                                 // 将结果添加到数组中
                                 results.push(result);
                           });

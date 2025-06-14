@@ -77,7 +77,7 @@ class StrategyExecutor {
             if (params.event.score_homeS > 0 || params.event.score_awayS > 0)
                 return true
             else {
-                params.bet.pre.hasBrokendown = false
+                params.event.hasBrokendown = false
                 params.bet.pre.DrawGames = false
             }
         return false

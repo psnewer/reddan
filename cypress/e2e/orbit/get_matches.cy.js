@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("WTA London 2025") || competitionText.includes("WTA 's-Hertogenbosch 2025")
+            competitionText.includes("WTA Berlin 2025") || competitionText.includes("WTA Nottingham 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -143,12 +143,12 @@ describe('Extract and Fill Data', () => {
                                   "oth_selectionId": oth_selectionId,
                                   "pre": {}
                                 }
-                                if (Math.min(homeOdds,awayOdds) < 1.4) {
-                                  if (result.strategy.params.breakdown.hasOwnProperty('profit')) {
-                                      delete result.strategy.params.breakdown.profit
-                                      result.strategy.params.breakdown.price = 1.6
-                                  }
-                                }
+                                // if (Math.min(homeOdds,awayOdds) < 1.4) {
+                                //   if (result.strategy.params.breakdown.hasOwnProperty('profit')) {
+                                //       delete result.strategy.params.breakdown.profit
+                                //       result.strategy.params.breakdown.price = 1.6
+                                //   }
+                                // }
                                 // 将结果添加到数组中
                                 results.push(result);
                           });

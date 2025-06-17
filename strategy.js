@@ -261,6 +261,8 @@ class StrategyExecutor {
                     } else {
                         if (!params.bet.pre.hasDrawGames && (Math.abs(params.event.score_home[params.event.score_home.length - 1] - params.event.score_away[params.event.score_away.length - 1]) > 1))
                             return true
+                        else if (Math.trunc(params.event.runner_win) < -1.0)
+                            return true
                     }
                 }
         }

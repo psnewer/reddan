@@ -789,7 +789,7 @@ class StrategyExecutor {
                 //         await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
                 //     }
                 // }
-                if (Number(placed.sizeMatched) != Number(placed.sizePlaced)) {
+                if (placed.offerState != "MATCHED") {
                     CANCEL = true
                     // console.log('CANCEL')
                     // return

@@ -82,7 +82,7 @@ describe('Extract and Fill Data', () => {
                             let awaySelectionId = awayDiv.attr('data-selection-id');
 
                                 let runner,oth_runner,selectionId,oth_selectionId;
-                                if (homeOdds >= awayOdds) {
+                                if (homeOdds <= awayOdds) {
                                   runner = homeName;
                                   oth_runner = awayName;
                                   selectionId = homeSelectionId;
@@ -120,7 +120,7 @@ describe('Extract and Fill Data', () => {
                                       },
                                       "eitherLose": {
                                         "first_runner": false,
-                                        "first_oth": true,
+                                        "first_oth": false,
                                         "side": "BACK",
                                         "until": 1
                                       },

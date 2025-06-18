@@ -796,7 +796,7 @@ class StrategyExecutor {
                     if (!global.placing) {
                         global.placing = true
                         let price = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? Math.max(params.event.back_odds - 1.0 , 1.01) : Math.ceil(Number(params.event.lay_odds)) : placed.side == "BACK" ? Math.max(params.event.oth_back_odds - 1.0,1.01) : Math.ceil(Number(params.event.oth_lay_odds))
-                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizePlaced).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
+                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
                     }
                 }
             }

@@ -280,6 +280,32 @@
             "action": "placeBet"
         }
     ],
+    "tennis_002": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "breakdown",
+            "checktion":["BreakdownNotMatch"],
+            "action": "break"
+        },
+        {
+            "condition": "drawGames",
+            "checktion":["drawGamesNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["deltaIn","eitherLoseNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherDraw",
+            "checktion":["eitherDrawNotMatch"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_02": [
         {
             "condition": "notInPlay",

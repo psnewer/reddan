@@ -254,6 +254,28 @@
             "action": "placeBet"
         }
     ],
+    "tennis_0023": [
+        {
+            "condition": "notInPlay",
+            "checktion":["commission","notPlaceOne"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "notMatchOne",
+            "checktion":["commission"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["deltaIn","eitherLoseNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherDraw",
+            "checktion":["eitherDrawNotMatch"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_2": [
         {
             "condition": "notInPlay",

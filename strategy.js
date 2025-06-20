@@ -16,7 +16,7 @@ class StrategyExecutor {
     async execute(strategyName, params) {
         const strategy = this.strategies[strategyName];
         if (!strategy) {
-            console.log('Strategy not found.');
+            console.log(`Strategy ${strategyName} not found.`);
             return;
         }
 

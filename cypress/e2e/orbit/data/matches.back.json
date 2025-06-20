@@ -1,0 +1,186 @@
+[
+  {
+    "name": "tennis_11",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "loseHang": {
+        "rec": 1.0,
+        "set": 3,
+        "side": "BACK"
+      },
+      "loseSets": {
+        "set": 1,
+        "until": 1,
+        "side": "BACK",
+        "price": 1.7
+      },
+      "drawSets": {
+        "side": "BACK"
+      }
+    }
+  },
+  {
+    "name": "tennis_2",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "breakdown": {
+        "until": 2,
+        "side": "BACK",
+        "first_runner": true,
+        "first_oth": false,
+        "profit": 1.0
+      },
+      "eitherLose": {
+        "first_runner": true,
+        "first_oth": false,
+        "side": "BACK",
+        "until": 1
+      },
+      "eitherDraw": {
+        "until": 2,
+        "side": "BACK"
+      },
+      "drawGames": {
+        "side": "BACK",
+        "scale": 1
+      }
+    }
+  },
+  {
+    "name": "tennis_002",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "breakdown": {
+        "until": 2,
+        "side": "BACK",
+        "first_runner": true,
+        "first_oth": true,
+        "profit": 1.0
+      },
+      "eitherLose": {
+        "first_runner": true,
+        "first_oth": false,
+        "side": "BACK",
+        "until": 1
+      },
+      "eitherDraw": {
+        "until": 2,
+        "side": "BACK"
+      },
+      "drawGames": {
+        "side": "BACK",
+        "scale": 1
+      }
+    }
+  },
+  {
+    "name": "tennis_0023",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "notMatchOne": {
+        "guarantee": 0.94
+      },
+      "eitherLose": {
+        "set": 1,
+        "side": "BACK",
+        "until": 1
+      },
+      "eitherDraw": {
+        "until": 2,
+        "side": "BACK"
+      }
+    }
+  },
+  {
+    "name": "tennis_22",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "eitherHang": {
+        "set": 3,
+        "side": "BACK",
+        "rec": 1.0
+      },
+      "eitherLose": {
+        "set": 1,
+        "until": 1,
+        "side": "BACK",
+        "price": 1.7
+      },
+      "eitherDraw": {
+        "until": 2,
+        "side": "BACK"
+      }
+    }
+  },
+  {
+    "name": "tennis_20",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "loseHang": {
+        "set": 30,
+        "side": "BACK",
+        "rec": 1.0
+      },
+      "eitherLose": {
+        "set": 1,
+        "until": 1,
+        "side": "BACK",
+        "price": 1.7
+      },
+      "eitherDraw": {
+        "until": 2,
+        "side": "BACK"
+      }
+    }
+  },
+  {
+    "name": "tennis_21",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "winHang": {
+        "set": 3,
+        "side": "BACK",
+        "rec": 1.0
+      },
+      "eitherLose": {
+        "set": 1,
+        "until": 1,
+        "side": "BACK",
+        "price": 1.7
+      },
+      "eitherDraw": {
+        "until": 2,
+        "side": "BACK"
+      }
+    }
+  },
+  {
+    "name": "tennis_3",
+    "params": {
+      "notInPlay": {
+        "side": "BACK"
+      },
+      "notMatchOne": {
+        "guarantee": 0.94
+      },
+      "notMatchTwo": {
+        "side": "BACK"
+      }
+    }
+  }
+]
+

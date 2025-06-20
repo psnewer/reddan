@@ -90,6 +90,13 @@ class StrategyExecutor {
         return false
     }
 
+    checkInjury(params, condition) {
+        if (!params.bet.currentBets.length)
+            if (!params.event.score_homeG && !params.event.score_awayG)
+                return false
+        return true
+    }
+
     break(params, condition) {
         return true
     }

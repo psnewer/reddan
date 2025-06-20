@@ -89,6 +89,10 @@ async function getEventData(bet) {
                                         params.bet.pre.origin_odds = params.event.back_odds
                                         params.bet.pre.oth_origin_odds = params.event.oth_back_odds
                                     }
+                                    if (event.hasOwnProperty('Tr1G') && event.hasOwnProperty('Tr2G')) {
+                                        params.event.score_homeG = event['Tr1G']
+                                        params.event.score_awayG = event['Tr2G']
+                                    }
                                     // }
                                 }
                                 else if (params.bet.pre.hasOwnProperty('Esrv')) {

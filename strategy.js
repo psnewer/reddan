@@ -225,6 +225,9 @@ class StrategyExecutor {
             }
         }
 
+        if (params.bet.strategy.params[condition].hasOwnProperty('set') && params.event.score_home.length + 1 != params.bet.strategy.params[condition].set)
+            match = false
+
         return match
     }
 
@@ -1015,7 +1018,7 @@ class StrategyExecutor {
                 price = 1.01
             if (!global.placing) {
                 global.placing = true
-                if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && !params.bet.currentBets.length))
+                if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && params.event.score_home.length == 1))
                     await params.bet.page.waitForTimeout(15000);
                 params.bet.pre.cancelled = false
                 params.event.placed = true

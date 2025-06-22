@@ -91,8 +91,8 @@ class StrategyExecutor {
     }
 
     checkInjury(params, condition) {
-        if (!params.bet.currentBets.length)
-            if (!params.event.score_homeG && !params.event.score_awayG)
+        if (params.event.score_home.length == 1)
+            if (!params.event.score_homeG || !params.event.score_awayG)
                 return false
         return true
     }
@@ -116,7 +116,7 @@ class StrategyExecutor {
     BreakdownNotMatch(params, condition) {
         let match = false
         params.event.hasBrokendown = true
-        if (params.event.score_home.length < params.bet.strategy.params[condition].until) {
+        if (params.event.score_home.length < params.bet.strategy.params[condition].until || params.event.score_home.length < params.bet.strategy.params[condition].set) {
             if (params.event.hasOwnProperty('lastIsRunner')) {
                 if (params.event.score_homeS > params.event.score_awayS) {
                     if (params.event.lastIsRunner && params.bet.home == params.bet.runner)
@@ -131,7 +131,7 @@ class StrategyExecutor {
                         match = true
                 }
 
-                if (match && params.event.score_home.length + 1 == params.bet.strategy.params[condition].until) {
+                if (match && (params.event.score_home.length + 1 == params.bet.strategy.params[condition].until || params.event.score_home.length + 1 == params.bet.strategy.params[condition].set)) {
                     if (params.bet.anchor == 1) {
                         if (params.event.lastIsRunner && Math.trunc(params.event.oth_win) >= 0)
                             match = false
@@ -194,7 +194,7 @@ class StrategyExecutor {
                 }
             }
         }
-        else if (params.event.score_home.length >= params.bet.strategy.params[condition].until) {
+        else {
             if (Math.trunc(params.event.runner_win) < -1.0) {
                 if (!params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
@@ -226,7 +226,8 @@ class StrategyExecutor {
         }
 
         if (params.bet.strategy.params[condition].hasOwnProperty('set') && params.event.score_home.length + 1 != params.bet.strategy.params[condition].set)
-            match = false
+            if (!params.bet.strategy.params[condition].hasOwnProperty('until'))
+                match = false
 
         return match
     }
@@ -784,6 +785,7 @@ class StrategyExecutor {
 
     // 动作函数
     async placeBet(params, condition) {
+        console.log('111')
         let CANCEL = false
         // 首先判断currentBets中是否已经place,如果place则cancel
         let currentBets = params.bet.currentBets

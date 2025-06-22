@@ -235,7 +235,7 @@
         },
         {
             "condition": "breakdown",
-            "checktion":["BreakdownNotMatch"],
+            "checktion":["BreakdownNotMatch","excludeSet"],
             "action": "placeBet"
         },
         {
@@ -283,7 +283,7 @@
         },
         {
             "condition": "breakdown",
-            "checktion":["BreakdownNotMatch"],
+            "checktion":["BreakdownNotMatch","excludeSet"],
             "action": "placeBet"
         },
         {

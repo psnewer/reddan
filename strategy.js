@@ -101,6 +101,12 @@ class StrategyExecutor {
         return true
     }
 
+    excludeSet(params, condition) {
+        if (params.event.score_home.length + 1 == params.bet.strategy.params[condition].exclude)
+            return false
+        return true
+    }
+
     breakdown(params, condition) {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS')) {
             if (params.event.hasOwnProperty('Esrv') && params.event.score_homeS != params.event.score_awayS) {

@@ -32,7 +32,8 @@
         "side": "BACK",
         "first_runner": true,
         "first_oth": false,
-        "profit": 1.0
+        "profit": 1.0,
+        "exclude": 1
       },
       "eitherLose": {
         "first_runner": true,

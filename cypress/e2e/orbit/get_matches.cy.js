@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Halle 2025") || competitionText.includes("ATP London 2025")
+            competitionText.includes("ATP Eastbourne 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -64,7 +64,7 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          if (!["34420895"].includes(data_event_id))
+                          if (!["34357879","33927225","33953208"].includes(data_event_id))
                           cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
                             
                             const data_market_id = $rowDiv.attr('data-market-id');
@@ -106,24 +106,31 @@ describe('Extract and Fill Data', () => {
                                   "dash": true,
                                   "vol": 10,
                                   "strategy": {
-                                    "name": "tennis_11",
+                                    "name": "tennis_002",
                                     "params": {
                                       "notInPlay": {
                                         "price": 1.3
                                       },
-                                      "loseHang": {
-                                        "rec": 1.0,
-                                        "set": 3,
-                                        "side": "BACK"
-                                      },
-                                      "loseSets": {
-                                        "set": 1,
-                                        "until": 1,
+                                      "breakdown": {
+                                        "until": 2,
                                         "side": "BACK",
-                                        "price": 1.7
+                                        "first_runner": true,
+                                        "first_oth": true,
+                                        "profit": 1.0
                                       },
-                                      "drawSets": {
+                                      "eitherLose": {
+                                        "first_runner": true,
+                                        "first_oth": false,
+                                        "side": "BACK",
+                                        "until": 1
+                                      },
+                                      "eitherDraw": {
+                                        "until": 2,
                                         "side": "BACK"
+                                      },
+                                      "drawGames": {
+                                        "side": "BACK",
+                                        "scale": 1
                                       }
                                     }
                                   },

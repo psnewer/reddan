@@ -79,6 +79,10 @@ async function getEventData(bet) {
                             }
                             let i = Number(event.Tr1) + Number(event.Tr2) + 1
                             if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
+                                if (event.hasOwnProperty('Tr1G') && event.hasOwnProperty('Tr2G')) {
+                                    params.event.score_homeG = event['Tr1G']
+                                    params.event.score_awayG = event['Tr2G']
+                                }
                                 if ((params.bet.pre.Esrv != event.Esrv && (params.bet.pre.score_homeS != event['Tr1S' + i] || params.bet.pre.score_awayS != event['Tr2S' + i]))
                                     || Math.abs(event['Tr1S' + i] + event['Tr2S' + i] - params.bet.pre.score_homeS - params.bet.pre.score_awayS) > 1) {
                                     // if (params.bet.pre.hasOwnProperty('Esrv') || (!params.event.score_home.length && (event['Tr1S' + i] + event['Tr2S' + i] <= 1))) {
@@ -88,10 +92,6 @@ async function getEventData(bet) {
                                     if (!params.bet.pre.hasOwnProperty('origin_odds')) {
                                         params.bet.pre.origin_odds = params.event.back_odds
                                         params.bet.pre.oth_origin_odds = params.event.oth_back_odds
-                                    }
-                                    if (event.hasOwnProperty('Tr1G') && event.hasOwnProperty('Tr2G')) {
-                                        params.event.score_homeG = event['Tr1G']
-                                        params.event.score_awayG = event['Tr2G']
                                     }
                                     // }
                                 }

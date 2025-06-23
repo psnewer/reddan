@@ -235,7 +235,7 @@
         },
         {
             "condition": "breakdown",
-            "checktion":["BreakdownNotMatch","excludeSet"],
+            "checktion":["BreakdownNotMatch"],
             "action": "placeBet"
         },
         {
@@ -283,7 +283,43 @@
         },
         {
             "condition": "breakdown",
-            "checktion":["BreakdownNotMatch","excludeSet"],
+            "checktion":["BreakdownNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "drawGames",
+            "checktion":["drawGamesNotMatch"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherDraw",
+            "checktion":["eitherDrawNotMatch"],
+            "action": "placeBet"
+        }
+    ],
+    "tennis_2w": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "breakdown3",
+            "checktion":["BreakdownNotMatch3"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "drawGames3",
+            "checktion":["drawGamesNotMatch3"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "breakdown",
+            "checktion":["BreakdownNotMatch"],
             "action": "placeBet"
         },
         {

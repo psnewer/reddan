@@ -72,6 +72,13 @@ class StrategyExecutor {
         return false
     }
 
+    drawGames3(params, condition) {
+        if (this.drawGames(params, condition))
+            if (params.bet.strategy.params[condition].set == params.event.score_home.length + 1)
+                return true
+        return false
+    }
+
     inSets(params, condition) {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS'))
             if (params.event.score_homeS > 0 || params.event.score_awayS > 0)
@@ -101,12 +108,6 @@ class StrategyExecutor {
         return true
     }
 
-    excludeSet(params, condition) {
-        if (params.event.score_home.length + 1 == params.bet.strategy.params[condition].exclude)
-            return false
-        return true
-    }
-
     breakdown(params, condition) {
         if (params.event.hasOwnProperty('score_homeS') && params.event.hasOwnProperty('score_awayS')) {
             if (params.event.hasOwnProperty('Esrv') && params.event.score_homeS != params.event.score_awayS) {
@@ -119,10 +120,17 @@ class StrategyExecutor {
         return false
     }
 
+    breakdown3(params, condition) {
+        if (this.breakdown(params, condition))
+            if (params.bet.strategy.params[condition].set == params.event.score_home.length + 1)
+                return true
+        return false
+    }
+
     BreakdownNotMatch(params, condition) {
         let match = false
         params.event.hasBrokendown = true
-        if (params.event.score_home.length < params.bet.strategy.params[condition].until || params.event.score_home.length < params.bet.strategy.params[condition].set) {
+        if (params.event.score_home.length < params.bet.strategy.params[condition].until) {
             if (params.event.hasOwnProperty('lastIsRunner')) {
                 if (params.event.score_homeS > params.event.score_awayS) {
                     if (params.event.lastIsRunner && params.bet.home == params.bet.runner)
@@ -137,7 +145,7 @@ class StrategyExecutor {
                         match = true
                 }
 
-                if (match && (params.event.score_home.length + 1 == params.bet.strategy.params[condition].until || params.event.score_home.length + 1 == params.bet.strategy.params[condition].set)) {
+                if (match && params.event.score_home.length + 1 == params.bet.strategy.params[condition].until) {
                     if (params.bet.anchor == 1) {
                         if (params.event.lastIsRunner && Math.trunc(params.event.oth_win) >= 0)
                             match = false
@@ -200,7 +208,7 @@ class StrategyExecutor {
                 }
             }
         }
-        else {
+        else if (params.event.score_home.length >= params.bet.strategy.params[condition].until) {
             if (Math.trunc(params.event.runner_win) < -1.0) {
                 if (!params.event.lastIsRunner) {
                     if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
@@ -231,9 +239,66 @@ class StrategyExecutor {
             }
         }
 
-        if (params.bet.strategy.params[condition].hasOwnProperty('set') && params.event.score_home.length + 1 != params.bet.strategy.params[condition].set)
-            if (!params.bet.strategy.params[condition].hasOwnProperty('until'))
-                match = false
+        return match
+    }
+
+    BreakdownNotMatch3(params, condition) {
+        let match = false
+        params.event.hasBrokendown = true
+        if (!params.bet.pre.DrawGames) {
+            if (params.event.hasOwnProperty('lastIsRunner')) {
+                if (params.event.score_homeS > params.event.score_awayS) {
+                    if (params.event.lastIsRunner && params.bet.home == params.bet.runner)
+                        match = true
+                    else if (!params.event.lastIsRunner && params.bet.away == params.bet.runner)
+                        match = true
+    
+                } else {
+                    if (params.event.lastIsRunner && params.bet.away == params.bet.runner)
+                        match = true
+                    else if (!params.event.lastIsRunner && params.bet.home == params.bet.runner)
+                        match = true
+                }
+
+                if (match) {
+                    if (params.event.lastIsRunner && params.bet.strategy.params[condition].pick == 'runner') {
+                        match = false
+                    }
+                    else if (!params.event.lastIsRunner && params.bet.strategy.params[condition].pick == 'oth') {
+                        match = false
+                    }
+                } 
+            } 
+            else {
+                if (params.bet.strategy.params[condition].pick != 'oth') {
+                    if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
+                        match = true
+                    else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
+                        match = true
+                }
+                if (params.bet.strategy.params[condition].pick != 'runner') {
+                    if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner) {
+                        match = true
+                        params.bet.strategy.params[condition].oth = true
+                    }
+                    else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner) {
+                        match = true
+                        params.bet.strategy.params[condition].oth = true
+                    }
+                } 
+            }
+        }
+
+        if (match) {
+            if (params.event.score_homeS > params.event.score_awayS) {
+                params.event.lastIsRunner_breakdown = params.bet.away == params.bet.runner ? true : false
+                params.event.lastSet_breakdown = params.event.score_home.length + 1
+            }
+            else {
+                params.event.lastIsRunner_breakdown = params.bet.home == params.bet.runner ? true : false
+                params.event.lastSet_breakdown = params.event.score_home.length + 1
+            }
+        }
 
         return match
     }
@@ -407,6 +472,23 @@ class StrategyExecutor {
                     return true
                 }
             }
+        }
+        return false
+    }
+
+    drawGamesNotMatch3(params, condition) {
+        if (params.event.hasOwnProperty('lastIsRunner') && params.bet.hasOwnProperty('pre')) {
+            if (params.event.lastIsRunner == params.bet.pre.lastIsRunner_breakdown)
+                if (params.event.score_home.length + 1 == params.bet.pre.lastSet_breakdown) {
+                    if (params.event.lastIsRunner) {
+                        if (params.bet.strategy.params[condition].anchor == 'runner')
+                            params.bet.strategy.params[condition]['scale'] = 0.0
+                    } else {
+                        if (params.bet.strategy.params[condition].anchor == 'oth')
+                            params.bet.strategy.params[condition]['scale'] = 0.0
+                    }
+                    return true
+                }
         }
         return false
     }
@@ -791,7 +873,6 @@ class StrategyExecutor {
 
     // 动作函数
     async placeBet(params, condition) {
-        console.log('111')
         let CANCEL = false
         // 首先判断currentBets中是否已经place,如果place则cancel
         let currentBets = params.bet.currentBets

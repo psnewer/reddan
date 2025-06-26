@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("ATP Eastbourne 2025")
+            competitionText.includes("Men's Wimbledon 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -106,31 +106,25 @@ describe('Extract and Fill Data', () => {
                                   "dash": true,
                                   "vol": 10,
                                   "strategy": {
-                                    "name": "tennis_002",
+                                    "name": "tennis_21",
                                     "params": {
                                       "notInPlay": {
                                         "price": 1.3
                                       },
-                                      "breakdown": {
-                                        "until": 2,
+                                      "winHang": {
+                                        "set": 3,
                                         "side": "BACK",
-                                        "first_runner": true,
-                                        "first_oth": true,
-                                        "profit": 1.0
+                                        "rec": 1.0
                                       },
                                       "eitherLose": {
-                                        "first_runner": true,
-                                        "first_oth": false,
+                                        "set": 1,
+                                        "until": 1,
                                         "side": "BACK",
-                                        "until": 1
+                                        "price": 1.7
                                       },
                                       "eitherDraw": {
                                         "until": 2,
                                         "side": "BACK"
-                                      },
-                                      "drawGames": {
-                                        "side": "BACK",
-                                        "scale": 1
                                       }
                                     }
                                   },

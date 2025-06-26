@@ -300,6 +300,9 @@ class StrategyExecutor {
             }
         }
 
+        if (!params.event.hasOwnProperty('lastIsRunner') && !params.bet.strategy.params[condition].coldstart)
+            match = false
+
         return match
     }
 

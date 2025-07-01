@@ -1112,6 +1112,8 @@ class StrategyExecutor {
                 global.placing = true
                 if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && params.event.score_home.length == 1))
                     await params.bet.page.waitForTimeout(15000);
+                else
+                    price = Number(selectionId)==params.bet.selectionId ? side == "BACK" ? Math.max(Math.floor(params.event.back_odds) , 1.01) : Math.ceil(Number(params.event.lay_odds)) : side == "BACK" ? Math.max(Math.floor(params.event.oth_back_odds),1.01) : Math.ceil(Number(params.event.oth_lay_odds))
                 params.bet.pre.cancelled = false
                 params.event.placed = true
                 // price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))

@@ -13,8 +13,7 @@
       "loseSets": {
         "set": 1,
         "until": 1,
-        "side": "BACK",
-        "price": 1.7
+        "side": "BACK"
       },
       "drawSets": {
         "side": "BACK"
@@ -42,6 +41,7 @@
       },
       "eitherDraw": {
         "until": 2,
+        "rec": -1,
         "side": "BACK"
       },
       "drawGames": {
@@ -58,10 +58,14 @@
       },
       "breakdown3": {
         "set": 3,
-        "coldstart": false
+        "coldstart": false,
+        "pick": "both",
+        "side": "BACK"
       },
       "drawGames3": {
-        "set": 3
+        "set": 3,
+        "anchor": "both",
+        "side": "BACK"
       },
       "breakdown": {
         "until": 2,
@@ -81,8 +85,8 @@
         "until": 1
       },
       "eitherDraw": {
-        "until": 2,
-        "side": "BACK"
+        "rec": -1,
+        "until": 2
       }
     }
   },
@@ -96,8 +100,7 @@
         "until": 2,
         "side": "BACK",
         "first_runner": true,
-        "first_oth": true,
-        "profit": 1.0
+        "first_oth": true
       },
       "eitherLose": {
         "first_runner": true,
@@ -106,8 +109,8 @@
         "until": 1
       },
       "eitherDraw": {
-        "until": 2,
-        "side": "BACK"
+        "rec": -1,
+        "until": 2
       },
       "drawGames": {
         "side": "BACK",
@@ -131,6 +134,7 @@
       },
       "eitherDraw": {
         "until": 2,
+        "rec": -1,
         "side": "BACK"
       }
     }
@@ -154,6 +158,7 @@
       },
       "eitherDraw": {
         "until": 2,
+        "rec": -1,
         "side": "BACK"
       }
     }
@@ -177,6 +182,7 @@
       },
       "eitherDraw": {
         "until": 2,
+        "rec": -1,
         "side": "BACK"
       }
     }
@@ -200,6 +206,7 @@
       },
       "eitherDraw": {
         "until": 2,
+        "rec": -1,
         "side": "BACK"
       }
     }

@@ -131,8 +131,8 @@ const { CANCELLED } = require('dns');
                 if (params.event.placed)
                   _bet.pre.num_bets += 1
               }
-              if (bet.pre.hasOwnProperty('cancelled')) {
-                _bet.pre.cancelled = bet.pre.cancelled
+              if (bet.pre.hasOwnProperty('edited')) {
+                _bet.pre.edited = bet.pre.edited
               }
             } catch (error) {
               const subject = 'Test Failure';

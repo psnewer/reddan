@@ -897,8 +897,14 @@ class StrategyExecutor {
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        let price = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? Math.max(params.event.back_odds - 1.0 , 1.01) : Math.ceil(Number(params.event.lay_odds)) : placed.side == "BACK" ? Math.max(params.event.oth_back_odds - 1.0,1.01) : Math.ceil(Number(params.event.oth_lay_odds))
-                        await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
+                        if (!params.bet.pre.edited) {
+                            global.reset = true
+                            params.bet.pre.edited = true
+                        }
+                        else {
+                            let price = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? Math.max(params.event.back_odds - 1.0 , 1.01) : Math.ceil(Number(params.event.lay_odds)) : placed.side == "BACK" ? Math.max(params.event.oth_back_odds - 1.0,1.01) : Math.ceil(Number(params.event.oth_lay_odds))
+                            await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
+                        }
                     }
                 }
             }
@@ -906,6 +912,8 @@ class StrategyExecutor {
 
         if (CANCEL)
             return
+        else
+            params.bet.pre.edited = false
         // if (params.bet.anchor) {
         //     if (params.event.lastIsRunner)
         //         if (Math.trunc(params.event.oth_win) >= -0.5 * params.bet.vol && Math.trunc(params.event.runner_win) >= params.bet.vol)
@@ -1106,15 +1114,15 @@ class StrategyExecutor {
                 return
             }
 
-            if (params.bet.pre.cancelled && currentBets.length && params.bet.strategy.params[condition].side == 'BACK')
-                price = 1.01
+            // if (params.bet.pre.cancelled && currentBets.length && params.bet.strategy.params[condition].side == 'BACK')
+            //     price = 1.01
             if (!global.placing) {
                 global.placing = true
                 if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && params.event.score_home.length == 1))
                     await params.bet.page.waitForTimeout(15000);
                 else
-                    price = Number(selectionId)==params.bet.selectionId ? side == "BACK" ? Math.max(Math.floor(params.event.back_odds) , 1.01) : Math.ceil(Number(params.event.lay_odds)) : side == "BACK" ? Math.max(Math.floor(params.event.oth_back_odds),1.01) : Math.ceil(Number(params.event.oth_lay_odds))
-                params.bet.pre.cancelled = false
+                    price = Number(selectionId)==params.bet.selectionId ? params.bet.strategy.params[condition].side == "BACK" ? Math.max(Math.floor(params.event.back_odds) , 1.01) : Math.ceil(Number(params.event.lay_odds)) : params.bet.strategy.params[condition].side == "BACK" ? Math.max(Math.floor(params.event.oth_back_odds),1.01) : Math.ceil(Number(params.event.oth_lay_odds))
+                // params.bet.pre.cancelled = false
                 params.event.placed = true
                 // price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)

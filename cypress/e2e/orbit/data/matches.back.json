@@ -13,7 +13,8 @@
       "loseSets": {
         "set": 1,
         "until": 1,
-        "side": "BACK"
+        "side": "BACK",
+        "price": 1.7
       },
       "drawSets": {
         "side": "BACK"
@@ -41,7 +42,7 @@
       },
       "eitherDraw": {
         "until": 2,
-        "rec": -1,
+        "rec": 1,
         "side": "BACK"
       },
       "drawGames": {
@@ -85,7 +86,7 @@
         "until": 1
       },
       "eitherDraw": {
-        "rec": -1,
+        "rec": 1,
         "until": 2
       }
     }
@@ -109,7 +110,7 @@
         "until": 1
       },
       "eitherDraw": {
-        "rec": -1,
+        "rec": 1,
         "until": 2
       },
       "drawGames": {
@@ -134,7 +135,7 @@
       },
       "eitherDraw": {
         "until": 2,
-        "rec": -1,
+        "rec": 1,
         "side": "BACK"
       }
     }
@@ -158,8 +159,9 @@
       },
       "eitherDraw": {
         "until": 2,
-        "rec": -1,
-        "side": "BACK"
+        "rec": 1,
+        "side": "LAY",
+        "scale": 0
       }
     }
   },
@@ -182,7 +184,7 @@
       },
       "eitherDraw": {
         "until": 2,
-        "rec": -1,
+        "rec": 1,
         "side": "BACK"
       }
     }
@@ -206,7 +208,7 @@
       },
       "eitherDraw": {
         "until": 2,
-        "rec": -1,
+        "rec": 1,
         "side": "BACK"
       }
     }

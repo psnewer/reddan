@@ -264,8 +264,13 @@ async function assertBet(currentBet, selectionId, params, condition) {
 }
 
 async function fetchData(url) {
-  const response = await axios.get(url, { timeout: 20000, httpAgent: proxyAgent, httpsAgent: proxyAgent });
-  return response.data; // 直接返回解析后的 JSON 数据
+  if (url.includes('betfair')) {
+    const response = await axios.get(url, { timeout: 20000, httpAgent: proxyAgent, httpsAgent: proxyAgent});
+    return response.data; // 直接返回解析后的 JSON 数据
+  }else {
+    const response = await axios.get(url, { timeout: 20000});
+    return response.data; // 直接返回解析后的 JSON 数据
+  }
 }
 
 function parseBet(event) {

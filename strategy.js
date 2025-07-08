@@ -98,9 +98,21 @@ class StrategyExecutor {
     }
 
     checkInjury(params, condition) {
-        if (params.event.score_home.length == 1)
-            if (!params.event.score_homeG || !params.event.score_awayG)
-                return false
+        if (!params.event.score_homeG || !params.event.score_awayG)
+            return false
+        return true
+    }
+
+    checkSet(params, condition) {
+        if (params.bet.strategy.params[condition].hasOwnProperty('sets'))  
+            if (this.inSets(params, condition)) {
+                if (!params.bet.strategy.params[condition].sets.includes(params.event.score_home.length + 1))
+                    return false
+            }
+            else {       
+                if (!params.bet.strategy.params[condition].sets.includes(params.event.score_home.length))
+                    return false
+            } 
         return true
     }
 
@@ -724,6 +736,29 @@ class StrategyExecutor {
         }
     }
 
+    eitherLose3(params, condition) {
+        if (params.bet.sport === "Tennis") {
+            let match = false
+            if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
+                let set = params.event.score_home.length
+                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                    set = params.bet.strategy.params[condition].set
+                if (set >= 1 && params.event.score_home.length == set && params.event.score_away.length == set) {
+                    const home_squence = params.event.score_home.slice(0, set)
+                    const away_squence = params.event.score_away.slice(0, set)
+                    if (params.event.hasOwnProperty('lastIsRunner'))
+                        if (countElementsGE(home_squence, away_squence) > 0) {
+                            match = true
+                        }
+                        else if (countElementsGE(away_squence, home_squence) > 0) {
+                            match = true
+                        }
+                }
+            }
+            return match
+        }
+    }
+
     eitherLose(params, condition) {
         if (params.bet.sport === "Tennis") {
             let match = false
@@ -1118,7 +1153,7 @@ class StrategyExecutor {
             //     price = 1.01
             if (!global.placing) {
                 global.placing = true
-                if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && params.event.score_home.length == 1))
+                if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && !currentBets.length))
                     await params.bet.page.waitForTimeout(15000);
 
                 // params.bet.pre.cancelled = false

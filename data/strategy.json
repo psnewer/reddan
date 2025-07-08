@@ -338,6 +338,41 @@
             "action": "placeBet"
         }
     ],
+    "tennis_2s": [
+        {
+            "condition": "notInPlay",
+            "action": "break"
+        },
+        {
+            "condition": "breakdown",
+            "checktion":["BreakdownNotMatch"],
+            "action": "break"
+        },
+        {
+            "condition": "drawGames",
+            "checktion":["drawGamesNotMatch","checkSet"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose3",
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherLose",
+            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "loseSets",
+            "checktion":["deltaIn","loseSetsNotMatch","checkInjury"],
+            "action": "placeBet"
+        },
+        {
+            "condition": "eitherDraw",
+            "checktion":["eitherDrawNotMatch"],
+            "action": "placeBet"
+        }
+    ],
     "tennis_002": [
         {
             "condition": "notInPlay",

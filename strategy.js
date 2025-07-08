@@ -22,10 +22,10 @@ class StrategyExecutor {
 
         for (let rule of strategy) {
             if (this[rule.condition](params, rule.condition)) {
-                // console.log(rule.condition)
+                console.log(rule.condition)
                 if (rule.hasOwnProperty('checktion')) {
                     for (let check of rule.checktion) {
-                        // console.log(check)
+                        console.log(check)
                         if (!this[check](params, rule.condition))
                             return
                     }
@@ -74,7 +74,7 @@ class StrategyExecutor {
 
     drawGames3(params, condition) {
         if (this.drawGames(params, condition))
-            if (params.bet.strategy.params[condition].set == params.event.score_home.length + 1)
+            if (params.bet.strategy.params[condition].set.includes(params.event.score_home.length + 1))
                 return true
         return false
     }
@@ -104,6 +104,19 @@ class StrategyExecutor {
         return true
     }
 
+    checkSet(params, condition) {
+        if (params.bet.strategy.params[condition].hasOwnProperty('set'))  
+            if (this.inSets(params, condition)) {
+                if (!params.bet.strategy.params[condition].set.includes(params.event.score_home.length + 1))
+                    return false
+            }
+            else {       
+                if (!params.bet.strategy.params[condition].set.includes(params.event.score_home.length))
+                    return false
+            } 
+        return true
+    }
+
     break(params, condition) {
         return true
     }
@@ -122,7 +135,7 @@ class StrategyExecutor {
 
     breakdown3(params, condition) {
         if (this.breakdown(params, condition))
-            if (params.bet.strategy.params[condition].set == params.event.score_home.length + 1)
+            if (params.bet.strategy.params[condition].set.includes(params.event.score_home.length + 1))
                 return true
         return false
     }
@@ -594,8 +607,8 @@ class StrategyExecutor {
             let match = false
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
                 let set = params.event.score_home.length
-                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                    set = params.bet.strategy.params[condition].set
+                // if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                //     set = params.bet.strategy.params[condition].set
                 if (set >= 1 && params.event.score_home.length == set && params.event.score_away.length == set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -649,8 +662,8 @@ class StrategyExecutor {
             let match = false
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
                 let set = params.event.score_home.length
-                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                    set = params.bet.strategy.params[condition].set
+                // if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                //     set = params.bet.strategy.params[condition].set
                 if (set >= 1 && params.event.score_home.length == set && params.event.score_away.length == set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -705,8 +718,8 @@ class StrategyExecutor {
         if (params.bet.sport === "Tennis") {
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
                 let set = params.event.score_home.length
-                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                    set = params.bet.strategy.params[condition].set
+                // if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                //     set = params.bet.strategy.params[condition].set
                 if (set >= 1 && params.event.score_home.length == set && params.event.score_away.length == set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -729,8 +742,8 @@ class StrategyExecutor {
             let match = false
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
                 let set = params.event.score_home.length
-                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                    set = params.bet.strategy.params[condition].set
+                // if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                //     set = params.bet.strategy.params[condition].set
                 if (set >= 1 && params.event.score_home.length == set && params.event.score_away.length == set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -790,8 +803,8 @@ class StrategyExecutor {
             let match = false
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
                 let set = params.event.score_home.length
-                if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                    set = params.bet.strategy.params[condition].set
+                // if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                //     set = params.bet.strategy.params[condition].set
                 if (set >= 2 && params.event.score_home.length == set && params.event.score_away.length == set) {
                     const home_squence = params.event.score_home.slice(0, set)
                     const away_squence = params.event.score_away.slice(0, set)
@@ -852,8 +865,8 @@ class StrategyExecutor {
             if (params.event.hasOwnProperty('score_home') && params.event.hasOwnProperty('score_away')) {
                 if (params.bet.sport === "Tennis") {
                     let set = params.event.score_home.length
-                    if (params.bet.strategy.params[condition].hasOwnProperty('set'))
-                        set = params.bet.strategy.params[condition].set
+                    // if (params.bet.strategy.params[condition].hasOwnProperty('set'))
+                    //     set = params.bet.strategy.params[condition].set
                     if (set)
                         return (Math.abs(Number(params.event.score_home[set - 1]) - Number(params.event.score_away[set - 1])) <= delta)
                 }

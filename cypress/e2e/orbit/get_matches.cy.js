@@ -106,46 +106,45 @@ describe('Extract and Fill Data', () => {
                                   "dash": false,
                                   "vol": 10,
                                   "strategy": {
-                                    "name": "tennis_2w",
-                                    "params": {
-                                      "notInPlay": {
-                                        "price": 1.3
-                                      },
-                                      "breakdown3": {
-                                        "set": 3,
-                                        "coldstart": false,
-                                        "pick": "both",
-                                        "side": "BACK"
-                                      },
-                                      "drawGames3": {
-                                        "set": 3,
-                                        "anchor": "both",
-                                        "side": "BACK"
-                                      },
-                                      "breakdown": {
-                                        "until": 2,
-                                        "side": "BACK",
-                                        "first_runner": true,
-                                        "first_oth": false,
-                                        "profit": 1.0
-                                      },
-                                      "drawGames": {
-                                        "side": "BACK",
-                                        "scale": 1
-                                      },
-                                      "eitherLose": {
-                                        "first_runner": true,
-                                        "first_oth": false,
-                                        "side": "BACK",
-                                        "until": 1
-                                      },
-                                      "eitherDraw": {
-                                        "until": 2,
-                                        "rec": 1,
-                                        "side": "BACK"
-                                      }
-                                    }
-                                  },
+    "name": "tennis_2w",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "breakdown3": {
+        "set": 3,
+        "coldstart": false,
+        "pick": "both",
+        "side": "BACK"
+      },
+      "drawGames3": {
+        "set": 3,
+        "anchor": "both",
+        "side": "BACK"
+      },
+      "breakdown": {
+        "until": 2,
+        "side": "BACK",
+        "first_runner": true,
+        "first_oth": false,
+        "profit": 1.0
+      },
+      "drawGames": {
+        "side": "BACK",
+        "scale": 1
+      },
+      "eitherLose": {
+        "first_runner": true,
+        "first_oth": false,
+        "side": "BACK",
+        "until": 1
+      },
+      "eitherDraw": {
+        "rec": 1,
+        "until": 2
+      }
+    }
+  },
                                   "oth_runner": oth_runner,
                                   "handicap": 0,
                                   "oth_handicap": 0,

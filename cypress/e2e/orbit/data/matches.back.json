@@ -105,7 +105,8 @@
         "first_oth": true
       },
       "eitherLose3": {
-        "set": 3
+        "set": 3,
+        "side": "BACK"
       },
       "eitherLose": {
         "set": 2,
@@ -113,12 +114,6 @@
         "first_runner": false,
         "first_oth": false,
         "side": "BACK"
-      },
-      "loseSets": {
-        "set": 1,
-        "until": 1,
-        "side": "BACK",
-        "price": 1.7
       },
       "eitherDraw": {
         "rec": 1,

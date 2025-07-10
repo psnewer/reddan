@@ -64,7 +64,7 @@ const { CANCELLED } = require('dns');
     const executor = new StrategyExecutor('./data/strategy.json');
     await executor.initialize();
 
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 1000; i++) {
       await page.waitForTimeout(1000);
 
       global.placing = false
@@ -133,6 +133,9 @@ const { CANCELLED } = require('dns');
               }
               if (bet.pre.hasOwnProperty('edited')) {
                 _bet.pre.edited = bet.pre.edited
+              }
+              if (bet.pre.hasOwnProperty('hasBought')) {
+                _bet.pre.hasBought = bet.pre.hasBought
               }
             } catch (error) {
               const subject = 'Test Failure';

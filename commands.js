@@ -38,7 +38,7 @@ async function login(page) {
     await page.type('input[name=username]', json['username']);
     await page.type('input[name=password]', json['password']);
     await page.click('button[type="submit"]'); // 注意：根据实际情况替换为正确的表单提交方法
-    await page.click('.biab_btn-continue'); // 根据实际情况调整选择器
+    await page.locator('xpath=//button[normalize-space()="OK"]').click(); // 根据实际情况调整选择器
     return true
 }
 

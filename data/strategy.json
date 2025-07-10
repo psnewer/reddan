@@ -350,21 +350,17 @@
         },
         {
             "condition": "drawGames",
-            "checktion":["drawGamesNotMatch","checkSet"],
+            "checktion":["drawGamesNotMatch","checkSet","checkBought"],
             "action": "placeBet"
         },
         {
             "condition": "eitherLose3",
+            "checktion":["checkBought"],
             "action": "placeBet"
         },
         {
             "condition": "eitherLose",
             "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
-            "action": "placeBet"
-        },
-        {
-            "condition": "loseSets",
-            "checktion":["deltaIn","loseSetsNotMatch","checkInjury"],
             "action": "placeBet"
         },
         {

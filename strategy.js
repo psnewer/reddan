@@ -116,6 +116,12 @@ class StrategyExecutor {
         return true
     }
 
+    checkBought(params, condition) {
+        if (params.bet.pre.hasBought)  
+            return false
+        return true
+    }
+
     break(params, condition) {
         return true
     }

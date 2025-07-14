@@ -25,7 +25,7 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("Women's Wimbledon 2025")
+            competitionText.includes("Men's Wimbledon 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -106,42 +106,24 @@ describe('Extract and Fill Data', () => {
                                   "dash": false,
                                   "vol": 10,
                                   "strategy": {
-    "name": "tennis_2w",
+    "name": "tennis_11",
     "params": {
       "notInPlay": {
         "price": 1.3
       },
-      "breakdown3": {
+      "loseHang": {
+        "rec": 1.0,
         "set": 3,
-        "coldstart": false,
-        "pick": "both",
         "side": "BACK"
       },
-      "drawGames3": {
-        "set": 3,
-        "anchor": "both",
+      "loseSets": {
+        "set": 1,
+        "until": 1,
+        "side": "BACK",
+        "price": 1.7
+      },
+      "drawSets": {
         "side": "BACK"
-      },
-      "breakdown": {
-        "until": 2,
-        "side": "BACK",
-        "first_runner": true,
-        "first_oth": false,
-        "profit": 1.0
-      },
-      "drawGames": {
-        "side": "BACK",
-        "scale": 1
-      },
-      "eitherLose": {
-        "first_runner": true,
-        "first_oth": false,
-        "side": "BACK",
-        "until": 1
-      },
-      "eitherDraw": {
-        "rec": 1,
-        "until": 2
       }
     }
   },

@@ -1,6 +1,7 @@
 import json
 import argparse
 import os
+import copy
 
 def load_json_file(file_path):
     """加载JSON文件"""
@@ -104,19 +105,19 @@ def update_json(old_file, new_file, matches_file):
     
     # 遍历旧数据并更新
     updated_old_data = []
-    for old_item in old_data:
-        old_home = old_item.get('home')
-        old_away = old_item.get('away')
+    for new_item in new_data:
+        new_home = new_item.get('home')
+        new_away = new_item.get('away')
         
         # 使用filter查找完全匹配的new_item
-        matched_new_items = list(filter(
-            lambda x: x.get('home') == old_home and x.get('away') == old_away,
-            new_data
+        matched_old_items = list(filter(
+            lambda x: x.get('home') == new_home and x.get('away') == new_away,
+            old_data
         ))
         
-        if matched_new_items:
+        if matched_old_items:
             # 取第一个匹配项（假设唯一）
-            new_item = matched_new_items[0]
+            old_item = copy.deepcopy(matched_old_items[0])
             
             # 处理strategy
             if 'strategy' in new_item and 'strategy' in old_item:
@@ -154,7 +155,7 @@ def update_json(old_file, new_file, matches_file):
             updated_old_data.append(old_item)
         else:
             # 没有匹配的新数据，跳过不保留
-            print(f"警告: 未找到完全匹配项 home={old_home}, away={old_away}，已跳过")
+            print(f"警告: 未找到完全匹配项 home={new_home}, away={new_away}，已跳过")
     
     save_json_file(updated_old_data, old_file)
     print(f"更新完成，结果已保存回 {old_file}。共处理 {len(updated_old_data)} 条记录")

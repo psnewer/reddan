@@ -422,7 +422,7 @@
         },
         {
             "condition": "loseSets",
-            "checktion":["drawGames","deltaIn","loseSetsNotMatch","checkInjury"],
+            "checktion":["_drawGames","deltaIn","loseSetsNotMatch","checkInjury"],
             "action": "placeBet"
         },
         {

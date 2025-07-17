@@ -265,7 +265,13 @@ async function assertBet(currentBet, selectionId, params, condition) {
 
 async function fetchData(url) {
   if (url.includes('betfair')) {
-    const response = await axios.get(url, { timeout: 20000, httpAgent: proxyAgent, httpsAgent: proxyAgent});
+    const response = await axios.get(url, { timeout: 20000, httpAgent: proxyAgent, httpsAgent: proxyAgent, headers: {
+    'Accept': 'application/json',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+    'Referer': 'https://www.betfair.com/',
+    'Origin': 'https://www.betfair.com',
+    'Cookie': 'vid=910b445e-89d0-4399-a71f-3282cbeee61d; language=en_GB; betexPtk=betexLocale%3Den%7EbetexRegion%3DGBR; bfsd=ts=1736993547799|st=p; storageSSC=lsSSC%3D1; _scid=tj0CfmxWvAQOCaxc4Fs0md9CzvrVdyfJ; _ga=GA1.1.1896235610.1736993616; _sctr=1%7C1736956800000; QuantumMetricUserID=4ec1a3a34bb17aa79260e076d6978d1a; _scid_r=xL0CfmxWvAQOCaxc4Fs0md9CzvrVdyfJq0NB3Q; _uetvid=82b27870d3af11efbdfdad2f61c76a77|1hslsbs|1736996247790|6|1|bat.bing.com/p/insights/c/b; TEAL=v:21946ce3651195768697118627887506f27716799c4$t:1736998048350$sn:2$en:8$s:1736996068836%3Bexp-sess; _ga_DQPFWC2D61=GS1.1.1736996068.2.1.1736996290.0.0.971246078' 
+  }});
     return response.data; // 直接返回解析后的 JSON 数据
   }else {
     const response = await axios.get(url, { timeout: 20000});

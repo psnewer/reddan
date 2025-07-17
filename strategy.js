@@ -168,6 +168,10 @@ class StrategyExecutor {
                         if (params.event.lastIsRunner && Math.trunc(params.event.oth_win) >= 0)
                             match = false
                     }
+                    if (params.bet.anchor == 2) {
+                        if (!params.event.lastIsRunner && Math.trunc(params.event.runner_win) >= 0)
+                            match = false
+                    }
                     else if (params.bet.anchor == 0) {
                         if (params.bet.pre.DrawGames && Math.trunc(params.event.oth_win) >= 0)
                             match = false
@@ -483,6 +487,10 @@ class StrategyExecutor {
                         }
                     if (params.bet.anchor == 1) {
                         if (params.event.lastIsRunner && Math.trunc(params.event.oth_win) >= 0)
+                            return false
+                    }
+                    if (params.bet.anchor == 2) {
+                        if (!params.event.lastIsRunner && Math.trunc(params.event.runner_win) >= 0)
                             return false
                     }
                     return true

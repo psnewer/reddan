@@ -38,3 +38,10 @@ Cypress.Commands.add('login', (username, password) => {
         })   
     })    
 });
+
+Cypress.Commands.add('getIfExists', (selector) => {
+  return cy.get('body').then(($body) => {
+    const el = $body.find(selector);
+    return el.length ? cy.wrap(el) : cy.wrap(null);
+  });
+});

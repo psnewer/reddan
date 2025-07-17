@@ -25,7 +25,8 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            competitionText.includes("Men's Wimbledon 2025")
+            // competitionText.includes("ATP Los Cabos 2025") || competitionText.includes("ATP Bastad 2025") || competitionText.includes("ATP Gstaad 2025")
+            competitionText.includes("WTA Hamburg 2025") || competitionText.includes("WTA Iasi 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -42,7 +43,7 @@ describe('Extract and Fill Data', () => {
                   const $groupLi = groupItems.eq(index);
                   const groupText = $groupLi.text();
 
-                  if (!groupText.includes('Double')) {
+                  if (!groupText.includes('Double') && !groupText.includes('Qualifying Matches')) {
                     cy.wrap($groupLi).click();
                     
 
@@ -64,86 +65,106 @@ describe('Extract and Fill Data', () => {
                           // cy.wait(2000); // 根据需要调整等待时间
 
                           // 处理 event 页面上的数据提取
-                          if (!["34357879","33927225","33953208"].includes(data_event_id))
-                          cy.get(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
-                            
-                            const data_market_id = $rowDiv.attr('data-market-id');
-                            let homeName = $rowDiv.find('p[title]').eq(0).attr('title');
-                            let awayName = $rowDiv.find('p[title]').eq(1).attr('title');
+                          // if (!["34357879","33927225","34523159"].includes(data_event_id))
+                          cy.getIfExists(`div[role="row"][data-event-id="${data_event_id}"]`).then(($rowDiv) => {
+                            if ($rowDiv) {
+                              const data_market_id = $rowDiv.attr('data-market-id');
+                              let homeName = $rowDiv.find('p[title]').eq(0).attr('title');
+                              let awayName = $rowDiv.find('p[title]').eq(1).attr('title');
 
-                            const selectionDivs = $rowDiv.find('div[data-selection-id]');
-                            const homeDiv = selectionDivs.eq(0);
-                            const awayDiv = selectionDivs.eq(1);
+                              const selectionDivs = $rowDiv.find('div[data-selection-id]');
+                              const homeDiv = selectionDivs.eq(0);
+                              const awayDiv = selectionDivs.eq(1);
 
-                            let homeOdds = homeDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
-                            let homeSelectionId = homeDiv.attr('data-selection-id');
+                              let homeOdds = homeDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
+                              let homeSelectionId = homeDiv.attr('data-selection-id');
 
-                            let awayOdds = awayDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
-                            let awaySelectionId = awayDiv.attr('data-selection-id');
+                              let awayOdds = awayDiv.find('button[class*="back-cell"]').find('span[class*="betOdds"]').first().text();
+                              let awaySelectionId = awayDiv.attr('data-selection-id');
 
-                                let runner,oth_runner,selectionId,oth_selectionId;
-                                if (homeOdds <= awayOdds) {
-                                  runner = homeName;
-                                  oth_runner = awayName;
-                                  selectionId = homeSelectionId;
-                                  oth_selectionId = awaySelectionId;
-                                } else {
-                                  runner = awayName;
-                                  oth_runner = homeName
-                                  selectionId = awaySelectionId;
-                                  oth_selectionId = homeSelectionId;
-                                }
+                                  let runner,oth_runner,selectionId,oth_selectionId;
+                                  if (homeOdds <= awayOdds) {
+                                    runner = homeName;
+                                    oth_runner = awayName;
+                                    selectionId = homeSelectionId;
+                                    oth_selectionId = awaySelectionId;
+                                  } else {
+                                    runner = awayName;
+                                    oth_runner = homeName
+                                    selectionId = awaySelectionId;
+                                    oth_selectionId = homeSelectionId;
+                                  }
 
-                                // 创建目标对象
-                                let result =   {
-                                  "sport": "Tennis",
-                                  "competition": competitionText,
-                                  "home": homeName,
-                                  "away": awayName,
-                                  "market": "Match Odds",
-                                  "runner": runner,
-                                  "anchor" : 1,
-                                  "dash": false,
-                                  "vol": 10,
-                                  "strategy": {
-    "name": "tennis_11",
+                                  // 创建目标对象
+                                  let result =   {
+                                    "sport": "Tennis",
+                                    "competition": competitionText,
+                                    "home": homeName,
+                                    "away": awayName,
+                                    "market": "Match Odds",
+                                    "runner": runner,
+                                    "anchor" : 1,
+                                    "dash": true,
+                                    "vol": 10,
+                                    "strategy": {
+    "name": "tennis_2w",
     "params": {
       "notInPlay": {
         "price": 1.3
       },
-      "loseHang": {
-        "rec": 1.0,
+      "breakdown3": {
         "set": 3,
+        "coldstart": false,
+        "pick": "both",
         "side": "BACK"
       },
-      "loseSets": {
-        "set": 1,
-        "until": 1,
-        "side": "BACK",
-        "price": 1.7
+      "drawGames3": {
+        "set": 3,
+        "anchor": "both",
+        "side": "BACK"
       },
-      "drawSets": {
+      "breakdown": {
+        "until": 2,
+        "side": "BACK",
+        "first_runner": true,
+        "first_oth": false,
+        "profit": 1.0
+      },
+      "drawGames": {
+        "side": "BACK",
+        "scale": 1
+      },
+      "eitherLose": {
+        "first_runner": true,
+        "first_oth": false,
+        "side": "BACK",
+        "until": 1
+      },
+      "eitherDraw": {
+        "rec": 1,
+        "until": 2,
         "side": "BACK"
       }
     }
   },
-                                  "oth_runner": oth_runner,
-                                  "handicap": 0,
-                                  "oth_handicap": 0,
-                                  "data-event-id": data_event_id,
-                                  "data-market-id": data_market_id,
-                                  "selectionId": selectionId,
-                                  "oth_selectionId": oth_selectionId,
-                                  "pre": {}
-                                }
-                                // if (Math.min(homeOdds,awayOdds) < 1.4) {
-                                //   if (result.strategy.params.breakdown.hasOwnProperty('profit')) {
-                                //       delete result.strategy.params.breakdown.profit
-                                //       result.strategy.params.breakdown.price = 1.6
-                                //   }
-                                // }
-                                // 将结果添加到数组中
-                                results.push(result);
+                                    "oth_runner": oth_runner,
+                                    "handicap": 0,
+                                    "oth_handicap": 0,
+                                    "data-event-id": data_event_id,
+                                    "data-market-id": data_market_id,
+                                    "selectionId": selectionId,
+                                    "oth_selectionId": oth_selectionId,
+                                    "pre": {}
+                                  }
+                                  // if (Math.min(homeOdds,awayOdds) < 1.4) {
+                                  //   if (result.strategy.params.breakdown.hasOwnProperty('profit')) {
+                                  //       delete result.strategy.params.breakdown.profit
+                                  //       result.strategy.params.breakdown.price = 1.6
+                                  //   }
+                                  // }
+                                  // 将结果添加到数组中
+                                  results.push(result);
+                              }
                           });
                               clickEvents(eventIndex + 1);
 

@@ -214,6 +214,9 @@ function checkBets(params) {
 
 async function assertBet(currentBet, selectionId, params, condition) {
   let res = true
+
+  if (!params.event.oth_back_odds || !params.event.back_odds || !params.event.lay_odds || !params.event.oth_lay_odds)
+      res = false
   // if (currentBet) {
   //   if (currentBet.selectionId == selectionId && params.bet.strategy.params[condition].side == currentBet.side)
   //     res = false

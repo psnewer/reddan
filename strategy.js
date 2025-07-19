@@ -1170,14 +1170,18 @@ class StrategyExecutor {
                 return
             }
 
-            // if (params.bet.pre.cancelled && currentBets.length && params.bet.strategy.params[condition].side == 'BACK')
-            //     price = 1.01
             if (!global.placing) {
                 global.placing = true
                 if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && !currentBets.length))
                     await params.bet.page.waitForTimeout(15000);
+                if (this.betweenSets(params, condition))
+                    if (!params.bet.pre.cancelled) {
+                        params.bet.pre.cancelled = true
+                        await params.bet.page.waitForTimeout(110000);
+                        return
+                    }
 
-                // params.bet.pre.cancelled = false
+                params.bet.pre.cancelled = false
                 params.event.placed = true
                 // price = Number(selectionId)==params.bet.selectionId ? params.bet.strategy.params[condition].side == "BACK" ? Math.max(Math.floor(params.event.back_odds) , 1.01) : Math.ceil(Number(params.event.lay_odds)) : params.bet.strategy.params[condition].side == "BACK" ? Math.max(Math.floor(params.event.oth_back_odds),1.01) : Math.ceil(Number(params.event.oth_lay_odds))
                 price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))

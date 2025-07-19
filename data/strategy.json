@@ -170,7 +170,7 @@
         },
         {
             "condition": "loseSets",
-            "checktion":["deltaIn","loseSetsNotMatch","checkInjury"],
+            "checktion":["deltaIn","loseSetsNotMatch"],
             "action": "placeBet"
         },
         {
@@ -186,7 +186,7 @@
         },
         {
             "condition": "loseSets",
-            "checktion":["deltaIn","loseSetsNotMatch","checkInjury"],
+            "checktion":["deltaIn","loseSetsNotMatch"],
             "action": "placeBet"
         },
         {
@@ -218,7 +218,7 @@
         },
         {
             "condition": "loseSets",
-            "checktion":["deltaIn","loseSetsNotMatch","checkInjury"],
+            "checktion":["deltaIn","loseSetsNotMatch"],
             "action": "placeBet"
         },
         {
@@ -245,7 +245,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -267,7 +267,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -293,7 +293,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -329,7 +329,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -360,7 +360,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -386,7 +386,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -402,7 +402,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -422,7 +422,7 @@
         },
         {
             "condition": "loseSets",
-            "checktion":["_drawGames","deltaIn","loseSetsNotMatch","checkInjury"],
+            "checktion":["_drawGames","deltaIn","loseSetsNotMatch"],
             "action": "placeBet"
         },
         {
@@ -442,7 +442,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -462,7 +462,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {
@@ -482,7 +482,7 @@
         },
         {
             "condition": "eitherLose",
-            "checktion":["deltaIn","eitherLoseNotMatch","checkInjury"],
+            "checktion":["deltaIn","eitherLoseNotMatch"],
             "action": "placeBet"
         },
         {

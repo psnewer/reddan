@@ -134,6 +134,9 @@ const { CANCELLED } = require('dns');
               if (bet.pre.hasOwnProperty('edited')) {
                 _bet.pre.edited = bet.pre.edited
               }
+              if (bet.pre.hasOwnProperty('cancelled')) {
+                _bet.pre.cancelled = bet.pre.cancelled
+              }
               if (bet.pre.hasOwnProperty('hasBought')) {
                 _bet.pre.hasBought = bet.pre.hasBought
               }

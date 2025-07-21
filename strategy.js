@@ -66,16 +66,9 @@ class StrategyExecutor {
                 if (params.bet.pre.hasBrokendown) {
                     params.bet.pre.hasDrawGames = true
                     params.bet.pre.DrawGames = true
-                    return true
                 }
-            }
-        return false
-    }
-
-    _drawGames(params, condition) {
-        if (this.inSets(params, condition))
-            if (!this.breakdown(params, condition))
                 return true
+            }
         return false
     }
 

@@ -25,8 +25,8 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            // competitionText.includes("ATP Los Cabos 2025") || competitionText.includes("ATP Bastad 2025") || competitionText.includes("ATP Gstaad 2025")
-            competitionText.includes("WTA Hamburg 2025") || competitionText.includes("WTA Iasi 2025")
+            competitionText.includes("ATP Kitzbuhel 2025") || competitionText.includes("ATP Umag 2025") || competitionText.includes("ATP Washington D.C. 2025")
+            // competitionText.includes("WTA Prague 2025") || competitionText.includes("WTA Washington 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -106,33 +106,59 @@ describe('Extract and Fill Data', () => {
                                     "anchor" : 1,
                                     "dash": true,
                                     "vol": 10,
-                                    "strategy": {
-    "name": "tennis_2w",
+                                    "strategy": 
+  //                                   {
+  //   "name": "tennis_2w",
+  //   "params": {
+  //     "notInPlay": {
+  //       "price": 1.3
+  //     },
+  //     "breakdown3": {
+  //       "set": 3,
+  //       "coldstart": false,
+  //       "pick": "both",
+  //       "side": "BACK"
+  //     },
+  //     "drawGames3": {
+  //       "set": 3,
+  //       "anchor": "both",
+  //       "side": "BACK"
+  //     },
+  //     "breakdown": {
+  //       "until": 2,
+  //       "side": "BACK",
+  //       "first_runner": true,
+  //       "first_oth": false,
+  //       "profit": 1.0
+  //     },
+  //     "drawGames": {
+  //       "side": "BACK",
+  //       "scale": 1
+  //     },
+  //     "eitherLose": {
+  //       "first_runner": true,
+  //       "first_oth": false,
+  //       "side": "BACK",
+  //       "until": 1
+  //     },
+  //     "eitherDraw": {
+  //       "rec": 1,
+  //       "until": 2,
+  //       "side": "BACK"
+  //     }
+  //   }
+  // },
+  {
+    "name": "tennis_002",
     "params": {
       "notInPlay": {
         "price": 1.3
-      },
-      "breakdown3": {
-        "set": 3,
-        "coldstart": false,
-        "pick": "both",
-        "side": "BACK"
-      },
-      "drawGames3": {
-        "set": 3,
-        "anchor": "both",
-        "side": "BACK"
       },
       "breakdown": {
         "until": 2,
         "side": "BACK",
         "first_runner": true,
-        "first_oth": false,
-        "profit": 1.0
-      },
-      "drawGames": {
-        "side": "BACK",
-        "scale": 1
+        "first_oth": true
       },
       "eitherLose": {
         "first_runner": true,
@@ -142,8 +168,11 @@ describe('Extract and Fill Data', () => {
       },
       "eitherDraw": {
         "rec": 1,
-        "until": 2,
-        "side": "BACK"
+        "until": 2
+      },
+      "drawGames": {
+        "side": "BACK",
+        "scale": 1
       }
     }
   },

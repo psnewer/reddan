@@ -113,6 +113,9 @@ const { CANCELLED } = require('dns');
               if (params.event.hasOwnProperty('hasBrokendown') && params.event.hasBrokendown != bet.pre.hasBrokendown) {
                 _bet.pre.hasBrokendown = params.event.hasBrokendown
               }
+              if (params.event.hasOwnProperty('hasBreakdown') && params.event.hasBreakdown != bet.pre.hasBreakdown) {
+                _bet.pre.hasBreakdown = params.event.hasBreakdown
+              }
               if (bet.pre.hasOwnProperty('hasDrawGames')) {
                 _bet.pre.hasDrawGames = bet.pre.hasDrawGames
               }

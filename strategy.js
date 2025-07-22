@@ -86,6 +86,8 @@ class StrategyExecutor {
             else {
                 params.event.hasBrokendown = false
                 params.bet.pre.DrawGames = false
+                if (countElementsGE(params.event.score_home, params.event.score_away) == 0)
+                    params.event.hasBreakdown = None
             }
         return false
     }
@@ -203,30 +205,38 @@ class StrategyExecutor {
                                 params.bet.strategy.params[condition].on = true
                         }
                 }
-            } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0 && !(params.bet.pre.hasDrawGames && params.bet.dash)) {
-                if (!(params.bet.strategy.params[condition].first_runner || params.bet.strategy.params[condition].first_oth)) {
-                    if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
-                        params.bet.strategy.params[condition].oth = true
-                    else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
-                        params.bet.strategy.params[condition].oth = true
-                    match = true
-                } else {
-                    if (params.bet.strategy.params[condition].first_runner) {
-                        if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
-                            match = true
-                        else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
-                            match = true
-                    }
-                    if (params.bet.strategy.params[condition].first_oth) {
-                        if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner) {
-                            match = true
+            } else if (countElementsGE(params.event.score_home, params.event.score_away) == 0) {
+                if (!(params.bet.pre.hasDrawGames && params.bet.dash)) {
+                    if (!(params.bet.strategy.params[condition].first_runner || params.bet.strategy.params[condition].first_oth)) {
+                        if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner)
                             params.bet.strategy.params[condition].oth = true
-                        }
-                        else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner) {
-                            match = true
+                        else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner)
                             params.bet.strategy.params[condition].oth = true
+                        match = true
+                    } else {
+                        if (params.bet.strategy.params[condition].first_runner) {
+                            if (params.event.score_homeS > params.event.score_awayS && params.bet.away == params.bet.runner)
+                                match = true
+                            else if (params.event.score_homeS < params.event.score_awayS && params.bet.home == params.bet.runner)
+                                match = true
+                        }
+                        if (params.bet.strategy.params[condition].first_oth) {
+                            if (params.event.score_homeS > params.event.score_awayS && params.bet.home == params.bet.runner) {
+                                match = true
+                                params.bet.strategy.params[condition].oth = true
+                            }
+                            else if (params.event.score_homeS < params.event.score_awayS && params.bet.away == params.bet.runner) {
+                                match = true
+                                params.bet.strategy.params[condition].oth = true
+                            }
                         }
                     }
+                }
+                if (!params.bet.pre.DrawGames) {
+                    if (params.event.score_homeS > params.event.score_awayS) 
+                        params.event.hasBreakdown = params.bet.away == params.bet.runner ? 'oth' : 'runner'
+                    else 
+                        params.event.hasBreakdown = params.bet.home == params.bet.runner ? 'oth' : 'runner'
                 }
             }
         }
@@ -1002,12 +1012,12 @@ class StrategyExecutor {
                         params.bet.strategy.params[condition]['oth'] = true
                 }
 
-                if (params.bet.strategy.params[condition].first_runner) {
+                if (params.bet.strategy.params[condition].first_runner || (params.bet.hasBreakdown && params.bet.pre.hasBreakdown == 'oth')) {
                     if ((params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK')
                         || (!params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY'))
                         return
                 }
-                if (params.bet.strategy.params[condition].first_oth) {
+                if (params.bet.strategy.params[condition].first_oth || (params.bet.hasBreakdown && params.bet.pre.hasBreakdown == 'runner')) {
                     if ((params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'LAY')
                         || (!params.bet.strategy.params[condition]['oth'] && params.bet.strategy.params[condition].side == 'BACK'))
                         return

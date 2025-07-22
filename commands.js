@@ -308,7 +308,7 @@ async function placeBet(page, marketId, price, size, selectionId, handicap, side
 
     const response = await axios(payload);
     if (response.status == 200) {
-        // await page.waitForTimeout(30000);
+        await page.waitForTimeout(30000);
     }
 };
 
@@ -365,7 +365,7 @@ async function cancelBet(page, marketId, offerId, price, size, selectionId, hand
 
     const response = await axios(payload);
     if (response.status == 200) {
-        // await page.waitForTimeout(30000);
+        await page.waitForTimeout(30000);
     }
 };
 
@@ -444,7 +444,7 @@ async function editBet(page, marketId, offerId, side, price, size, sizeRemaining
 
     const response = await axios(payload);
     if (response.status == 200) {
-        // await page.waitForTimeout(30000);
+        await page.waitForTimeout(30000);
     }
 };
 

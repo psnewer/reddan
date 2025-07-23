@@ -186,7 +186,7 @@ describe('Extract and Fill Data', () => {
                                     "data-market-id": data_market_id,
                                     "selectionId": selectionId,
                                     "oth_selectionId": oth_selectionId,
-                                    "pre": {}
+                                    "pre": {'score':[]}
                                   }
                                   // if (Math.min(homeOdds,awayOdds) < 1.4) {
                                   //   if (result.strategy.params.breakdown.hasOwnProperty('profit')) {

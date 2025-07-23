@@ -89,6 +89,7 @@ async function getEventData(bet) {
                                     params.event.score_homeS = event['Tr1S' + i]
                                     params.event.score_awayS = event['Tr2S' + i]
                                     params.event.Esrv = event.Esrv
+                                    params.bet.pre.score.push({'Esrv':event.Esrv,'score_homeS':event['Tr1S' + i],'score_awayS':event['Tr2S' + i]})
                                     if (!params.bet.pre.hasOwnProperty('origin_odds')) {
                                         params.bet.pre.origin_odds = params.event.back_odds
                                         params.bet.pre.oth_origin_odds = params.event.oth_back_odds

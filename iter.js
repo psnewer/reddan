@@ -134,6 +134,9 @@ const { CANCELLED } = require('dns');
                 if (params.event.placed)
                   _bet.pre.num_bets += 1
               }
+              if (bet.pre.hasOwnProperty('score')) {
+                _bet.pre.score = bet.pre.score
+              }
               if (bet.pre.hasOwnProperty('edited')) {
                 _bet.pre.edited = bet.pre.edited
               }

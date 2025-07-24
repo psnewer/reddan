@@ -128,6 +128,8 @@ const { CANCELLED } = require('dns');
                 _bet.pre.score_awayS = params.event.score_awayS
                 _bet.pre.origin_odds = bet.pre.origin_odds
                 _bet.pre.oth_origin_odds = bet.pre.oth_origin_odds
+                _bet.pre.score_home = params.event.score_home
+                _bet.pre.score_away = params.event.score_away
               }
               if (bet.pre.hasOwnProperty('num_bets')) {
                 _bet.pre.num_bets = bet.pre.num_bets

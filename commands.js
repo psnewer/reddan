@@ -72,18 +72,33 @@ async function getEventData(bet) {
                     params.event.timeElapsed = Number(event.Eps)
                     if (/^S\d+$/.test(event.Eps)) {
                         params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
-                        if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2)) {
+                        if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2) && params.event.timeElapsed > params.bet.pre.score_home.length) {
+                            if (params.event.timeElapsed > params.bet.pre.score_home.length + 1) {
+                                params.event.score_homeS = 0
+                                params.event.score_awayS = 0
+                                params.event.Esrv = 0
+                            }
+
                             for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
                                 params.event.score_home.push(Number(event['Tr1S' + i]))
                                 params.event.score_away.push(Number(event['Tr2S' + i]))
                             }
                             let i = Number(event.Tr1) + Number(event.Tr2) + 1
                             if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
+                                if (!params.bet.pre.hasOwnProperty('origin_odds')) {
+                                    params.bet.pre.origin_odds = params.event.back_odds
+                                    params.bet.pre.oth_origin_odds = params.event.oth_back_odds
+                                }
                                 if (event.hasOwnProperty('Tr1G') && event.hasOwnProperty('Tr2G')) {
                                     params.event.score_homeG = Number(event['Tr1G'])
                                     params.event.score_awayG = Number(event['Tr2G'])
                                 }
-                                if (params.bet.pre.Esrv != Number(event.Esrv) && (Number(event['Tr1S' + i]) > params.bet.pre.score_homeS || Number(event['Tr2S' + i]) > params.bet.pre.score_awayS)) {
+                                if (!params.bet.pre.hasOwnProperty('Esrv')) {
+                                    params.event.score_homeS = Number(event['Tr1S' + i])
+                                    params.event.score_awayS = Number(event['Tr2S' + i])
+                                    params.event.Esrv = Number(event.Esrv)
+                                }
+                                else if (params.bet.pre.Esrv != Number(event.Esrv) && (Number(event['Tr1S' + i]) > params.bet.pre.score_homeS || Number(event['Tr2S' + i]) > params.bet.pre.score_awayS)) {
                                     // if (params.bet.pre.hasOwnProperty('Esrv') || (!params.event.score_home.length && (event['Tr1S' + i] + event['Tr2S' + i] <= 1))) {
                                     params.event.score_homeS = Number(event['Tr1S' + i])
                                     params.event.score_awayS = Number(event['Tr2S' + i])
@@ -95,28 +110,10 @@ async function getEventData(bet) {
                                     }
                                     // }
                                 }
-                                else if (Number(event['Tr1S' + i]) == 0 && Number(event['Tr2S' + i]) == 0) {
-                                    params.event.score_homeS = Number(event['Tr1S' + i])
-                                    params.event.score_awayS = Number(event['Tr2S' + i])
-                                    params.event.Esrv = Number(event.Esrv)
-                                    if (!params.bet.pre.hasOwnProperty('origin_odds')) {
-                                        params.bet.pre.origin_odds = params.event.back_odds
-                                        params.bet.pre.oth_origin_odds = params.event.oth_back_odds
-                                    }
-                                }
                                 else if (params.bet.pre.hasOwnProperty('Esrv')) {
                                     params.event.score_homeS = params.bet.pre.score_homeS
                                     params.event.score_awayS = params.bet.pre.score_awayS
                                     params.event.Esrv = params.bet.pre.Esrv
-                                }
-                                else if (!params.bet.pre.hasOwnProperty('Esrv')) {
-                                    params.event.score_homeS = Number(event['Tr1S' + i])
-                                    params.event.score_awayS = Number(event['Tr2S' + i])
-                                    params.event.Esrv = Number(event.Esrv)
-                                    if (!params.bet.pre.hasOwnProperty('origin_odds')) {
-                                        params.bet.pre.origin_odds = params.event.back_odds
-                                        params.bet.pre.oth_origin_odds = params.event.oth_back_odds
-                                    }
                                 }
                             }
                         }

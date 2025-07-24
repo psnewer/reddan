@@ -87,7 +87,7 @@ class StrategyExecutor {
                 params.event.hasBrokendown = false
                 params.bet.pre.DrawGames = false
                 if (countElementsGE(params.event.score_home, params.event.score_away) == 0)
-                    params.event.hasBreakdown = None
+                    params.event.hasBreakdown = 'none'
             }
         return false
     }

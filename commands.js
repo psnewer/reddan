@@ -72,8 +72,8 @@ async function getEventData(bet) {
                     params.event.timeElapsed = Number(event.Eps)
                     if (/^S\d+$/.test(event.Eps)) {
                         params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
-                        if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2) && params.event.timeElapsed > params.bet.pre.score_home.length) {
-                            if (params.event.timeElapsed > params.bet.pre.score_home.length + 1) {
+                        if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2) && (!params.bet.pre.score_home || params.event.timeElapsed > params.bet.pre.score_home.length)) {
+                            if (!params.bet.pre.score_home || params.event.timeElapsed > params.bet.pre.score_home.length + 1) {
                                 params.event.score_homeS = 0
                                 params.event.score_awayS = 0
                                 params.event.Esrv = 0

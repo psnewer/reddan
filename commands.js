@@ -64,27 +64,37 @@ async function getEventData(bet) {
     }
     else if (bet.sport === "Tennis") {
         let event = getEvent(bet.score_tennis, bet)
+        if (bet.home == 'Ben Shelton')
+            console.log(event)
         if (event != null) {
+            console.log('111')
             if (event.hasOwnProperty('Tr1') && event.hasOwnProperty('Tr2')) {
+                console.log('222')
                 params.event.score_home = []
                 params.event.score_away = []
                 if (event.hasOwnProperty('Eps')) {
+                    console.log('333')
                     params.event.timeElapsed = Number(event.Eps)
                     if (/^S\d+$/.test(event.Eps)) {
+                        console.log('444')
                         params.event.timeElapsed = Number(event.Eps.match(/^S(\d+)$/)[1])
                         if (params.event.timeElapsed > Number(event.Tr1) + Number(event.Tr2) && (!params.bet.pre.score_home || params.event.timeElapsed > params.bet.pre.score_home.length)) {
+                            console.log('555')
                             if (!params.bet.pre.score_home || params.event.timeElapsed > params.bet.pre.score_home.length + 1) {
+                                console.log('666')
                                 params.event.score_homeS = 0
                                 params.event.score_awayS = 0
                                 params.event.Esrv = 0
                             }
 
                             for (let i = 1; i <= Number(event.Tr1) + Number(event.Tr2); i++) {
+                                console.log('777')
                                 params.event.score_home.push(Number(event['Tr1S' + i]))
                                 params.event.score_away.push(Number(event['Tr2S' + i]))
                             }
                             let i = Number(event.Tr1) + Number(event.Tr2) + 1
                             if (event.hasOwnProperty('Tr1S' + i) && event.hasOwnProperty('Tr2S' + i) && event.hasOwnProperty('Esrv')) {
+                                console.log('888')
                                 if (!params.bet.pre.hasOwnProperty('origin_odds')) {
                                     params.bet.pre.origin_odds = params.event.back_odds
                                     params.bet.pre.oth_origin_odds = params.event.oth_back_odds
@@ -94,23 +104,27 @@ async function getEventData(bet) {
                                     params.event.score_awayG = Number(event['Tr2G'])
                                 }
                                 if (!params.bet.pre.hasOwnProperty('Esrv')) {
+                                    console.log('999')
                                     params.event.score_homeS = Number(event['Tr1S' + i])
                                     params.event.score_awayS = Number(event['Tr2S' + i])
                                     params.event.Esrv = Number(event.Esrv)
                                 }
                                 else if (params.bet.pre.Esrv != Number(event.Esrv) && (Number(event['Tr1S' + i]) > params.bet.pre.score_homeS || Number(event['Tr2S' + i]) > params.bet.pre.score_awayS)) {
+                                    console.log('100')
                                     // if (params.bet.pre.hasOwnProperty('Esrv') || (!params.event.score_home.length && (event['Tr1S' + i] + event['Tr2S' + i] <= 1))) {
                                     params.event.score_homeS = Number(event['Tr1S' + i])
                                     params.event.score_awayS = Number(event['Tr2S' + i])
                                     params.event.Esrv = Number(event.Esrv)
                                     params.bet.pre.score.push({'Esrv':event.Esrv,'score_homeS':event['Tr1S' + i],'score_awayS':event['Tr2S' + i]})
                                     if (!params.bet.pre.hasOwnProperty('origin_odds')) {
+                                        console.log('101')
                                         params.bet.pre.origin_odds = params.event.back_odds
                                         params.bet.pre.oth_origin_odds = params.event.oth_back_odds
                                     }
                                     // }
                                 }
                                 else if (params.bet.pre.hasOwnProperty('Esrv')) {
+                                    console.log('102')
                                     params.event.score_homeS = params.bet.pre.score_homeS
                                     params.event.score_awayS = params.bet.pre.score_awayS
                                     params.event.Esrv = params.bet.pre.Esrv

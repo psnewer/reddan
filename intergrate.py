@@ -6,6 +6,9 @@ with open('cypress/e2e/orbit/data/cands.json', 'r') as f1, open('cypress/e2e/orb
     j1 = json.load(f1)
     j2 = json.load(f2)
 
+j3 = [item for item in j2 if item.get('sport') == 'Tennis']
+j2 = [item for item in j2 if item.get('sport') == 'Soccer']
+
 # 统计 j1 中每个 (home, away) 组合出现的次数
 #home_away_counts = Counter((item["home"], item["away"], item["runner"]) for item in j1)
 
@@ -40,6 +43,7 @@ for i, item in enumerate(filtered_j1):
         filtered_j1[i] = j2_dict[home_away_pair]  # 用 j2 中的字典替换 j1 中的
 
 # 将结果保存回 j1 文件
+filtered_j1.extend(j3)
 with open('cypress/e2e/orbit/data/bets.json', 'w') as f2:
     json.dump(filtered_j1, f2, indent=4)
 

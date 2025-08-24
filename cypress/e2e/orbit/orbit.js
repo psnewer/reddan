@@ -23,14 +23,22 @@ async function runTest() {
 
       // Loop through each competition
       await page.waitForSelector('[data-test-collapse="_ITEM"][datatype="competition"]'); // 等待元素可见
+      const allSoccerLink = await page.locator('a.biab_item', { hasText: 'All Soccer' });
+      if (await allSoccerLink.count() > 0) { // 检查元素是否存在
+        await allSoccerLink.click(); // 如果存在则点击
+      } else {
+        console.log('未找到 "All Soccer" 链接'); // 不存在时记录日志
+      }
+      await page.waitForSelector('[data-test-collapse="_ITEM"][datatype="competition"]'); // 等待元素可见
       const competitions = await page.locator('[data-test-collapse="_ITEM"][datatype="competition"]').allTextContents();
+      
       for (const competition of competitions) {
         if (foundCompetition) break;
         // Check if competition matches the match league
         if (isCompetition(competition, match.league)) {
           foundCompetition = true;
 
-          await page.locator(`text=${competition}`).click();  // Click the matching competition
+          await page.locator(`text=${competition}`).first().click();  // Click the matching competition
           let foundTeam = false;
           // Loop through the rows of the competition
           await page.waitForSelector('div.rowsContainer'); // 等待元素可见

@@ -1181,7 +1181,7 @@ class StrategyExecutor {
                 if (this.betweenSets(params, condition))
                     if (!params.bet.pre.cancelled) {
                         params.bet.pre.cancelled = true
-                        await params.bet.page.waitForTimeout(110000);
+                        await params.bet.page.waitForTimeout(120000);
                         return
                     }
 

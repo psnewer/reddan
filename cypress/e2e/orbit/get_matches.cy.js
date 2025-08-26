@@ -106,7 +106,7 @@ describe('Extract and Fill Data', () => {
                                     "anchor" : 1,
                                     "dash": false,
                                     "hasBreakdown": true,
-                                    "vol": 10,
+                                    "vol": 7,
                                     "strategy": 
                                     {
     "name": "tennis_2w",

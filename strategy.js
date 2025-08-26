@@ -935,7 +935,6 @@ class StrategyExecutor {
 
     // 动作函数
     async placeBet(params, condition) {
-        console.log(params.event,condition)
         let CANCEL = false
         // 首先判断currentBets中是否已经place,如果place则cancel
         let currentBets = params.bet.currentBets

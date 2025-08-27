@@ -93,6 +93,40 @@
     }
   },
   {
+    "name": "tennis_2m",
+    "params": {
+      "notInPlay": {
+        "price": 1.3
+      },
+      "loseHang": {
+        "rec": 1.0,
+        "set": 3,
+        "side": "BACK"
+      },
+      "breakdown": {
+        "until": 2,
+        "side": "BACK",
+        "first_runner": true,
+        "first_oth": true
+      },
+      "drawGames": {
+        "side": "BACK",
+        "scale": 1
+      },
+      "eitherLose": {
+        "first_runner": true,
+        "first_oth": false,
+        "side": "BACK",
+        "until": 1,
+        "price": 1.7
+      },
+      "eitherDraw": {
+        "rec": 1,
+        "until": 2
+      }
+    }
+  },
+  {
     "name": "tennis_2s",
     "params": {
       "notInPlay": {
@@ -195,9 +229,7 @@
       },
       "eitherDraw": {
         "until": 2,
-        "rec": 1,
-        "side": "LAY",
-        "scale": 0
+        "rec": 1
       }
     }
   },

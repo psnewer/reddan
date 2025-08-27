@@ -25,8 +25,8 @@ describe('Extract and Fill Data', () => {
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
-            // competitionText.includes("Men's US Open 2025")
-            competitionText.includes("Women's US Open 2025")
+            competitionText.includes("Men's US Open 2025")
+            // competitionText.includes("Women's US Open 2025")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -103,52 +103,45 @@ describe('Extract and Fill Data', () => {
                                     "away": awayName,
                                     "market": "Match Odds",
                                     "runner": runner,
-                                    "anchor" : 1,
-                                    "dash": false,
-                                    "hasBreakdown": true,
+                                    "anchor" : 0,
+                                    "dash": true,
+                                    "hasBreakdown": false,
                                     "vol": 7,
                                     "strategy": 
                                     {
-    "name": "tennis_2w",
-    "params": {
-      "notInPlay": {
-        "price": 1.3
-      },
-      "breakdown3": {
-        "set": 30,
-        "coldstart": false,
-        "pick": "both",
-        "side": "BACK"
-      },
-      "drawGames3": {
-        "set": 30,
-        "anchor": "both",
-        "side": "BACK"
-      },
-      "breakdown": {
-        "until": 2,
-        "side": "BACK",
-        "first_runner": true,
-        "first_oth": true,
-        "profit": 1.0,
-        "price": 1.7
-      },
-      "drawGames": {
-        "side": "BACK",
-        "scale": 1
-      },
-      "eitherLose": {
-        "first_runner": false,
-        "first_oth": true,
-        "side": "BACK",
-        "until": 1
-      },
-      "eitherDraw": {
-        "rec": 1,
-        "until": 2
-      }
-    }
-  },
+                                      "name": "tennis_2m",
+                                      "params": {
+                                        "notInPlay": {
+                                          "price": 1.3
+                                        },
+                                        "loseHang": {
+                                          "rec": 1.0,
+                                          "set": 3,
+                                          "side": "BACK"
+                                        },
+                                        "breakdown": {
+                                          "until": 2,
+                                          "side": "BACK",
+                                          "first_runner": true,
+                                          "first_oth": true
+                                        },
+                                        "drawGames": {
+                                          "side": "BACK",
+                                          "scale": 1
+                                        },
+                                        "eitherLose": {
+                                          "first_runner": false,
+                                          "first_oth": true,
+                                          "side": "BACK",
+                                          "until": 1,
+                                          "price": 1.7
+                                        },
+                                        "eitherDraw": {
+                                          "rec": 1,
+                                          "until": 2
+                                        }
+                                      }
+                                    },
   // {
   //   "name": "tennis_11",
   //   "params": {

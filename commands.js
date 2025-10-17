@@ -59,6 +59,8 @@ async function getEventData(bet) {
                     if (/^\d+.*'$/.test(event.Eps))
                         params.event.timeElapsed = Number(event.Eps.match(/^\d+/)[0]);
                 }
+                if (params.bet.pre.hasOwnProperty('Eps') && (params.event.score_home < params.bet.pre.score_home || params.event.score_away < params.bet.pre.score_away))
+                    global.reset = true
             }
         }
     }

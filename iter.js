@@ -131,7 +131,7 @@ const { CANCELLED } = require('dns');
                 _bet.pre.score_home = params.event.score_home
                 _bet.pre.score_away = params.event.score_away
               }
-              if (params.event.hasOwnProperty('Eps')) {
+              if (params.event.hasOwnProperty('timeElapsed')) {
                 _bet.pre.Eps = params.event.Eps
                 _bet.pre.score_home = params.event.score_home
                 _bet.pre.score_away = params.event.score_away

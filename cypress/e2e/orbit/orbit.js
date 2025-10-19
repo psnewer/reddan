@@ -37,7 +37,7 @@ async function runTest() {
         if (isCompetition(competition, match.league)) {
           foundCompetition = true;
 
-          await page.locator(`text=${competition}`).click();  // Click the matching competition
+          await page.locator(`text=${competition}`).first().click();  // Click the matching competition
           let foundTeam = false;
           // Loop through the rows of the competition
           await page.waitForSelector('div.rowsContainer'); // 等待元素可见

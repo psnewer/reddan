@@ -32,8 +32,7 @@ Cypress.Commands.add('login', (username, password) => {
                 cy.get('input[name=username]',{ timeout: 20000 }).type(json['username'])
                 cy.get('input[name=password]',{ timeout: 20000 }).type(json['password'])
                 cy.get('button[type=submit]',{ timeout: 20000 }).click({ force: true });
-                cy.wait(20000);
-                cy.get('.biab_btn-continue',{ timeout: 20000 }).click({ force: true });
+                cy.get('button').contains('OK', { timeout: 20000 }).click();
             })
         })   
     })    

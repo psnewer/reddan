@@ -940,17 +940,15 @@ class StrategyExecutor {
         let currentBets = params.bet.currentBets
         for (const placed of currentBets) {
             if (placed.marketId === params.bet['data-market-id']) {
-                // if (Number(placed.sizeMatched) == 0) {
-                //     CANCEL = true
-                //     // console.log('CANCEL')
-                //     // return
-                //     if (!global.placing) {
-                //         global.placing = true
-                //         params.bet.pre.cancelled = true
-                //         await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
-                //     }
-                // }
-                if (placed.offerState != "MATCHED") {
+                if (Number(placed.sizeMatched) == 0) {
+                    CANCEL = true
+                    if (!global.placing) {
+                        global.placing = true
+                        params.bet.pre.cancelled = true
+                        await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
+                    }
+                }
+                else if (placed.offerState != "MATCHED") {
                     CANCEL = true
                     // console.log('CANCEL')
                     // return
@@ -961,7 +959,7 @@ class StrategyExecutor {
                             params.bet.pre.edited = true
                         }
                         else {
-                            let price = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? Math.max(params.event.back_odds - 1.0 , 1.01) : Math.ceil(Number(params.event.lay_odds)) : placed.side == "BACK" ? Math.max(params.event.oth_back_odds - 1.0,1.01) : Math.ceil(Number(params.event.oth_lay_odds))
+                            let price = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? params.event.back_odds : params.event.lay_odds : placed.side == "BACK" ? params.event.oth_back_odds : params.event.oth_lay_odds
                             await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
                         }
                     }
@@ -1097,23 +1095,23 @@ class StrategyExecutor {
             if (params.bet.strategy.params[condition].side === 'BACK') {
                 if (!params.event.oth_back_odds || (currentBets.length && (!oth_thresh_back_odds || params.event.oth_back_odds < oth_thresh_back_odds)))
                     return
-                current_odds = params.event.oth_back_odds
+                current_odds = params.event.oth_lay_odds
             }
             else {
                 if (!params.event.oth_lay_odds || (currentBets.length && (!oth_thresh_lay_odds || params.event.oth_lay_odds > oth_thresh_lay_odds)))
                     return
-                current_odds = params.event.oth_lay_odds
+                current_odds = params.event.oth_back_odds
             }
         } else {
             if (params.bet.strategy.params[condition].side === 'BACK') {
                 if (!params.event.back_odds || (currentBets.length && (!runner_thresh_back_odds || params.event.back_odds < runner_thresh_back_odds)))
                     return
-                current_odds = params.event.back_odds
+                current_odds = params.event.lay_odds
             }
             else {
                 if (!params.event.lay_odds || (currentBets.length && (!runner_thresh_lay_odds || params.event.lay_odds > runner_thresh_lay_odds)))
                     return
-                current_odds = params.event.lay_odds
+                current_odds = params.event.back_odds
             }
         }
 
@@ -1187,7 +1185,7 @@ class StrategyExecutor {
                 params.bet.pre.cancelled = false
                 params.event.placed = true
                 // price = Number(selectionId)==params.bet.selectionId ? params.bet.strategy.params[condition].side == "BACK" ? Math.max(Math.floor(params.event.back_odds) , 1.01) : Math.ceil(Number(params.event.lay_odds)) : params.bet.strategy.params[condition].side == "BACK" ? Math.max(Math.floor(params.event.oth_back_odds),1.01) : Math.ceil(Number(params.event.oth_lay_odds))
-                price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
+                // price = params.bet.strategy.params[condition].side == "BACK" ? 1.01 : Math.ceil(Number(price))
                 await placeBet(params.bet.page, params.bet['data-market-id'], Number(price.toFixed(2)), Number(size.toFixed(2)), selectionId, handicap, params.bet.strategy.params[condition].side)
             }
 

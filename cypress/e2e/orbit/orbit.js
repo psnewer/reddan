@@ -98,7 +98,7 @@ async function runTest() {
               // 获取该 <a> 元素的 'data-sport-id' 属性值
               let sportId = await marketLocator.getAttribute('data-sport-id');
 
-              filter['data-market-id'].push(sportId);
+              filter['data-market-id'] = sportId;
               await page.locator(`text=${market}`).first().click();
 
               // Ensure URL contains sport ID
@@ -118,7 +118,7 @@ async function runTest() {
               // 获取该 <a> 元素的 'data-sport-id' 属性值
               sportId = await marketLocator.getAttribute('data-sport-id');
 
-              filter['data-market-id'].push(sportId);
+              // filter['data-market-id'].push(sportId);
               await page.locator(`text=${market}`).first().click();
 
               // Ensure URL contains sport ID

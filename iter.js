@@ -64,8 +64,8 @@ const { CANCELLED } = require('dns');
     const executor = new StrategyExecutor('./data/strategy.json');
     await executor.initialize();
 
-    for (let i = 0; i < 2000; i++) {
-      await page.waitForTimeout(1000);
+    for (let i = 0; i < 300; i++) {
+      await page.waitForTimeout(10000);
 
       global.placing = false
 

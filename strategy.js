@@ -942,7 +942,8 @@ class StrategyExecutor {
             if (placed.marketId === params.bet['data-market-id']) {
                 if (Number(placed.sizeMatched) == 0) {
                     CANCEL = true
-                    if (!global.placing) {
+                    let price_shift = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? Number(placed.price) > params.event.lay_odds : Number(placed.price) < params.event.back_odds : placed.side == "BACK" ? Number(placed.price) > params.event.oth_lay_odds : Number(placed.price) < params.event.oth_back_odds
+                    if (!global.placing && price_shift) {
                         global.placing = true
                         params.bet.pre.cancelled = true
                         await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))

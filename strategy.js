@@ -940,29 +940,29 @@ class StrategyExecutor {
         let currentBets = params.bet.currentBets
         for (const placed of currentBets) {
             if (placed.marketId === params.bet['data-market-id']) {
-                if (Number(placed.sizeMatched) == 0) {
-                    CANCEL = true
-                    let price_shift = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? Number(placed.price) > params.event.lay_odds : Number(placed.price) < params.event.back_odds : placed.side == "BACK" ? Number(placed.price) > params.event.oth_lay_odds : Number(placed.price) < params.event.oth_back_odds
-                    if (!global.placing && price_shift) {
-                        global.placing = true
-                        params.bet.pre.cancelled = true
-                        await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
-                    }
-                }
-                else if (placed.offerState != "MATCHED") {
+                // if (Number(placed.sizeMatched) == 0) {
+                //     CANCEL = true
+                //     let price_shift = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? Number(placed.price) > params.event.lay_odds : Number(placed.price) < params.event.back_odds : placed.side == "BACK" ? Number(placed.price) > params.event.oth_lay_odds : Number(placed.price) < params.event.oth_back_odds
+                //     if (!global.placing && price_shift) {
+                //         global.placing = true
+                //         params.bet.pre.cancelled = true
+                //         await cancelBet(params.bet.page, placed.marketId, Number(placed.offerId), Number(placed.price), Number(placed.size), Number(placed.selectionId), Number(placed.handicap))
+                //     }
+                // }
+                if (placed.offerState != "MATCHED") {
                     CANCEL = true
                     // console.log('CANCEL')
                     // return
                     if (!global.placing) {
                         global.placing = true
-                        if (!params.bet.pre.edited) {
-                            global.reset = true
-                            params.bet.pre.edited = true
-                        }
-                        else {
+                        // if (!params.bet.pre.edited) {
+                        //     global.reset = true
+                        //     params.bet.pre.edited = true
+                        // }
+                        // else {
                             let price = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? params.event.back_odds : params.event.lay_odds : placed.side == "BACK" ? params.event.oth_back_odds : params.event.oth_lay_odds
-                            await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
-                        }
+                            await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizePlaced).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
+                        // }
                     }
                 }
             }

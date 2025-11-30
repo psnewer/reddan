@@ -961,7 +961,7 @@ class StrategyExecutor {
                         // }
                         // else {
                             let price = Number(placed.selectionId)==params.bet.selectionId ? placed.side == "BACK" ? params.event.back_odds : params.event.lay_odds : placed.side == "BACK" ? params.event.oth_back_odds : params.event.oth_lay_odds
-                            await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizePlaced).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
+                            await editBet(params.bet.page, placed.marketId, Number(placed.offerId), placed.side, Number(price.toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(parseFloat(placed.sizeRemaining).toFixed(2)), Number(placed.selectionId), Number(placed.handicap))
                         // }
                     }
                 }

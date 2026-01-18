@@ -22,10 +22,10 @@ class StrategyExecutor {
 
         for (let rule of strategy) {
             if (this[rule.condition](params, rule.condition)) {
-                console.log(rule.condition)
+                // console.log(rule.condition)
                 if (rule.hasOwnProperty('checktion')) {
                     for (let check of rule.checktion) {
-                        console.log(check)
+                        // console.log(check)
                         if (!this[check](params, rule.condition))
                             return
                     }

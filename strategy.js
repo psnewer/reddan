@@ -1176,12 +1176,12 @@ class StrategyExecutor {
                 global.placing = true
                 if (!(this.inSets(params, condition) && !((params.event.score_homeS + params.event.score_awayS) % 2)) && !(this.betweenSets(params, condition) && !currentBets.length))
                     await params.bet.page.waitForTimeout(15000);
-                if (this.betweenSets(params, condition))
-                    if (!params.bet.pre.cancelled) {
-                        params.bet.pre.cancelled = true
-                        await params.bet.page.waitForTimeout(120000);
-                        return
-                    }
+                // if (this.betweenSets(params, condition))
+                //     if (!params.bet.pre.cancelled) {
+                //         params.bet.pre.cancelled = true
+                //         await params.bet.page.waitForTimeout(120000);
+                //         return
+                //     }
 
                 params.bet.pre.cancelled = false
                 params.event.placed = true

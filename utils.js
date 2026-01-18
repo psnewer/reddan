@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const fs = require('fs').promises;
 const axios = require('axios');
 const { SocksProxyAgent } = require('socks-proxy-agent'); // 使用解构导入
-const proxyUrl = 'socks5h://127.0.0.1:1080';
+const proxyUrl = 'socks5h://127.0.0.1:7890';
 const proxyAgent = new SocksProxyAgent(proxyUrl);
 
 function getHandicap(runner, home, away) {

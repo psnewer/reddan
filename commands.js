@@ -46,7 +46,11 @@ async function getEventData(bet) {
     //获取market_url、event_url
     let params = { bet: bet, event: {} };
 
-    await getOddsData(params)
+    // await getOddsData(params)
+    params.event.back_odds = 2.0
+    params.event.lay_odds = 2.0
+    params.event.oth_back_odds = 2.0
+    params.event.oth_lay_odds = 2.0
 
     if (bet.sport === "Soccer") {
         let event = getEvent(bet.score_soccer, bet)

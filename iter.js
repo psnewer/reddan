@@ -9,7 +9,7 @@ const { CANCELLED } = require('dns');
 (async () => {
   const browser = await chromium.launch({
     headless: true,
-    executablePath: '/usr/bin/google-chrome'
+    // executablePath: '/usr/bin/google-chrome'
   });
   const context = await browser.newContext();
   const page = await context.newPage();

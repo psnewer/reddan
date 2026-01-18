@@ -17,16 +17,21 @@ describe('Extract and Fill Data', () => {
     // 确保页面部分加载完成
     cy.wait(2000); // 根据需要调整等待时间
 
+    cy.get('li[data-test-collapse="SPORT_INNER_COLLAPSE_MORE_ITEM"][datatype="competition"]').contains(/^Men's Australian Open 2026$/).click()
+
+    // 确保页面部分加载完成
+    cy.wait(2000); // 根据需要调整等待时间
+
     // 定义一个递归函数来处理 competition 项的点击
     function clickCompetitions(index) {
-      cy.get('li[data-test-collapse="_ITEM"][datatype="competition"]').should('be.visible').then(($competitionItems) => {
+      cy.get('li[data-test-collapse="_ITEM"][datatype="event"]').should('be.visible').then(($competitionItems) => {
         if (index < $competitionItems.length) {
           const $competitionLi = $competitionItems.eq(index);
           const competitionText = $competitionLi.text();
 
           if (!competitionText.includes('Challenger') && !competitionText.includes('UTP') && !competitionText.includes('ITF') && (
             // competitionText.includes("Men's US Open 2025")
-            competitionText.includes("Women's US Open 2025")
+            competitionText.includes("Mens Australian Open")
             )) {
             cy.wrap($competitionLi).click();
 
@@ -83,7 +88,7 @@ describe('Extract and Fill Data', () => {
                               let awaySelectionId = awayDiv.attr('data-selection-id');
 
                                   let runner,oth_runner,selectionId,oth_selectionId;
-                                  if (homeOdds >= awayOdds) {
+                                  if (homeOdds <= awayOdds) {
                                     runner = homeName;
                                     oth_runner = awayName;
                                     selectionId = homeSelectionId;
@@ -105,72 +110,72 @@ describe('Extract and Fill Data', () => {
                                     "runner": runner,
                                     "anchor" : 0,
                                     "dash": false,
-                                    "hasBreakdown": true,
+                                    "hasBreakdown": false,
                                     "vol": 7,
                                     "strategy": 
-                                    // {
-                                    //   "name": "tennis_11",
-                                    //   "params": {
-                                    //     "notInPlay": {
-                                    //       "price": 1.3
-                                    //     },
-                                    //     "loseHang": {
-                                    //       "rec": 1.0,
-                                    //       "set": 3,
-                                    //       "side": "BACK"
-                                    //     },
-                                    //     "loseSets": {
-                                    //       "set": 1,
-                                    //       "until": 1,
-                                    //       "side": "BACK",
-                                    //       "price": 1.7
-                                    //     },
-                                    //     "drawSets": {
-                                    //       "side": "BACK"
-                                    //     }
-                                    //   }
-                                    // },
                                     {
-                                      "name": "tennis_2w",
+                                      "name": "tennis_11",
                                       "params": {
                                         "notInPlay": {
                                           "price": 1.3
                                         },
-                                        "breakdown3": {
+                                        "loseHang": {
+                                          "rec": 1.0,
                                           "set": 3,
-                                          "coldstart": false,
-                                          "pick": "both",
                                           "side": "BACK"
                                         },
-                                        "drawGames3": {
-                                          "set": 3,
-                                          "anchor": "both",
-                                          "side": "BACK"
-                                        },
-                                        "breakdown": {
-                                          "until": 2,
+                                        "loseSets": {
+                                          "set": 2,
+                                          "until": 1,
                                           "side": "BACK",
-                                          "first_runner": true,
-                                          "first_oth": true,
-                                          "profit": 1.0
+                                          "price": 1.7
                                         },
-                                        "drawGames": {
-                                          "side": "BACK",
-                                          "scale": 1
-                                        },
-                                        "eitherLose": {
-                                          "first_runner": false,
-                                          "first_oth": true,
-                                          "side": "BACK",
-                                          "until": 1
-                                        },
-                                        "eitherDraw": {
-                                          "rec": 1,
-                                          "until": 2,
+                                        "drawSets": {
                                           "side": "BACK"
                                         }
                                       }
                                     },
+                                    // {
+                                    //   "name": "tennis_2w",
+                                    //   "params": {
+                                    //     "notInPlay": {
+                                    //       "price": 1.3
+                                    //     },
+                                    //     "breakdown3": {
+                                    //       "set": 3,
+                                    //       "coldstart": false,
+                                    //       "pick": "both",
+                                    //       "side": "BACK"
+                                    //     },
+                                    //     "drawGames3": {
+                                    //       "set": 3,
+                                    //       "anchor": "both",
+                                    //       "side": "BACK"
+                                    //     },
+                                    //     "breakdown": {
+                                    //       "until": 2,
+                                    //       "side": "BACK",
+                                    //       "first_runner": true,
+                                    //       "first_oth": true,
+                                    //       "profit": 1.0
+                                    //     },
+                                    //     "drawGames": {
+                                    //       "side": "BACK",
+                                    //       "scale": 1
+                                    //     },
+                                    //     "eitherLose": {
+                                    //       "first_runner": false,
+                                    //       "first_oth": true,
+                                    //       "side": "BACK",
+                                    //       "until": 1
+                                    //     },
+                                    //     "eitherDraw": {
+                                    //       "rec": 1,
+                                    //       "until": 2,
+                                    //       "side": "BACK"
+                                    //     }
+                                    //   }
+                                    // },
                                     "oth_runner": oth_runner,
                                     "handicap": 0,
                                     "oth_handicap": 0,
